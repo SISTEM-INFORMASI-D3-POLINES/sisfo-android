@@ -10,8 +10,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppThemeLogin">
-        <activity android:name=".MainActivity"></activity>
+        android:theme="@style/AppThemeLogin"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".MainActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -4,107 +4,119 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/colorAccent"
+    android:background="@color/colorText"
     android:paddingTop="0dp"
     tools:context=".LoginActivity">
 
     <RelativeLayout
+        android:id="@+id/logo"
         android:layout_width="match_parent"
-        android:layout_height="320dp"
-        android:background="@color/colorPrimary"
-        >
-        <ImageView
-            android:id="@+id/logo"
-            android:layout_width="match_parent"
-            android:layout_height="180dp"
-            android:layout_marginTop="60dp"
-            android:src="@drawable/logo" />
-    </RelativeLayout>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:orientation="vertical">
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            app:srcCompat="@drawable/ic_logo"
+            android:contentDescription="@string/app_name" />
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="280dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:background="@color/colorText"
-        android:paddingTop="30dp"
-        android:paddingBottom="30dp"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        android:layout_below="@id/logo"
+        android:paddingTop="70dp"
+        android:paddingRight="20dp"
         android:paddingLeft="20dp"
-        android:paddingRight="20dp">
+        android:orientation="vertical">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/layoutEmail"
+            android:id="@+id/layout_id"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <EditText
-                android:inputType="textEmailAddress"
-                android:hint="Email"
-                android:id="@+id/email"
-                android:textColor="@color/colorPrimaryDark"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/colorPrimary2">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/id"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                />
+                android:layout_height="wrap_content"
+                android:autofillHints="33317001"
+                android:backgroundTint="#F8C300"
+                android:hint="NIP/ NIM"
+                android:inputType="text"
+                android:textColor="@color/colorPrimary2"
+                android:textColorHint="@color/colorPrimary2"
+                android:textColorLink="@color/colorPrimary2" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/layoutPass"
+            android:id="@+id/layout_pass"
+            android:layout_below="@id/layout_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:passwordToggleEnabled="true"
-            android:layout_below="@id/layoutEmail"
-            >
-            <EditText
-                android:inputType="textPassword"
+            android:textColorHint="@color/colorPrimary2"
+            app:passwordToggleTint="@color/colorPrimary2"
+            android:layout_marginBottom="40dp"
+            app:passwordToggleEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#F8C300"
+                android:foregroundTint="@color/colorPrimary2"
                 android:hint="Password"
-                android:id="@+id/pass"
-                android:textColor="@color/colorPrimaryDark"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                />
+                android:inputType="textPassword"
+                android:textColor="@color/colorPrimary2"
+                android:textColorHint="@color/colorPrimary2"
+                android:textColorLink="@color/colorPrimary2" />
         </com.google.android.material.textfield.TextInputLayout>
-
-        <CheckBox
-            android:id="@+id/remember"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/layoutPass"
-            android:layout_marginTop="20dp"
-            android:text="Remember Me"
-            android:textColor="@color/colorPrimary"
-            android:outlineSpotShadowColor="@color/colorPrimaryDark"
-            />
 
         <ProgressBar
             android:id="@+id/loading"
-            android:layout_marginTop="30dp"
-            android:layout_below="@id/remember"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_below="@id/layout_pass"
             android:visibility="gone"
-            />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
         <Button
+            android:id="@+id/btn_login"
+            android:text="Login"
+            android:layout_marginBottom="20dp"
+            android:layout_below="@id/layout_pass"
+            android:textColor="@color/colorPrimaryDark"
+            android:background="@color/colorText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/remember"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/login_rounded_bg"
-            android:text="Sign In"
-            android:textColor="@color/colorPrimaryDark" />
+            android:layout_height="50dp"/>
+
+
+
+        <LinearLayout
+            android:layout_below="@id/btn_login"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/forgot_pass"
+                android:layout_width="wrap_content"
+                android:textColor="@color/colorPrimary2"
+                android:paddingRight="10dp"
+                android:text="Forgot Password?"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/need_help"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/forgot_pass"
+                android:text="Need Help?"
+                android:textColor="@color/colorPrimary2" />
+        </LinearLayout>
 
     </RelativeLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:layout_marginTop="600dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
-        android:textColor="@color/colorPrimaryDark"
-        android:text="Poloan | Aplikasi Peminjaman Tools Politeknik Negeri Semarang"
-        />
 
 </RelativeLayout>

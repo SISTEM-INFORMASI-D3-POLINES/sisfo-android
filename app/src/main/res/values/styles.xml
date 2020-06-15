@@ -10,8 +10,9 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppThemeLogin.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
-    <style name="AppThemeLogin.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+    <style name="AppThemeLogin.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppThemeLogin.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <!-- Base application theme. -->
     <style name="AppThemeRegist" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -21,6 +22,12 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AppThemeRegist.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
-    <style name="AppThemeRegist.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+    <style name="AppThemeRegist.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppThemeRegist.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="AppThemeLogin.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 </resources>

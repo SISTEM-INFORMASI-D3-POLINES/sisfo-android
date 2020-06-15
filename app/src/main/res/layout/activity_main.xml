@@ -1,7 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="15dp"
+    android:textAlignment="textStart"
+    android:background="@color/colorBackground"
+    tools:context=".MainActivity">
+        <LinearLayout
+            android:id="@+id/part_logo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="vertical">
+                <ImageView
+                    android:id="@+id/logo_header"
+                    android:src="@drawable/logo_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginRight="200dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/part_name_user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:background="@drawable/login_rounded_bg"
+            android:layout_below="@+id/part_logo"
+            android:orientation="vertical">
+                <TextView
+                    android:id="@+id/name_user"
+                    android:paddingBottom="5dp"
+                    android:layout_width="match_parent"
+                    android:textColor="@color/colorPrimary2"
+                    android:text="Halo Hayati Qurrotul U"
+                    android:textSize="25dp"
+                    android:textStyle="bold"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="13dp"
+                    android:textColor="@color/colorText"
+                    android:text="Perlu alat?"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="13dp"
+                    android:textColor="@color/colorText"
+                    android:text="Cari dan pinjam alat lewat aplikasi"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/part_border_bottom"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/part_name_user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+                <View
+                    android:background="#999"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/part_notification"
+            android:layout_below="@id/part_border_bottom"
+            android:paddingTop="25dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+              <TextView
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:textColor="@color/colorDanger"
+                  android:text="4 Alat belum dikembalikan"
+                  />
+
+        </LinearLayout>
+
+
+
+</RelativeLayout>
