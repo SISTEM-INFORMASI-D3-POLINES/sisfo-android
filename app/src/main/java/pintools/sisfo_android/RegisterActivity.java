@@ -1,4 +1,4 @@
-package poloan.sisfo_android;
+package pintools.sisfo_android;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,6 +15,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
 import java.util.Map;
+
+import poloan.sisfo_android.R;
 
 public class RegisterActivity extends AppCompatActivity {
 

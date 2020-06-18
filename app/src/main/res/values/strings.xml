@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Poloan</string>
+    <string name="app_name">Pintools</string>
     <string name="title_activity_trialdanerror">trialdanerror</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
@@ -9,4 +9,14 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="kembali">Kembalikan</string>
+    <string name="logo_pintools">Logo Pintools</string>
+    <string name="nanti_saja">Nanti saja</string>
+    <string name="cari_dan_pinjam">Cari dan pinjam alat lewat aplikasi</string>
+    <string name="perlu_alat">Perlu alat?</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Beranda</string>
+    <string name="title_cari">Cari</string>
+    <string name="title_log">Log</string>
+    <string name="title_akun">Akun</string>
 </resources>

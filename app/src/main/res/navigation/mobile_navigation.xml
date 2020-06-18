@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="pintools.sisfo_android.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/navigation_cari"
+        android:name="pintools.sisfo_android.ui.dashboard.DashboardFragment"
+        android:label="@string/title_cari"
+        tools:layout="@layout/fragment_dashboard" />
+
+    <fragment
+        android:id="@+id/navigation_log"
+        android:name="pintools.sisfo_android.ui.notifications.NotificationsFragment"
+        android:label="@string/title_log"
+        tools:layout="@layout/fragment_notifications" />
+
+    <fragment
+        android:id="@+id/navigation_akun"
+        android:name="pintools.sisfo_android.ui.notifications.NotificationsFragment"
+        android:label="@string/title_akun"
+        tools:layout="@layout/fragment_notifications" />
+
+</navigation>

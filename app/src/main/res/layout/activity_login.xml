@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorText"
     android:paddingTop="0dp"
-    tools:context=".LoginActivity">
+    tools:context="pintools.sisfo_android.LoginActivity">
 
     <RelativeLayout
         android:id="@+id/logo"
