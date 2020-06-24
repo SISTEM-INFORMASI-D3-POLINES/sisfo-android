@@ -9,7 +9,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import poloan.sisfo_android.R;
+import pintools.sisfo_android.R;
 
 public class MainActivity extends AppCompatActivity {
 

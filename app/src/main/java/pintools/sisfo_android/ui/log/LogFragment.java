@@ -1,4 +1,4 @@
-package pintools.sisfo_android.ui.notifications;
+package pintools.sisfo_android.ui.log;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,19 +12,19 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import poloan.sisfo_android.R;
+import pintools.sisfo_android.R;
 
-public class NotificationsFragment extends Fragment {
+public class LogFragment extends Fragment {
 
-    private NotificationsViewModel notificationsViewModel;
+    private LogViewModel logViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        notificationsViewModel =
-                ViewModelProviders.of(this).get(NotificationsViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_notifications, container, false);
+        logViewModel =
+                ViewModelProviders.of(this).get(LogViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_log, container, false);
         final TextView textView = root.findViewById(R.id.text_notifications);
-        notificationsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        logViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

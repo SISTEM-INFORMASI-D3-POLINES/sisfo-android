@@ -1,4 +1,4 @@
-package pintools.sisfo_android.ui.dashboard;
+package pintools.sisfo_android.ui.akun;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,19 +12,20 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import poloan.sisfo_android.R;
+import pintools.sisfo_android.R;
+import pintools.sisfo_android.ui.akun.AkunViewModel;
 
-public class DashboardFragment extends Fragment {
+public class AkunFragment extends Fragment {
 
-    private DashboardViewModel dashboardViewModel;
+    private AkunViewModel akunViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        dashboardViewModel =
-                ViewModelProviders.of(this).get(DashboardViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
-        final TextView textView = root.findViewById(R.id.text_cari);
-        dashboardViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        akunViewModel =
+                ViewModelProviders.of(this).get(AkunViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_akun, container, false);
+        final TextView textView = root.findViewById(R.id.text_home);
+        akunViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

@@ -22,6 +22,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("poloan.sisfo_android", appContext.getPackageName());
+        assertEquals("pintools.sisfo_android", appContext.getPackageName());
     }
 }
