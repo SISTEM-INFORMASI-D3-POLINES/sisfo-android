@@ -1,4 +1,4 @@
-package pintools.sisfo_android.ui.beranda;
+package pintools.sisfo_android;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

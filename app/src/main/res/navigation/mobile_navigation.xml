@@ -7,25 +7,25 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="pintools.sisfo_android.ui.beranda.BerandaFragment"
+        android:name="pintools.sisfo_android.BerandaFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_cari" />
 
     <fragment
         android:id="@+id/navigation_cari"
-        android:name="pintools.sisfo_android.ui.cari.CariFragment"
+        android:name="pintools.sisfo_android.CariFragment"
         android:label="@string/title_cari"
         tools:layout="@layout/fragment_beranda" />
 
     <fragment
         android:id="@+id/navigation_log"
-        android:name="pintools.sisfo_android.ui.log.LogFragment"
+        android:name="pintools.sisfo_android.LogFragment"
         android:label="@string/title_log"
         tools:layout="@layout/fragment_log" />
 
     <fragment
         android:id="@+id/navigation_akun"
-        android:name="pintools.sisfo_android.ui.log.LogFragment"
+        android:name="pintools.sisfo_android.LogFragment"
         android:label="@string/title_akun"
         tools:layout="@layout/fragment_log" />
 

@@ -1,4 +1,4 @@
-package pintools.sisfo_android.ui.beranda;
+package pintools.sisfo_android;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,8 +12,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import pintools.sisfo_android.R;
-
 public class BerandaFragment extends Fragment {
 
     private BerandaViewModel berandaViewModel;
@@ -23,7 +21,7 @@ public class BerandaFragment extends Fragment {
         berandaViewModel =
                 ViewModelProviders.of(this).get(BerandaViewModel.class);
         View root = inflater.inflate(R.layout.fragment_beranda, container, false);
-        final TextView textView = root.findViewById(R.id.text_home);
+        final TextView textView = root.findViewById(R.id.name_user);
         berandaViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {

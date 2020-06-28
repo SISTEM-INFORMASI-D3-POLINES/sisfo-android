@@ -1,16 +1,16 @@
-package pintools.sisfo_android.ui.akun;
+package pintools.sisfo_android;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class AkunViewModel extends ViewModel {
+public class LogViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public AkunViewModel() {
+    public LogViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+        mText.setValue("This is notifications fragment");
     }
 
     public LiveData<String> getText() {

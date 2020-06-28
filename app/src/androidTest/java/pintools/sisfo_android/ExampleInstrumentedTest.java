@@ -1,11 +1,21 @@
-package poloan.sisfo_android;
+package pintools.sisfo_android;
+
+import android.content.Context;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
+
+
+import org.junit.runner.RunWith;
+
+import static org.junit.Assert.assertEquals;
 
 import android.content.Context;
 
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
@@ -22,6 +32,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("pintools.sisfo_android", appContext.getPackageName());
+        assertEquals("e776aeeb.ngrok.kentangku", appContext.getPackageName());
     }
 }

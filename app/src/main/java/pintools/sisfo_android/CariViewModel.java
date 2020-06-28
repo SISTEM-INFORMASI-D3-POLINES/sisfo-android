@@ -1,4 +1,4 @@
-package pintools.sisfo_android.ui.cari;
+package pintools.sisfo_android;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

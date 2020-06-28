@@ -8,16 +8,16 @@
 
     <item
         android:id="@+id/navigation_cari"
-        android:icon="@drawable/ic_search"
+        android:icon="@drawable/ic_baseline_search_24"
         android:title="@string/title_cari" />
 
     <item
         android:id="@+id/navigation_log"
-        android:icon="@drawable/ic_log"
+        android:icon="@drawable/ic_baseline_dehaze_24"
         android:title="@string/title_log" />
     <item
         android:id="@+id/navigation_akun"
-        android:icon="@drawable/ic_user_tie"
+        android:icon="@drawable/ic_baseline_person_24"
         android:title="@string/title_akun" />
 
 </menu>

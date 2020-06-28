@@ -19,6 +19,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,7 +27,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import poloan.sisfo_android.R;
+import pintools.sisfo_android.R;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -34,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button btn_login;
     private TextView need_help, forgot_pass;
     private ProgressBar loading;
-    private static String URL_LOGIN = "http://172.16.139.175/android_register_login/login.php";
+    private static String URL_LOGIN = "http://192.168.1.3/android_register_login/login.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,6 +130,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 })
         {
+            @NotNull
             @Override
             protected Map <String, String> getParams () throws AuthFailureError {
                 Map <String, String> params = new HashMap <> ();

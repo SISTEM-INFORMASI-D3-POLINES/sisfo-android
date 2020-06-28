@@ -1,31 +1,57 @@
 package pintools.sisfo_android;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-import pintools.sisfo_android.R;
 
 public class MainActivity extends AppCompatActivity {
+
+    public MainActivity() {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         BottomNavigationView navView = findViewById(R.id.nav_view);
+        navView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_cari, R.id.navigation_log,R.id.navigation_akun)
-                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(navView, navController);
-    }
 
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new BerandaFragment()).commit();
+        }
+    }
+    private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            Fragment selectedFragment = null;
+            switch (item.getItemId()) {
+                case R.id.navigation_home:
+                    selectedFragment = new BerandaFragment();
+                    break;
+                case R.id.navigation_cari:
+                    selectedFragment = new CariFragment();
+                    break;
+                case R.id.navigation_log:
+                    selectedFragment = new LogFragment();
+                    break;
+                case R.id.navigation_akun:
+                    selectedFragment = new AkunFragment();
+                    break;
+            }
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    selectedFragment).commit();
+
+            return true;
+        }
+    };
 }

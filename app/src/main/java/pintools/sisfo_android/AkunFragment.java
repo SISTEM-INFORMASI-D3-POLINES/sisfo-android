@@ -1,4 +1,4 @@
-package pintools.sisfo_android.ui.cari;
+package pintools.sisfo_android;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,19 +12,17 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import pintools.sisfo_android.R;
+public class AkunFragment extends Fragment {
 
-public class CariFragment extends Fragment {
-
-    private CariViewModel cariViewModel;
+    private AkunViewModel akunViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        cariViewModel =
-                ViewModelProviders.of(this).get(CariViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_cari, container, false);
-        final TextView textView = root.findViewById(R.id.text_home);
-        cariViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        akunViewModel =
+                ViewModelProviders.of(this).get(AkunViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_akun, container, false);
+        final TextView textView = root.findViewById(R.id.text_akun);
+        akunViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
