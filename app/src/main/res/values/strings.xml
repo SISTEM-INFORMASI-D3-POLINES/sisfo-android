@@ -20,4 +20,7 @@
     <string name="title_log">Log</string>
     <string name="title_akun">Akun</string>
     <string name="qrcode_scan">QRCode Scan</string>
+    <string name="lab_telkom_timur_2">Lab Telkom Timur 2</string>
+    <string name="lab_telkom_timur_1">Lab Telkom Timur 1</string>
+    <string name="_4_alat_belum_dikembalikan">4 Alat belum dikembalikan</string>
 </resources>

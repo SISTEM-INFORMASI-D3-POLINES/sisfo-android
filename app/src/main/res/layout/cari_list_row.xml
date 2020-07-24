@@ -1,6 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="3sp">
 
+    <androidx.cardview.widget.CardView
+        card_view_cardCornerRadius="3dp"
+        card_view_cardElevation="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <GridLayout
+                android:id="@+id/mainGrid"
+                android:layout_width="match_parent"
+                android:layout_height="0sp"
+                android:layout_weight="1"
+                android:alignmentMode="alignMargins"
+                android:columnCount="3"
+                android:columnOrderPreserved="false"
+                android:padding="0sp"
+                android:rowCount="1">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10sp"
+                    android:background="@drawable/bg_border"
+                    android:backgroundTint="#999"
+                    android:padding="5sp"
+                    android:layout_column="0"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                     >
+
+                    <ImageView
+                        android:id="@+id/image_tools"
+                        android:layout_width="100sp"
+                        android:layout_height="100sp"
+                        android:layout_row="0"
+                        android:padding="7sp"
+                        android:layout_column="0"
+                        android:layout_gravity="start"
+                        android:background="@color/colorText"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:contentDescription="Tools"
+                        android:src="@drawable/placeholder"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="100sp"
+                    android:layout_row="0"
+                    android:layout_columnWeight="1"
+                    android:layout_column="1">
+
+                    <TextView
+                        android:id="@+id/tools_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="TOOLS NAME"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <GridLayout
+                        android:id="@+id/grid_desc_tools"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0sp"
+                        android:layout_weight="1"
+                        android:alignmentMode="alignMargins"
+                        android:columnCount="2"
+                        android:columnOrderPreserved="false"
+                        android:padding="0sp"
+                        android:rowCount="1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        >
+
+                        <TextView
+                            android:id="@+id/jumlah_tools"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_row="0"
+                            android:layout_rowWeight="1"
+                            android:layout_column="0"
+                            android:layout_marginRight="35sp"
+                            android:layout_columnWeight="1"
+                            android:text="0/Nan"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent" />
+
+                        <TextView
+                            android:id="@+id/lokasi_tools"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_row="0"
+                            android:layout_column="1"
+                            android:text="Lokasi"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintLeft_creator="15" />
+                    </GridLayout>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </GridLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
