@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:my_app/constant.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
-import 'dart:async';
+import 'package:flutter_session/flutter_session.dart';
+import 'dart:async' show Future;
 import 'dart:convert';
+import 'HomePage.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key}) : super(key: key);
@@ -15,6 +17,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  List NO_user = [];
+  var NO_user1 = '';
+
   final noUser = TextEditingController();
   String msg = '';
   final pass = TextEditingController();
@@ -66,7 +71,7 @@ class _LoginPageState extends State<LoginPage> {
       String passW = pass.text;
 
       final response = await http.post(
-          "http://5dd9a9be822c.ngrok.io/pintools_app_php/login.php",
+          "http://bf7f1702fc3c.ngrok.io/pintools_app_php/login.php",
           body: {
             "noUser": no_User,
             "pass": passW,
@@ -75,17 +80,24 @@ class _LoginPageState extends State<LoginPage> {
       // var datauser = json.decode(response.body);
       var datauser = json.decode(response.body);
       var success = datauser['success'];
-      var datauser_login = datauser['login'];
+      var login = datauser['login'][1];
+      NO_user.add(login);
+      // var loginx = login['nama'];
 
-      log(response.body);
       if (json.decode(success) == 1) {
-        Navigator.pushReplacementNamed(context, '/HomePage');
+        // await FlutterSession().set('datauser', datauser);
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (c) => HomePage(NO_user: login)));
+        log(login.toString());
+        return datauser['login'];
       } else {
         setState(() {
           msg = "NIM/NIP atau password salah";
         });
       }
-      return datauser['login'];
+      setState(() {
+        NO_user1 = no_User;
+      });
     }
 
     Widget _buildEmailRow() {
@@ -159,8 +171,10 @@ class _LoginPageState extends State<LoginPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           FlatButton(
-            onPressed: () {},
-            child: Text("Forgot Password"),
+            onPressed: () {
+              Navigator.pushReplacementNamed(context, '/ForgotPassPage');
+            },
+            child: Text("Lupa Password"),
           ),
         ],
       );
@@ -205,7 +219,7 @@ class _LoginPageState extends State<LoginPage> {
                           msg,
                           textAlign: TextAlign.left,
                           style: TextStyle(
-                              fontSize: MediaQuery.of(context).size.height / 50,
+                              fontSize: MediaQuery.of(context).size.height / 57,
                               color: Colors.red),
                         ),
                       ),

@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/login_page.dart';
 import 'HomePage.dart';
+import 'forgotPass.dart';
 
-String username = '';
+String no_user = '';
 
 void main() => runApp(MaterialApp(
       home: LoginPage(),
       routes: <String, WidgetBuilder>{
-        '/HomePage': (BuildContext context) => new HomePage(),
+        '/HomePage': (BuildContext context) => new HomePage(NO_user: no_user),
+        '/ForgotPassPage': (BuildContext context) => new ForgotPass(),
+
         // '/CariPage': (BuildContext context) => new CariPage(
         //       username: username,
         //     ),
@@ -26,19 +29,6 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Hello Cantik'),
-        backgroundColor: Colors.black,
-        centerTitle: true,
-      ),
-      body: Center(
-        child: Image(
-          image: NetworkImage(
-              'https://th.bing.com/th/id/OIP.rPTfP-Gh6wAuSkcXzM3jbQHaFR?pid=Api&rs=1'),
-        ),
-      ),
-    );
-    throw UnimplementedError();
+    return Scaffold();
   }
 }
