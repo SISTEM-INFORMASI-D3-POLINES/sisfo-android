@@ -27,7 +27,9 @@ dependencies:
   flutter_session: any
   auto_size_text: any
   getwidget: any
-  fluttericon : any
+  fluttericon: any
+  flutter_barcode_scanner: any
+  provider: any
 
 
 

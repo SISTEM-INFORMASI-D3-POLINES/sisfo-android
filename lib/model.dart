@@ -28,3 +28,51 @@ class Login {
         kls: parsedJson['kls']);
   }
 }
+
+class Tools {
+  final String id_tools;
+  final String nama_tools;
+  final String merk;
+  final String type;
+  final String bahan;
+  final String spesifikasi;
+  final String satuan;
+  final int stok_awal;
+  final int stok_akhir;
+  final String thn_masuk;
+  final String desk_tools;
+  final String lokasi_tools;
+  final String image_tools;
+
+  Tools(
+      {this.id_tools,
+      this.nama_tools,
+      this.merk,
+      this.type,
+      this.bahan,
+      this.spesifikasi,
+      this.satuan,
+      this.stok_awal,
+      this.stok_akhir,
+      this.thn_masuk,
+      this.desk_tools,
+      this.lokasi_tools,
+      this.image_tools});
+
+  factory Tools.fromJson(Map<String, dynamic> json) {
+    return Tools(
+        id_tools: json['id_tools'],
+        nama_tools: json['nama_tools'],
+        merk: json['merk'],
+        type: json['type'],
+        bahan: json['bahan'],
+        spesifikasi: json['spesifikasi'],
+        satuan: json['satuan'],
+        stok_awal: json['satuan_awal'],
+        stok_akhir: json['satuan_akhir'],
+        thn_masuk: json['thn_masuk'],
+        desk_tools: json['desk_tools'],
+        lokasi_tools: json['lokasi_tools'],
+        image_tools: json['image_tools']);
+  }
+}

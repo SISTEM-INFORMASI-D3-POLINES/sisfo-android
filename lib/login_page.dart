@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:my_app/constant.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
@@ -19,6 +20,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   List NO_user = [];
   var NO_user1 = '';
+  String nama_tools;
+  String getnama_tools;
 
   final noUser = TextEditingController();
   String msg = '';
@@ -71,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
       String passW = pass.text;
 
       final response = await http.post(
-          "http://bf7f1702fc3c.ngrok.io/pintools_app_php/login.php",
+          "http://c26fe3768826.ngrok.io/pintools_app_php/login.php",
           body: {
             "noUser": no_User,
             "pass": passW,
