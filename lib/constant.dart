@@ -7,4 +7,6 @@ const gray = Color(0x99FFFFFF);
 const blackIcon = Color(0x61000000);
 const bgColor = Color(0xfff1f6f9);
 
+const link = 'https://473d6492f6f7.ngrok.io/pintools_app_php';
+
 const h1 = 20;

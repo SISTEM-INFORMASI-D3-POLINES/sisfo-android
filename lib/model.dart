@@ -37,8 +37,8 @@ class Tools {
   final String bahan;
   final String spesifikasi;
   final String satuan;
-  final int stok_awal;
-  final int stok_akhir;
+  final String stok_awal;
+  final String stok_akhir;
   final String thn_masuk;
   final String desk_tools;
   final String lokasi_tools;
@@ -68,11 +68,62 @@ class Tools {
         bahan: json['bahan'],
         spesifikasi: json['spesifikasi'],
         satuan: json['satuan'],
-        stok_awal: json['satuan_awal'],
-        stok_akhir: json['satuan_akhir'],
+        stok_awal: json['stok_awal'],
+        stok_akhir: json['stok_akhir'],
         thn_masuk: json['thn_masuk'],
         desk_tools: json['desk_tools'],
         lokasi_tools: json['lokasi_tools'],
         image_tools: json['image_tools']);
+  }
+}
+
+class Peminjaman {
+  Peminjaman({
+    this.id_pinjam,
+    this.no_user,
+    this.nip_staff,
+    this.id_tools,
+    this.tgl_pinjam,
+    this.jml_pinjam,
+    this.kondisi_pinjam,
+    this.approval_pinjam,
+    this.tgl_kembali,
+    this.jml_kembali,
+    this.kondisi_kembali,
+    this.approval_kembali,
+    this.stok_terakhir,
+    this.status,
+  });
+
+  String id_pinjam;
+  String no_user;
+  String nip_staff;
+  String id_tools;
+  DateTime tgl_pinjam;
+  String jml_pinjam;
+  String kondisi_pinjam;
+  String approval_pinjam;
+  String tgl_kembali;
+  String jml_kembali;
+  String kondisi_kembali;
+  String approval_kembali;
+  String stok_terakhir;
+  String status;
+  factory Peminjaman.fromJson(Map<String, dynamic> json) {
+    return Peminjaman(
+        id_pinjam: json['id_pinjam'],
+        no_user: json['no_user'],
+        nip_staff: json['nip_staff'],
+        id_tools: json['id_tools'],
+        tgl_pinjam: json['tgl_pinjam'],
+        jml_pinjam: json['jml_pinjam'],
+        kondisi_pinjam: json['kondisi_pinjam'],
+        approval_pinjam: json['approval_pinjam'],
+        tgl_kembali: json['tgl_kembali'],
+        jml_kembali: json['jml_kembali'],
+        kondisi_kembali: json['kondisi_kembali'],
+        approval_kembali: json['approval_kembali'],
+        stok_terakhir: json['stok_terakhis'],
+        status: json['status']);
   }
 }

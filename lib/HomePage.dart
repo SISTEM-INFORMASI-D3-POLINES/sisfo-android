@@ -3,10 +3,12 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:my_app/Detail.dart';
+import 'package:my_app/login_page.dart';
+import 'package:my_app/model.dart';
 import 'constant.dart';
 import 'dart:convert';
 import 'package:fluttericon/font_awesome5_icons.dart';
-import 'icons/widget_icon_icons.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,11 +19,32 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  FlutterSecureStorage storage;
+  String value_login = '';
+  String noUser = '';
+
+  List<Login> _items = [];
+  void initState() {
+    super.initState();
+    storage = FlutterSecureStorage();
+    read();
+  }
+
+  void read() async {
+    var stopwatch = new Stopwatch()..start();
+
+    //read from the secure storage
+    value_login = await storage.read(key: "login");
+    setState(() {
+      noUser = value_login;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     String nim = '';
     String foto = '';
-    var nO_user1 = json.decode(widget.NO_user);
+    var nO_user1 = json.decode(noUser);
     var nama = nO_user1["nama"];
     print(nO_user1["nama"]);
     String nama_tools = '';

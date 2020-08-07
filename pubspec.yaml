@@ -28,8 +28,11 @@ dependencies:
   auto_size_text: any
   getwidget: any
   fluttericon: any
+  fluttertoast: any
   flutter_barcode_scanner: any
   provider: any
+  flutter_secure_storage: any
+  folding_cell: any
 
 
 

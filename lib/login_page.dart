@@ -1,14 +1,12 @@
-import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:my_app/constant.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_session/flutter_session.dart';
 import 'dart:async' show Future;
 import 'dart:convert';
 import 'HomePage.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key}) : super(key: key);
@@ -18,6 +16,18 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  FlutterSecureStorage storage;
+
+  void initState() {
+    super.initState();
+    storage = FlutterSecureStorage();
+  }
+
+  void _encrypt(nouser_enc) async {
+    //write to the secure storage
+    await storage.write(key: "login", value: nouser_enc);
+  }
+
   List NO_user = [];
   var NO_user1 = '';
   String nama_tools;
@@ -73,34 +83,41 @@ class _LoginPageState extends State<LoginPage> {
       String no_User = noUser.text;
       String passW = pass.text;
 
-      final response = await http.post(
-          "http://c26fe3768826.ngrok.io/pintools_app_php/login.php",
-          body: {
-            "noUser": no_User,
-            "pass": passW,
-          });
+      await http.post("${link}/login.php", body: {
+        "noUser": no_User,
+        "pass": passW,
+      }).then((response) {
+        var datauser = json.decode(response.body);
+        var success = datauser['success'];
+        var login = datauser['login'][1];
 
-      // var datauser = json.decode(response.body);
-      var datauser = json.decode(response.body);
-      var success = datauser['success'];
-      var login = datauser['login'][1];
-      NO_user.add(login);
-      // var loginx = login['nama'];
-
-      if (json.decode(success) == 1) {
-        // await FlutterSession().set('datauser', datauser);
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (c) => HomePage(NO_user: login)));
-        log(login.toString());
-        return datauser['login'];
-      } else {
         setState(() {
-          msg = "NIM/NIP atau password salah";
+          NO_user.add(login);
         });
-      }
-      setState(() {
-        NO_user1 = no_User;
+
+        if (json.decode(success) == 1) {
+          // await FlutterSession().set('datauser', datauser);
+          _encrypt(login);
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (c) => HomePage(NO_user: login)));
+          return datauser['login'];
+        } else {
+          setState(() {
+            msg = "NIM/NIP atau password salah";
+          });
+        }
+        setState(() {
+          NO_user1 = no_User;
+        });
+      }).catchError((error) {
+        setState(() {
+          msg = "Akun tidak ditemukan";
+        });
+        print("error" + error);
       });
+      // var datauser = json.decode(response.body);
+
+      // var loginx = login['nama'];
     }
 
     Widget _buildEmailRow() {
