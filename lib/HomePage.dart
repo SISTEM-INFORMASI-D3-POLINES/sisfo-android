@@ -12,8 +12,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class HomePage extends StatefulWidget {
-  final NO_user;
-  HomePage({this.NO_user});
+  HomePage();
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -22,6 +21,7 @@ class _HomePageState extends State<HomePage> {
   FlutterSecureStorage storage;
   String value_login = '';
   String noUser = '';
+  var nama = "";
 
   List<Login> _items = [];
   void initState() {
@@ -35,8 +35,10 @@ class _HomePageState extends State<HomePage> {
 
     //read from the secure storage
     value_login = await storage.read(key: "login");
+    var namax = await storage.read(key: "nama");
     setState(() {
       noUser = value_login;
+      nama = namax;
     });
   }
 
@@ -44,9 +46,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     String nim = '';
     String foto = '';
-    var nO_user1 = json.decode(noUser);
-    var nama = nO_user1["nama"];
-    print(nO_user1["nama"]);
+    print(nama);
     String nama_tools = '';
     String getnama_tools;
     Future scan() async {
@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage> {
           .then((value) {
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => DetailTools(value)));
-      });
+      }).catchError((error) {});
     }
 
     Widget header() {

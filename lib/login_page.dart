@@ -23,9 +23,9 @@ class _LoginPageState extends State<LoginPage> {
     storage = FlutterSecureStorage();
   }
 
-  void _encrypt(nouser_enc) async {
+  void _encrypt(key, nouser_enc) async {
     //write to the secure storage
-    await storage.write(key: "login", value: nouser_enc);
+    await storage.write(key: key, value: nouser_enc);
   }
 
   List NO_user = [];
@@ -90,6 +90,10 @@ class _LoginPageState extends State<LoginPage> {
         var datauser = json.decode(response.body);
         var success = datauser['success'];
         var login = datauser['login'][1];
+        var jsonuser = json.decode(login);
+
+        var nama = jsonuser['nama'];
+        var datalogin = datauser['login'][0];
 
         setState(() {
           NO_user.add(login);
@@ -97,9 +101,10 @@ class _LoginPageState extends State<LoginPage> {
 
         if (json.decode(success) == 1) {
           // await FlutterSession().set('datauser', datauser);
-          _encrypt(login);
-          Navigator.of(context).push(
-              MaterialPageRoute(builder: (c) => HomePage(NO_user: login)));
+          _encrypt("login", datalogin.toString());
+          _encrypt("nama", nama);
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (c) => HomePage()));
           return datauser['login'];
         } else {
           setState(() {
@@ -288,12 +293,14 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              _buildLogo(),
-              _buildContainer(),
-            ],
+          SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                _buildLogo(),
+                _buildContainer(),
+              ],
+            ),
           ),
           Stack(
             children: <Widget>[

@@ -11,6 +11,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class DetailTools extends StatefulWidget {
   final String kode_tools;
+
   DetailTools(this.kode_tools);
 
   @override
@@ -29,8 +30,7 @@ class _DetailToolsState extends State<DetailTools> {
 
   Future<Tools> getTools() async {
     await http
-        .get(
-            "http://473d6492f6f7.ngrok.io/pintools_app_php/search.php?code=${widget.kode_tools}")
+        .get("${link}/search.php?code=${widget.kode_tools}")
         .then((response) {
       if (jsonDecode(response.body) != null) {
         setState(() {
@@ -40,7 +40,6 @@ class _DetailToolsState extends State<DetailTools> {
           if (stok < 1) {
             _isButtonDisabled = true;
           }
-          print(tools.stok_akhir);
         });
       }
     });
@@ -51,7 +50,6 @@ class _DetailToolsState extends State<DetailTools> {
   String post_pinjam;
   Peminjaman pinjamx;
   Future<Peminjaman> pinjam() async {
-    print(_n);
     await http.post("${link}/pinjam.php", body: {
       "noUser": no_user,
       "id_tools": tools.id_tools,
@@ -67,9 +65,7 @@ class _DetailToolsState extends State<DetailTools> {
 
       if (response != null) {
         String json_response = jsonDecode(response.body).toString();
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (c) => LogPeminjaman(Data: json_response)));
-        print(jsonDecode(response.body));
+        Navigator.pushReplacementNamed(context, '/LogPage');
       }
     }).catchError((error) {});
     return pinjamx;
@@ -101,20 +97,20 @@ class _DetailToolsState extends State<DetailTools> {
 
     //read from the secure storage
     value_login = await storage.read(key: "login");
+    var value_user = await storage.read(key: "nama");
 
     var json_value_login = jsonDecode(value_login);
-    var nim = json_value_login["nim"];
+    var nim = value_user;
 
     setState(() {
-      no_user = nim;
+      no_user = json_value_login['no_user'];
       login = json_value_login.toString();
     });
   }
 
   Future kembali() {
     log(login);
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (c) => HomePage(NO_user: login)));
+    Navigator.of(context).push(MaterialPageRoute(builder: (c) => HomePage()));
   }
 
   @override

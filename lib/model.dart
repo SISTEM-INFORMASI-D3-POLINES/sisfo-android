@@ -78,6 +78,22 @@ class Tools {
 }
 
 class Peminjaman {
+  final String id_pinjam;
+  final String no_user;
+  final String nip_staff;
+  final String id_tools;
+  final String tgl_pinjam;
+  final String jml_pinjam;
+  final String kondisi_pinjam;
+  final String approval_pinjam;
+  final String tgl_kembali;
+  final String jml_kembali;
+  final String kondisi_kembali;
+  final String approval_kembali;
+  final String stok_terakhir;
+  final String status;
+  final String nama_tools;
+
   Peminjaman({
     this.id_pinjam,
     this.no_user,
@@ -93,22 +109,9 @@ class Peminjaman {
     this.approval_kembali,
     this.stok_terakhir,
     this.status,
+    this.nama_tools,
   });
 
-  String id_pinjam;
-  String no_user;
-  String nip_staff;
-  String id_tools;
-  DateTime tgl_pinjam;
-  String jml_pinjam;
-  String kondisi_pinjam;
-  String approval_pinjam;
-  String tgl_kembali;
-  String jml_kembali;
-  String kondisi_kembali;
-  String approval_kembali;
-  String stok_terakhir;
-  String status;
   factory Peminjaman.fromJson(Map<String, dynamic> json) {
     return Peminjaman(
         id_pinjam: json['id_pinjam'],
@@ -124,6 +127,23 @@ class Peminjaman {
         kondisi_kembali: json['kondisi_kembali'],
         approval_kembali: json['approval_kembali'],
         stok_terakhir: json['stok_terakhis'],
-        status: json['status']);
+        status: json['status'],
+        nama_tools: json['nama_tools']);
   }
+}
+
+class User {
+  final String no_user;
+  final String pass;
+
+  User(this.no_user, this.pass);
+
+  User.fromJson(Map<String, dynamic> json)
+      : no_user = json['no_user'],
+        pass = json['pass'];
+
+  Map<String, dynamic> toJson() => {
+        'no_user': no_user,
+        'pass': pass,
+      };
 }
