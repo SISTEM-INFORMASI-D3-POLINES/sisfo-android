@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tampilanakun/constant.dart';
+import 'package:tampilanakun/pages/tentangkami.dart';
+import 'package:tampilanakun/pages/kebijakanprivasi.dart';
+import 'package:tampilanakun/pages/faq.dart';
 import 'dart:developer';
 import 'package:fluttericon/font_awesome5_icons.dart';
 //import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -7,7 +10,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 void main() => runApp(MaterialApp(
-  home: Akun()
+  initialRoute: '/Akun',
+  routes: {
+    '/Akun': (context) => Akun(),
+    '/TentangKamiPage': (context) => TentangKami(),
+    '/KebijakanPrivasiPage': (context) => KebijakanPrivasi(),
+    '/FAQPage': (context) => FreqAQ(),
+  },
+
 ));
 
 class Akun extends StatefulWidget {
@@ -56,19 +66,25 @@ class _AkunState extends State<Akun> {
               shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0))
           ),
           OutlineButton.icon(
-              onPressed: (){},
+              onPressed: (){
+                Navigator.pushNamed(context, '/KebijakanPrivasiPage');
+              },
               icon : Icon(Icons.lock),
               label : Text('Kebijakan Privasi'),
               shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0))
           ),
           OutlineButton.icon(
-              onPressed: (){},
+              onPressed: (){
+                Navigator.pushNamed(context, '/TentangKamiPage');
+              },
               icon : Icon(Icons.people),
               label : Text('Tentang Kami'),
               shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0))
           ),
           OutlineButton.icon(
-              onPressed: (){},
+              onPressed: (){
+                Navigator.pushNamed(context, '/FAQPage');
+              },
               icon : Icon(Icons.help),
               label : Text('FAQ'),
               shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0))
