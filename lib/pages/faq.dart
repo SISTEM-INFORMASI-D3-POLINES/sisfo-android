@@ -30,15 +30,19 @@ class _FreqAQState extends State<FreqAQ> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: bgColor,
       appBar: AppBar(
-        backgroundColor: Colors.blue[900],
+        backgroundColor: mainColor,
         title: Text('FAQ'),
         centerTitle: true,
       ),
-//      body: Column(
-//        children: questions.map((question) => Question(question: question,)).toList(),
-//      ),
+      body: ListView(
+        children: <Widget>[
+          Column(children: questions.map((question) => FaqCard(question: question,)).toList(),),
+        ],
+      ),
     );
   }
 }
+
+//Column(children: questions.map((question) => FaqCard(question: question,)).toList(),),

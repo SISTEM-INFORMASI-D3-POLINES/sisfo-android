@@ -57,13 +57,13 @@ class _AkunState extends State<Akun> {
             onPressed: (){},
             icon : Icon(Icons.mail),
             label : Text('Pesan'),
-              shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0))
+              shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0))
           ),
           OutlineButton.icon(
               onPressed: (){},
               icon : Icon(Icons.vpn_key),
               label : Text('Ubah Password'),
-              shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0))
+              shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0))
           ),
           OutlineButton.icon(
               onPressed: (){
@@ -71,7 +71,7 @@ class _AkunState extends State<Akun> {
               },
               icon : Icon(Icons.lock),
               label : Text('Kebijakan Privasi'),
-              shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0))
+              shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0))
           ),
           OutlineButton.icon(
               onPressed: (){
@@ -79,7 +79,7 @@ class _AkunState extends State<Akun> {
               },
               icon : Icon(Icons.people),
               label : Text('Tentang Kami'),
-              shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0))
+              shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0))
           ),
           OutlineButton.icon(
               onPressed: (){
@@ -87,13 +87,13 @@ class _AkunState extends State<Akun> {
               },
               icon : Icon(Icons.help),
               label : Text('FAQ'),
-              shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0))
+              shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0))
           ),
           OutlineButton.icon(
               onPressed: (){},
               icon : Icon(Icons.subdirectory_arrow_right),
               label : Text('Keluar'),
-              shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0))
+              shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0))
           ),
         ],
       ),
