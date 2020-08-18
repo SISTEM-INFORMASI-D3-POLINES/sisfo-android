@@ -33,6 +33,7 @@ dependencies:
   provider: any
   flutter_secure_storage: any
   folding_cell: any
+  flutter_toggle_tab: any
 
 
 
@@ -59,6 +60,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - images/svg/
+    - images/dummy/
     - images/svg/logo_head.svg
     - images/svg/logo_circle.svg
     - images/svg/logo_head_circle.svg
@@ -77,6 +79,33 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
+    - family: Open Sans
+      fonts:
+        - asset: font/OpenSans-Light.ttf
+          weight: 300
+        - asset: font/OpenSans-Regular.ttf
+          weight: 400
+        - asset: font/OpenSans-SemiBold.ttf
+          weight: 600
+        - asset: font/OpenSans-Bold.ttf
+          weight: 700
+        - asset: font/OpenSans-ExtraBold.ttf
+          weight: 800
+    - family: MavenPro
+      fonts:
+        - asset: font/Mavenpro-Regular.ttf
+          weight: 400
+        - asset: font/MavenPro-Medium.ttf
+          weight: 500
+        - asset: font/MavenPro-SemiBold.ttf
+          weight: 600
+        - asset: font/MavenPro-Bold.ttf
+          weight: 700
+        - asset: font/MavenPro-ExtraBold.ttf
+          weight: 800
+        - asset: font/MavenPro-Black.ttf
+          weight: 900
+
     - family: Pinjam Icon
       fonts:
         - asset: font/PinjamIco.ttf

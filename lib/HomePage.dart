@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:my_app/Detail.dart';
-import 'package:my_app/login_page.dart';
 import 'package:my_app/model.dart';
 import 'constant.dart';
 import 'dart:convert';
@@ -33,7 +32,6 @@ class _HomePageState extends State<HomePage> {
   void read() async {
     var stopwatch = new Stopwatch()..start();
 
-    //read from the secure storage
     value_login = await storage.read(key: "login");
     var namax = await storage.read(key: "nama");
     setState(() {
@@ -70,58 +68,57 @@ class _HomePageState extends State<HomePage> {
       );
     }
 
-    var rectHeadNote = ClipRRect(
-      borderRadius: BorderRadius.only(topRight: Radius.circular(70)),
-      child: Container(
-        width: MediaQuery.of(context).size.width - 30,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 5,
-              blurRadius: 7,
-              offset: Offset(0, 3), // changes position of shadow
-            ),
-          ],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
-          child: Column(
-            children: <Widget>[
-              RichText(
-                text: TextSpan(
-                    text: "Halo " + nama,
-                    style: TextStyle(
-                        color: mainColor,
-                        fontSize: MediaQuery.of(context).size.height / 21,
-                        letterSpacing: 2,
-                        fontWeight: FontWeight.w700),
-                    children: <TextSpan>[
-                      TextSpan(
-                          text: nama_tools,
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: mainColor,
-                            fontWeight: FontWeight.w300,
-                            height: 1,
-                          )),
-                    ]),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 15.0, left: 0.0),
-                child: Text('''Perlu Alat?
-Cari dan pinjam alat lewat aplikasi''',
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: mainColor,
-                      letterSpacing: 1.0,
-                      fontWeight: FontWeight.w300,
-                      height: 1,
-                    )),
-              )
-            ],
+    var rectHeadNote = Container(
+      width: MediaQuery.of(context).size.width - 30,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+            topRight: Radius.circular(10),
+            topLeft: Radius.circular(10),
+            bottomLeft: Radius.circular(10),
+            bottomRight: Radius.circular(10)),
+        boxShadow: [
+          BoxShadow(
+            color: shadowColor.withOpacity(0.4),
+            spreadRadius: 0,
+            blurRadius: 30,
+            offset: Offset(0, 3), // changes position of shadow
           ),
+        ],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(bottom: 10),
+              child: RichText(
+                text: TextSpan(
+                  text: "HALO " + nama.toUpperCase(),
+                  style: TextStyle(
+                      color: mainColor,
+                      fontFamily: 'Open Sans',
+                      fontSize: MediaQuery.of(context).size.height / 21,
+                      letterSpacing: 2,
+                      fontWeight: FontWeight.w700),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 7, left: 0.0),
+              child: Text('''Perlu Alat?
+Cari dan pinjam alat lewat aplikasi''',
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: textColor,
+                    letterSpacing: 1.0,
+                    fontWeight: FontWeight.w400,
+                    height: 1.3,
+                  )),
+            )
+          ],
         ),
       ),
     );
@@ -152,6 +149,7 @@ Cari dan pinjam alat lewat aplikasi''',
               text: TextSpan(
                   text: "4 Alat",
                   style: TextStyle(
+                      fontFamily: 'Open Sans',
                       fontWeight: FontWeight.bold,
                       letterSpacing: 1.0,
                       fontSize: 13,
@@ -162,7 +160,7 @@ Cari dan pinjam alat lewat aplikasi''',
                     style: TextStyle(fontWeight: FontWeight.normal))
               ])),
           Padding(
-            padding: EdgeInsets.only(left: 15),
+            padding: EdgeInsets.only(left: 10),
             child: ButtonBar(
               alignment: MainAxisAlignment.end,
               buttonHeight: 5,
@@ -178,6 +176,7 @@ Cari dan pinjam alat lewat aplikasi''',
                       "Kembalikan",
                       style: TextStyle(
                           color: mainColor,
+                          fontFamily: 'Open Sans',
                           letterSpacing: 1.0,
                           fontWeight: FontWeight.w600),
                     )),
@@ -194,12 +193,15 @@ Cari dan pinjam alat lewat aplikasi''',
         buttonPadding: EdgeInsets.only(left: 10, right: 10),
         children: <Widget>[
           RaisedButton(
-            onPressed: () {},
+            onPressed: () {
+              log("jasl");
+              Navigator.pushReplacementNamed(context, '/KembaliPage');
+            },
             padding: new EdgeInsets.symmetric(
                 horizontal: MediaQuery.of(context).size.width / 15,
                 vertical: MediaQuery.of(context).size.height / 30),
             shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             color: Colors.white,
             child: Column(
               // Replace with a Row for horizontal icon + text
@@ -210,11 +212,12 @@ Cari dan pinjam alat lewat aplikasi''',
                   fit: BoxFit.fill,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 20.0),
+                  padding: const EdgeInsets.only(top: 15.0),
                   child: Text(
                     "Kembali",
                     style: TextStyle(
-                      color: mainColor2,
+                      fontFamily: 'Open Sans',
+                      color: textColor,
                       letterSpacing: 1.0,
                     ),
                   ),
@@ -225,7 +228,7 @@ Cari dan pinjam alat lewat aplikasi''',
           RaisedButton(
             onPressed: () {},
             shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             padding: new EdgeInsets.symmetric(
                 horizontal: MediaQuery.of(context).size.width / 12,
                 vertical: MediaQuery.of(context).size.height / 30),
@@ -239,11 +242,12 @@ Cari dan pinjam alat lewat aplikasi''',
                   height: MediaQuery.of(context).size.width / 6,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 20.0),
+                  padding: const EdgeInsets.only(top: 15.0),
                   child: Text(
                     "Pinjam",
                     style: TextStyle(
-                      color: mainColor,
+                      fontFamily: 'Open Sans',
+                      color: textColor,
                       letterSpacing: 1.0,
                     ),
                   ),
@@ -253,6 +257,7 @@ Cari dan pinjam alat lewat aplikasi''',
           ),
         ]);
     return Scaffold(
+      backgroundColor: bgColor,
       body: SafeArea(
         child: Stack(children: <Widget>[
           Container(
@@ -265,13 +270,9 @@ Cari dan pinjam alat lewat aplikasi''',
                 children: <Widget>[
                   header(),
                   headNotes,
-                  lineDivider,
+                  // lineDivider,
                   messageBar,
                   buttonPinjamKembali,
-                  Text(
-                    nama_tools,
-                    style: TextStyle(color: mainColor),
-                  )
                 ],
               ),
             ),

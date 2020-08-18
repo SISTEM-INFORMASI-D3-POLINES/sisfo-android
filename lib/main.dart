@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:my_app/cari.dart';
 import 'package:my_app/constant.dart';
+import 'package:my_app/kembali.dart';
 import 'package:my_app/log.dart';
 import 'package:my_app/login_page.dart';
 import 'HomePage.dart';
@@ -19,7 +21,10 @@ void main() async {
       '/LoginPage': (BuildContext context) => new LoginPage(),
       '/ForgotPassPage': (BuildContext context) => new ForgotPass(),
       '/LogPage': (BuildContext context) => new LogPeminjaman(),
+      '/CariPage': (BuildContext context) => new CariPage(),
+      '/KembaliPage': (BuildContext context) => new KembaliPage(),
     },
+    theme: ThemeData(canvasColor: Colors.transparent, fontFamily: 'Open Sans'),
   ));
 }
 
@@ -35,6 +40,7 @@ class _SplashScreenState extends State<SplashScreen>
   Widget page = LoginPage();
   AnimationController _controller;
   String value_login = '';
+  String value_nama = '';
   String noUser = '';
   var nama = "";
   @override
@@ -54,9 +60,13 @@ class _SplashScreenState extends State<SplashScreen>
   void read() async {
     var stopwatch = new Stopwatch()..start();
     value_login = await storage.read(key: "login");
+    value_nama = await storage.read(key: "nama");
+
     setState(() {
       noUser = value_login;
+      nama = value_nama;
     });
+    print("hayo" + noUser);
   }
 
   startSplashScreen() async {
@@ -65,10 +75,10 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   void navigationPage() {
-    if (noUser != null) {
-      Navigator.of(context).pushReplacementNamed('/HomePage');
-    } else {
+    if (noUser == '' && nama == '') {
       Navigator.of(context).pushReplacementNamed('/LoginPage');
+    } else {
+      Navigator.of(context).pushReplacementNamed('/HomePage');
     }
   }
 

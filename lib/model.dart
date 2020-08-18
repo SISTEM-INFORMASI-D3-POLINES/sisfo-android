@@ -93,24 +93,45 @@ class Peminjaman {
   final String stok_terakhir;
   final String status;
   final String nama_tools;
+  final String merk;
+  final String type;
+  final String bahan;
+  final String spesifikasi;
+  final String satuan;
+  final String stok_awal;
+  final String stok_akhir;
+  final String thn_masuk;
+  final String desk_tools;
+  final String lokasi_tools;
+  final String image_tools;
 
-  Peminjaman({
-    this.id_pinjam,
-    this.no_user,
-    this.nip_staff,
-    this.id_tools,
-    this.tgl_pinjam,
-    this.jml_pinjam,
-    this.kondisi_pinjam,
-    this.approval_pinjam,
-    this.tgl_kembali,
-    this.jml_kembali,
-    this.kondisi_kembali,
-    this.approval_kembali,
-    this.stok_terakhir,
-    this.status,
-    this.nama_tools,
-  });
+  Peminjaman(
+      {this.id_pinjam,
+      this.no_user,
+      this.nip_staff,
+      this.id_tools,
+      this.tgl_pinjam,
+      this.jml_pinjam,
+      this.kondisi_pinjam,
+      this.approval_pinjam,
+      this.tgl_kembali,
+      this.jml_kembali,
+      this.kondisi_kembali,
+      this.approval_kembali,
+      this.stok_terakhir,
+      this.status,
+      this.nama_tools,
+      this.merk,
+      this.type,
+      this.bahan,
+      this.spesifikasi,
+      this.satuan,
+      this.stok_awal,
+      this.stok_akhir,
+      this.thn_masuk,
+      this.desk_tools,
+      this.lokasi_tools,
+      this.image_tools});
 
   factory Peminjaman.fromJson(Map<String, dynamic> json) {
     return Peminjaman(
@@ -128,7 +149,18 @@ class Peminjaman {
         approval_kembali: json['approval_kembali'],
         stok_terakhir: json['stok_terakhis'],
         status: json['status'],
-        nama_tools: json['nama_tools']);
+        nama_tools: json['nama_tools'],
+        merk: json['merk'],
+        type: json['type'],
+        bahan: json['bahan'],
+        spesifikasi: json['spesifikasi'],
+        satuan: json['satuan'],
+        stok_awal: json['stok_awal'],
+        stok_akhir: json['stok_akhir'],
+        thn_masuk: json['thn_masuk'],
+        desk_tools: json['desk_tools'],
+        lokasi_tools: json['lokasi_tools'],
+        image_tools: json['image_tools']);
   }
 }
 

@@ -127,9 +127,10 @@ class _DetailToolsState extends State<DetailTools> {
                     child: Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               ClipRRect(
                                 borderRadius:
@@ -181,8 +182,8 @@ class _DetailToolsState extends State<DetailTools> {
                               )
                             ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 15.0),
+                          Container(
+                            padding: EdgeInsets.only(top: 5),
                             child: Column(
                               children: <Widget>[
                                 FittedBox(
@@ -201,8 +202,8 @@ class _DetailToolsState extends State<DetailTools> {
                               ],
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 15.0),
+                          Container(
+                            margin: EdgeInsets.only(bottom: 15.0),
                             child: Row(
                               children: <Widget>[
                                 Padding(
@@ -253,6 +254,7 @@ class _DetailToolsState extends State<DetailTools> {
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
                                 "${tools.merk}",
@@ -260,18 +262,14 @@ class _DetailToolsState extends State<DetailTools> {
                                     fontSize: 18,
                                     color: mainColor,
                                     letterSpacing: 1.0,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              SizedBox(
-                                height: 15,
-                                width: 0,
+                                    fontWeight: FontWeight.w400),
                               ),
                               Text(
                                 "${tools.type}",
                                 style: TextStyle(
                                     fontSize: 18,
                                     letterSpacing: 1.0,
-                                    fontWeight: FontWeight.w500,
+                                    fontWeight: FontWeight.w400,
                                     color: mainColor),
                               )
                             ],
