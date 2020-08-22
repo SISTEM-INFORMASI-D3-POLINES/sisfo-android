@@ -1,9 +1,11 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:my_app/Detail.dart';
 import 'package:my_app/model.dart';
+import 'cari.dart';
 import 'constant.dart';
 import 'dart:convert';
 import 'package:fluttericon/font_awesome5_icons.dart';
@@ -195,7 +197,10 @@ Cari dan pinjam alat lewat aplikasi''',
           RaisedButton(
             onPressed: () {
               log("jasl");
-              Navigator.pushReplacementNamed(context, '/KembaliPage');
+              SchedulerBinding.instance.addPostFrameCallback((_) {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (c) => CariPage()));
+              });
             },
             padding: new EdgeInsets.symmetric(
                 horizontal: MediaQuery.of(context).size.width / 15,

@@ -80,24 +80,6 @@ class _KembaliPageState extends State<KembaliPage> {
       });
     }).catchError((onError) {});
     return peminjaman;
-    // await http.post("${link}/pinjam.php", body: {
-    //   "noUser": no_user,
-    // }).then((response) {
-    //   int length = jsonDecode(response.body).length;
-    //   // while (length > 0) {
-    //   //   pinjamx = Peminjaman.fromJson(jsonDecode(response.body));
-    //   //   length--;
-    //   // }
-
-    //   if (response != null) {
-    //     String json_response = jsonDecode(response.body).toString();
-    //     Navigator.pushReplacementNamed(context, '/LogPage');
-    //   }
-    // }).catchError((error) {});
-    // return value;
-
-    log(text.toString());
-    log(id_pinjam);
   }
 
   void initState() {
@@ -298,6 +280,7 @@ class _KembaliPageState extends State<KembaliPage> {
 
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
       builder: (BuildContext context) {
         var _thumbUp = Icons;
         var _listGenderText = ["Baik", "Rusak"];

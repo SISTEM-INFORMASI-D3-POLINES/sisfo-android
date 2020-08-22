@@ -17,15 +17,34 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   FlutterSecureStorage storage;
-
+  var _value_login = '';
+  var _value_nama = '';
+  var _noUser = '';
+  var _nama = '';
   void initState() {
     super.initState();
     storage = FlutterSecureStorage();
+    read();
   }
 
   void _encrypt(key, nouser_enc) async {
     //write to the secure storage
     await storage.write(key: key, value: nouser_enc);
+  }
+
+  void read() async {
+    _value_login = await storage.read(key: "login");
+    _value_nama = await storage.read(key: "nama");
+
+    setState(() {
+      _noUser = _value_login;
+      _nama = _value_nama;
+    });
+    print("hayo" + _noUser);
+
+    if (_noUser == '' && _nama == '') {
+      Navigator.of(context).pushReplacementNamed('/HomePage');
+    }
   }
 
   List NO_user = [];
@@ -38,17 +57,17 @@ class _LoginPageState extends State<LoginPage> {
   final pass = TextEditingController();
   var isSecure = true;
   Widget _buildLogo() {
-    final String imageAsset = 'images/svg/logo_head_circle.svg';
+    final String imageAsset = 'images/svg/logo_header.png';
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 30),
-          child: SvgPicture.asset(
-            imageAsset,
-            height: MediaQuery.of(context).size.height / 6,
-          ),
-        )
+        Container(
+            padding: const EdgeInsets.symmetric(vertical: 30),
+            margin: const EdgeInsets.only(top: 30),
+            child: Image(
+              image: AssetImage(imageAsset),
+              width: MediaQuery.of(context).size.width / 2,
+            ))
       ],
     );
   }
@@ -103,8 +122,8 @@ class _LoginPageState extends State<LoginPage> {
           // await FlutterSession().set('datauser', datauser);
           _encrypt("login", datalogin.toString());
           _encrypt("nama", nama);
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (c) => HomePage()));
+          Navigator.of(context).pushReplacementNamed('/HomePage');
+
           return datauser['login'];
         } else {
           setState(() {
@@ -168,10 +187,10 @@ class _LoginPageState extends State<LoginPage> {
             width: 6.5 * (MediaQuery.of(context).size.width / 10),
             margin: EdgeInsets.only(bottom: 50, top: 20),
             child: RaisedButton(
-              elevation: 5.0,
+              // elevation: 5.0,
               color: mainColor,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
+                borderRadius: BorderRadius.circular(50.0),
               ),
               onPressed: () {
                 getLogin();
@@ -181,7 +200,7 @@ class _LoginPageState extends State<LoginPage> {
                 style: TextStyle(
                     color: mainColor2,
                     letterSpacing: 1.5,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w600,
                     fontSize: MediaQuery.of(context).size.height / 35),
               ),
             ),
@@ -214,7 +233,6 @@ class _LoginPageState extends State<LoginPage> {
               Radius.circular(20),
             ),
             child: Container(
-              height: MediaQuery.of(context).size.height * 0.55,
               width: MediaQuery.of(context).size.width * 0.75,
               padding: EdgeInsets.only(left: 10, right: 10),
               decoration: BoxDecoration(color: Colors.white),
@@ -225,12 +243,12 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Padding(
-                        padding: const EdgeInsets.only(top: 18),
+                        padding: const EdgeInsets.only(top: 20),
                         child: Text("Login",
                             style: TextStyle(
                                 fontSize:
                                     MediaQuery.of(context).size.height / 30,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w600,
                                 color: mainColor)),
                       )
                     ],
@@ -265,28 +283,15 @@ class _LoginPageState extends State<LoginPage> {
     return SafeArea(
         child: Scaffold(
       resizeToAvoidBottomPadding: false,
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xffe6edf4),
       body: Stack(
         children: <Widget>[
-          Container(
-            height: MediaQuery.of(context).size.height * 0.68,
-            width: MediaQuery.of(context).size.width,
-            child: Container(
-              decoration: BoxDecoration(
-                color: mainColorAccent,
-                borderRadius: BorderRadius.only(
-                  bottomLeft: const Radius.circular(85),
-                  bottomRight: const Radius.circular(85),
-                ),
-              ),
-            ),
-          ),
           Container(
             height: MediaQuery.of(context).size.height * 0.65,
             width: MediaQuery.of(context).size.width,
             child: Container(
               decoration: BoxDecoration(
-                color: mainColor,
+                color: bgColor,
                 borderRadius: BorderRadius.only(
                   bottomLeft: const Radius.circular(90),
                   bottomRight: const Radius.circular(90),
@@ -295,12 +300,15 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                _buildLogo(),
-                _buildContainer(),
-              ],
+            scrollDirection: Axis.vertical,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  _buildLogo(),
+                  _buildContainer(),
+                ],
+              ),
             ),
           ),
           Stack(

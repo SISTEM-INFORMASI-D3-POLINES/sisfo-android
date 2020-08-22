@@ -46,9 +46,9 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     super.initState();
+    _controller = AnimationController(vsync: this);
     read();
     startSplashScreen();
-    _controller = AnimationController(vsync: this);
   }
 
   @override
@@ -58,7 +58,6 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   void read() async {
-    var stopwatch = new Stopwatch()..start();
     value_login = await storage.read(key: "login");
     value_nama = await storage.read(key: "nama");
 
@@ -70,20 +69,22 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   startSplashScreen() async {
+    print(noUser);
     var _duration = new Duration(seconds: 5);
     return new Timer(_duration, navigationPage);
   }
 
   void navigationPage() {
-    if (noUser == '' && nama == '') {
+    if (noUser == null) {
       Navigator.of(context).pushReplacementNamed('/LoginPage');
     } else {
-      Navigator.of(context).pushReplacementNamed('/HomePage');
+      Navigator.of(context).pushReplacementNamed('/CariPage');
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    print(noUser);
     return Scaffold(
       backgroundColor: bgColor,
       body: Center(
