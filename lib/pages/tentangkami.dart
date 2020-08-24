@@ -22,56 +22,60 @@ class _TentangKamiState extends State<TentangKami> {
         centerTitle: true,
       ),
       body:
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        //mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          SizedBox(height: 10.0,),
-          CircleAvatar(
-            radius: 64.0,
-            backgroundImage: AssetImage('images/logo_circle.png'),
-          ),
-          Container(
-            padding: EdgeInsets.all(10.0),
-            child: Text('Pintools adalah aplikasi sistem peminjaman tools untuk Laboratorium Timur. Pintools merupakan singkatan dari Pinjam Tools. Pintools dikembangkan berdasarkan kemajuan teknologi yang berkembang pesat dan semakin banyak penggunaan QR Code yang bertujuan agar memudahkan proses peminjaman dan pengembalian tools di Laboratorium Timur.',
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                fontSize: 12.0,
-                letterSpacing: 1.5,
-              ),
-              ),
-          ),
-          SizedBox(height: 1.0,),
-          Container(
-            child: Text('Aplikasi ini dikembangkan oleh :',
-              textAlign: TextAlign.center,
+      ListView(
+        children: <Widget> [
+          Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          //mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            SizedBox(height: 10.0,),
+            CircleAvatar(
+              radius: 64.0,
+              backgroundImage: AssetImage('images/logo_circle.png'),
             ),
-          ),
-          SizedBox(height: 5.0,),
-          Container(
-            child: Text('Hayati Qurrotul Uyun dan Muhammad Ekananda Alfandza Fajar',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
+            Container(
+              padding: EdgeInsets.all(10.0),
+              child: Text('Pintools adalah aplikasi sistem peminjaman tools untuk Laboratorium Timur. Pintools merupakan singkatan dari Pinjam Tools. Pintools dikembangkan berdasarkan kemajuan teknologi yang berkembang pesat dan semakin banyak penggunaan QR Code yang bertujuan agar memudahkan proses peminjaman dan pengembalian tools di Laboratorium Timur.',
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontSize: 12.0,
+                  letterSpacing: 1.5,
+                ),
+                ),
+            ),
+            SizedBox(height: 1.0,),
+            Container(
+              child: Text('Aplikasi ini dikembangkan oleh :',
+                textAlign: TextAlign.center,
               ),
             ),
-          ),
-          SizedBox(height: 10.0,),
-          Container(
-            child: Text('Dalam Tugas Akhirnya yang berjudul :',
-              textAlign: TextAlign.center,
-            ),
-          ),
-          SizedBox(height: 5.0,),
-          Container(
-            child: Text('Sistem Peminjaman Tools Menggunakan QR Code berbasis Android Di Politeknik Negeri Semarang',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
+            SizedBox(height: 5.0,),
+            Container(
+              child: Text('Hayati Qurrotul Uyun dan Muhammad Ekananda Alfandza Fajar',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-          ),
-        ],
+            SizedBox(height: 10.0,),
+            Container(
+              child: Text('Dalam Tugas Akhirnya yang berjudul :',
+                textAlign: TextAlign.center,
+              ),
+            ),
+            SizedBox(height: 5.0,),
+            Container(
+              child: Text('Sistem Peminjaman Tools Menggunakan QR Code berbasis Android Di Politeknik Negeri Semarang',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        ),
+  ]
       ),
     );
   }

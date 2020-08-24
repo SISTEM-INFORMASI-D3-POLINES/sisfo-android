@@ -15,3 +15,4 @@ const h1 = 20;
 
 const mail1 = 'mailto:hayatiuyun@gmail.com';
 const mail2 = 'mailto:muhammadfajar16@hotmail.com';
+

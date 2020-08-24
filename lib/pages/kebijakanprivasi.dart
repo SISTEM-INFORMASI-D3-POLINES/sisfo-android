@@ -95,12 +95,12 @@ class _KebijakanPrivasiState extends State<KebijakanPrivasi> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               RaisedButton(
-                  onPressed: null,
+                  onPressed: _createEmail1,
                 child: Text('Hayati Uyun'),
               ),
               SizedBox(width: 5.0,),
               RaisedButton(
-                  onPressed: null,
+                  onPressed:_createEmail2,
                 child: Text('M. Ekananda'),
               ),
             ],
@@ -108,5 +108,21 @@ class _KebijakanPrivasiState extends State<KebijakanPrivasi> {
         ],
       ),
     );
+  }
+}
+
+void _createEmail1() async{
+  if(await canLaunch(mail1)) {
+    await launch(mail1);
+  }  else {
+    throw 'Could not Email';
+  }
+}
+
+void _createEmail2() async{
+  if(await canLaunch(mail2)) {
+    await launch(mail2);
+  }  else {
+    throw 'Could not Email';
   }
 }
