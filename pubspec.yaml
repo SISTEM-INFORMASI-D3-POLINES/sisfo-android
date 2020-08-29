@@ -29,11 +29,13 @@ dependencies:
   getwidget: any
   fluttericon: any
   fluttertoast: any
-  flutter_barcode_scanner: any
   provider: any
   flutter_secure_storage: any
   folding_cell: any
-  flutter_toggle_tab: any
+  flutter_toggle_tab: ^0.0.2
+  flutter_qr_bar_scanner: ^1.0.2
+  url_launcher: any
+  mailto: any
 
 
 

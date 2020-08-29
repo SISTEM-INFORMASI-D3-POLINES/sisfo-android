@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:my_app/Detail.dart';
 import 'package:my_app/model.dart';
 import 'cari.dart';
@@ -49,14 +48,6 @@ class _HomePageState extends State<HomePage> {
     print(nama);
     String nama_tools = '';
     String getnama_tools;
-    Future scan() async {
-      getnama_tools = await FlutterBarcodeScanner.scanBarcode(
-              "#f8c300", "Cancel", true, ScanMode.QR)
-          .then((value) {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => DetailTools(value)));
-      }).catchError((error) {});
-    }
 
     Widget header() {
       final String header = 'images/svg/logo_header.png';
@@ -198,8 +189,7 @@ Cari dan pinjam alat lewat aplikasi''',
             onPressed: () {
               log("jasl");
               SchedulerBinding.instance.addPostFrameCallback((_) {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (c) => CariPage()));
+                Navigator.of(context).pushNamed('/KembaliPage');
               });
             },
             padding: new EdgeInsets.symmetric(
@@ -231,7 +221,9 @@ Cari dan pinjam alat lewat aplikasi''',
             ),
           ),
           RaisedButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pushNamed('/PinjamPage');
+            },
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             padding: new EdgeInsets.symmetric(
@@ -262,6 +254,17 @@ Cari dan pinjam alat lewat aplikasi''',
           ),
         ]);
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color(0xffe6edf4),
+        automaticallyImplyLeading: false,
+        elevation: 0,
+        title: Image.asset(
+          "images/svg/logo_header.png",
+          alignment: Alignment.centerLeft,
+          width: 160,
+        ),
+        centerTitle: false,
+      ),
       backgroundColor: bgColor,
       body: SafeArea(
         child: Stack(children: <Widget>[
@@ -273,10 +276,10 @@ Cari dan pinjam alat lewat aplikasi''',
               padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 20),
               child: Column(
                 children: <Widget>[
-                  header(),
+                  // header(),
                   headNotes,
                   // lineDivider,
-                  messageBar,
+                  // messageBar,
                   buttonPinjamKembali,
                 ],
               ),
@@ -284,54 +287,53 @@ Cari dan pinjam alat lewat aplikasi''',
           )
         ]),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          scan();
-        },
-        child: Icon(FontAwesome5.qrcode),
-        backgroundColor: mainColor,
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomAppBar(
-          notchMargin: 15,
-          color: Colors.white,
-          shape: CircularNotchedRectangle(),
-          child: Container(
-            height: 50,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Icon(
-                      Icons.home,
-                      size: 26.0,
-                      color: blackIcon,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 40.0),
-                      child: Icon(
-                        Icons.search,
-                        size: 26.0,
-                        color: blackIcon,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 45.0),
-                      child: Icon(
-                        Icons.history,
-                        size: 26.0,
-                        color: blackIcon,
-                      ),
-                    ),
-                    Icon(
-                      Icons.person,
-                      size: 26.0,
-                      color: blackIcon,
-                    )
-                  ]),
-            ),
-          )),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     scan();
+      //   },
+      //   child: Icon(FontAwesome5.qrcode),
+      //   backgroundColor: mainColor,
+      // ),
+      // bottomNavigationBar: BottomAppBar(
+      //     notchMargin: 15,
+      //     color: Colors.white,
+      //     shape: CircularNotchedRectangle(),
+      //     child: Container(
+      //       height: 50,
+      //       child: Padding(
+      //         padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      //         child: Row(
+      //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //             children: <Widget>[
+      //               Icon(
+      //                 FontAwesome5.home,
+      //                 size: 26.0,
+      //                 color: blackIcon,
+      //               ),
+      //               Padding(
+      //                 padding: const EdgeInsets.only(right: 40.0),
+      //                 child: Icon(
+      //                   FontAwesome5.search,
+      //                   size: 26.0,
+      //                   color: blackIcon,
+      //                 ),
+      //               ),
+      //               Padding(
+      //                 padding: const EdgeInsets.only(left: 45.0),
+      //                 child: Icon(
+      //                   FontAwesome5.history,
+      //                   size: 26.0,
+      //                   color: blackIcon,
+      //                 ),
+      //               ),
+      //               Icon(
+      //                 FontAwesome5.user,
+      //                 size: 26.0,
+      //                 color: blackIcon,
+      //               )
+      //             ]),
+      //       ),
+      //     )),
     );
   }
 }

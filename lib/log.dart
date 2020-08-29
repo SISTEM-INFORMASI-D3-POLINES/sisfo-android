@@ -75,10 +75,13 @@ class _LogPeminjamanState extends State<LogPeminjaman> {
     var riwayat = Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
-        Text(
-          "Riwayat",
-          style: TextStyle(
-              fontSize: 20, color: Colors.black54, letterSpacing: 1.0),
+        Container(
+          padding: EdgeInsets.only(left: 7),
+          child: Text(
+            "Riwayat",
+            style: TextStyle(
+                fontSize: 20, color: Colors.black54, letterSpacing: 1.0),
+          ),
         ),
       ],
     );
@@ -132,6 +135,17 @@ class _LogPeminjamanState extends State<LogPeminjaman> {
       ),
     );
     return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Color(0xffe6edf4),
+          automaticallyImplyLeading: false,
+          elevation: 0,
+          title: Image.asset(
+            "images/svg/logo_header.png",
+            alignment: Alignment.centerLeft,
+            width: 160,
+          ),
+          centerTitle: false,
+        ),
         backgroundColor: bgColor,
         body: SafeArea(
           child: Column(mainAxisSize: MainAxisSize.max, children: [
@@ -198,6 +212,9 @@ class _LogPeminjamanState extends State<LogPeminjaman> {
                   var container = Container(
                     color: bgColor,
                     width: MediaQuery.of(context).size.width,
+                    margin: index == length_data - 1
+                        ? EdgeInsets.only(bottom: 90)
+                        : EdgeInsets.only(bottom: 0),
                     padding:
                         EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
                     child: GestureDetector(

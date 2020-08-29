@@ -2,17 +2,16 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:my_app/HomePage.dart';
+import 'package:my_app/bottomNav.dart';
 import 'package:my_app/constant.dart';
-import 'package:my_app/log.dart';
 import 'model.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class DetailTools extends StatefulWidget {
-  final String kode_tools;
+  final String kodeTools;
 
-  DetailTools(this.kode_tools);
+  DetailTools(this.kodeTools);
 
   @override
   _DetailToolsState createState() => _DetailToolsState();
@@ -20,8 +19,8 @@ class DetailTools extends StatefulWidget {
 
 class _DetailToolsState extends State<DetailTools> {
   FlutterSecureStorage storage;
-  String value_login = '';
-  String no_user = '';
+  String _valueLogin = '';
+  String _noUser = '';
   String login = '';
   var stok;
   int _n = 0;
@@ -30,13 +29,13 @@ class _DetailToolsState extends State<DetailTools> {
 
   Future<Tools> getTools() async {
     await http
-        .get("${link}/search.php?code=${widget.kode_tools}")
+        .get("${link}/search.php?code=${widget.kodeTools}")
         .then((response) {
       if (jsonDecode(response.body) != null) {
         setState(() {
           tools = Tools.fromJson(jsonDecode(response.body));
-          var string_stok = tools.stok_akhir;
-          stok = int.parse(string_stok);
+          var stringStok = tools.stok_akhir;
+          stok = int.parse(stringStok);
           if (stok < 1) {
             _isButtonDisabled = true;
           }
@@ -47,25 +46,18 @@ class _DetailToolsState extends State<DetailTools> {
   }
 
   Text txt = Text("0");
-  String post_pinjam;
+  String postPinjam;
   Peminjaman pinjamx;
   Future<Peminjaman> pinjam() async {
     await http.post("${link}/pinjam.php", body: {
-      "noUser": no_user,
+      "noUser": _noUser,
       "id_tools": tools.id_tools,
       "jml_pinjam": _n.toString(),
       "stok_akhir": tools.stok_akhir,
       "kondisi_pinjam": tools.desk_tools,
     }).then((response) {
-      int length = jsonDecode(response.body).length;
-      // while (length > 0) {
-      //   pinjamx = Peminjaman.fromJson(jsonDecode(response.body));
-      //   length--;
-      // }
-
       if (response != null) {
-        String json_response = jsonDecode(response.body).toString();
-        Navigator.pushReplacementNamed(context, '/LogPage');
+        Navigator.pushReplacementNamed(context, '/MainPage');
       }
     }).catchError((error) {});
     return pinjamx;
@@ -74,9 +66,9 @@ class _DetailToolsState extends State<DetailTools> {
   void initState() {
     _isButtonDisabled = false;
 
-    getTools();
     super.initState();
     storage = FlutterSecureStorage();
+    getTools();
     read();
   }
 
@@ -93,24 +85,22 @@ class _DetailToolsState extends State<DetailTools> {
   }
 
   void read() async {
-    var stopwatch = new Stopwatch()..start();
+    _valueLogin = await storage.read(key: "login");
+    var _valueUser = await storage.read(key: "nama");
 
-    //read from the secure storage
-    value_login = await storage.read(key: "login");
-    var value_user = await storage.read(key: "nama");
-
-    var json_value_login = jsonDecode(value_login);
-    var nim = value_user;
+    var _jsonValueLogin = jsonDecode(_valueLogin);
+    var nim = _valueUser;
 
     setState(() {
-      no_user = json_value_login['no_user'];
-      login = json_value_login.toString();
+      _noUser = _jsonValueLogin['_noUser'];
+      login = _jsonValueLogin.toString();
     });
   }
 
   Future kembali() {
     log(login);
-    Navigator.of(context).push(MaterialPageRoute(builder: (c) => HomePage()));
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => NavigationBottomBar()));
   }
 
   @override
@@ -165,17 +155,16 @@ class _DetailToolsState extends State<DetailTools> {
                                   children: <Widget>[
                                     Icon(
                                       Icons.home,
-                                      color: Colors.blueGrey,
+                                      color: Colors.black87,
                                       size: MediaQuery.of(context).size.height /
                                           42,
                                     ),
                                     Text(
                                       "   ${tools.lokasi_tools}",
                                       style: TextStyle(
-                                          fontSize: 15,
-                                          letterSpacing: 1.5,
-                                          color: Colors.blueGrey,
-                                          fontWeight: FontWeight.w600),
+                                        fontSize: 15,
+                                        color: Colors.black87,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -183,27 +172,23 @@ class _DetailToolsState extends State<DetailTools> {
                             ],
                           ),
                           Container(
-                            padding: EdgeInsets.only(top: 5),
+                            padding: EdgeInsets.only(top: defaultPadding),
                             child: Column(
                               children: <Widget>[
-                                FittedBox(
-                                  fit: BoxFit.fitHeight,
-                                  child: Text(
-                                    "${tools.nama_tools}".toUpperCase(),
-                                    textAlign: TextAlign.start,
-                                    //widget.kode_tools.toUpperCase(),
-                                    style: TextStyle(
-                                        fontSize: 24,
-                                        letterSpacing: 1.5,
-                                        fontWeight: FontWeight.bold,
-                                        color: mainColor),
-                                  ),
+                                Text(
+                                  "${tools.merk} ${tools.type} - ${tools.nama_tools}",
+                                  textAlign: TextAlign.start,
+                                  //widget.kodeTools.toUpperCase(),
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                      color: mainColor),
                                 ),
                               ],
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.only(bottom: 15.0),
+                            margin: EdgeInsets.only(bottom: 15.0, top: 10),
                             child: Row(
                               children: <Widget>[
                                 Padding(
@@ -211,9 +196,7 @@ class _DetailToolsState extends State<DetailTools> {
                                   child: Text(
                                     "${tools.thn_masuk}",
                                     style: TextStyle(
-                                        fontSize: 14,
-                                        letterSpacing: 1.0,
-                                        color: Colors.blueGrey),
+                                        fontSize: 14, color: Colors.black87),
                                   ),
                                 ),
                                 Padding(
@@ -221,7 +204,7 @@ class _DetailToolsState extends State<DetailTools> {
                                   child: Text(
                                     "•",
                                     style: TextStyle(
-                                        fontSize: 20, color: Colors.blueGrey),
+                                        fontSize: 20, color: Colors.black87),
                                   ),
                                 ),
                                 Padding(
@@ -229,9 +212,7 @@ class _DetailToolsState extends State<DetailTools> {
                                   child: Text(
                                     "${tools.stok_akhir} / ${tools.stok_awal}",
                                     style: TextStyle(
-                                        fontSize: 14,
-                                        letterSpacing: 1.0,
-                                        color: Colors.blueGrey),
+                                        fontSize: 14, color: Colors.black87),
                                   ),
                                 ),
                                 Padding(
@@ -239,40 +220,16 @@ class _DetailToolsState extends State<DetailTools> {
                                   child: Text(
                                     "•",
                                     style: TextStyle(
-                                        fontSize: 20, color: Colors.blueGrey),
+                                        fontSize: 20, color: Colors.black87),
                                   ),
                                 ),
                                 Text(
                                   "${tools.bahan}",
                                   style: TextStyle(
-                                      fontSize: 14,
-                                      letterSpacing: 1.0,
-                                      color: Colors.blueGrey),
+                                      fontSize: 14, color: Colors.black87),
                                 )
                               ],
                             ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                "${tools.merk}",
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    color: mainColor,
-                                    letterSpacing: 1.0,
-                                    fontWeight: FontWeight.w400),
-                              ),
-                              Text(
-                                "${tools.type}",
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    letterSpacing: 1.0,
-                                    fontWeight: FontWeight.w400,
-                                    color: mainColor),
-                              )
-                            ],
                           ),
                           Divider(
                             color: Colors.black54,
@@ -324,7 +281,7 @@ class _DetailToolsState extends State<DetailTools> {
                               Container(
                                 margin: new EdgeInsets.only(top: 12),
                                 width: MediaQuery.of(context).size.width -
-                                    MediaQuery.of(context).size.width / 8,
+                                    MediaQuery.of(context).size.width / 10,
                                 child: RaisedButton(
                                   onPressed: _isButtonDisabled ? null : pinjam,
                                   disabledColor: Colors.black12,
@@ -334,14 +291,14 @@ class _DetailToolsState extends State<DetailTools> {
                                       new EdgeInsets.symmetric(vertical: 15),
                                   color: mainColor,
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderRadius: BorderRadius.circular(100),
                                   ),
                                   textColor: mainColor2,
                                   child: Text(
                                     "Pinjam",
                                     style: TextStyle(
-                                        letterSpacing: 2,
-                                        fontWeight: FontWeight.bold,
+                                        fontWeight: FontWeight.w600,
+                                        letterSpacing: 0.5,
                                         fontSize:
                                             MediaQuery.of(context).size.height /
                                                 35),
@@ -356,7 +313,7 @@ class _DetailToolsState extends State<DetailTools> {
                               children: <Widget>[
                                 Container(
                                   width: MediaQuery.of(context).size.width -
-                                      MediaQuery.of(context).size.width / 8,
+                                      MediaQuery.of(context).size.width / 10,
                                   margin: new EdgeInsets.only(top: 12),
                                   child: FlatButton(
                                       onPressed: () {
@@ -365,7 +322,7 @@ class _DetailToolsState extends State<DetailTools> {
                                       color: Colors.black12,
                                       shape: RoundedRectangleBorder(
                                         borderRadius:
-                                            BorderRadius.circular(10.0),
+                                            BorderRadius.circular(100),
                                       ),
                                       padding: new EdgeInsets.symmetric(
                                           vertical: 15),
@@ -373,8 +330,8 @@ class _DetailToolsState extends State<DetailTools> {
                                         "Cancel",
                                         style: TextStyle(
                                             color: mainColor,
-                                            letterSpacing: 2,
-                                            fontWeight: FontWeight.bold,
+                                            letterSpacing: 0.5,
+                                            fontWeight: FontWeight.w600,
                                             fontSize: MediaQuery.of(context)
                                                     .size
                                                     .height /

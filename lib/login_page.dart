@@ -35,15 +35,18 @@ class _LoginPageState extends State<LoginPage> {
   void read() async {
     _value_login = await storage.read(key: "login");
     _value_nama = await storage.read(key: "nama");
+    var _value_user = await storage.read(key: "user");
+
+    _noUser = _value_login;
+    _nama = _value_nama;
 
     setState(() {
       _noUser = _value_login;
       _nama = _value_nama;
     });
-    print("hayo" + _noUser);
 
-    if (_noUser == '' && _nama == '') {
-      Navigator.of(context).pushReplacementNamed('/HomePage');
+    if (_noUser != null && _nama != null && _value_user != null) {
+      Navigator.of(context).pushReplacementNamed('/MainPage');
     }
   }
 
@@ -122,7 +125,8 @@ class _LoginPageState extends State<LoginPage> {
           // await FlutterSession().set('datauser', datauser);
           _encrypt("login", datalogin.toString());
           _encrypt("nama", nama);
-          Navigator.of(context).pushReplacementNamed('/HomePage');
+          _encrypt("user", login);
+          Navigator.of(context).pushReplacementNamed('/MainPage');
 
           return datauser['login'];
         } else {

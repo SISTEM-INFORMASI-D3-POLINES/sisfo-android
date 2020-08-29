@@ -106,6 +106,23 @@ class _KembaliPageState extends State<KembaliPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color(0xffe6edf4),
+        iconTheme: IconThemeData(
+          color: mainColor,
+        ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context, false),
+        ),
+        elevation: 0,
+        title: Image.asset(
+          "images/svg/logo_header.png",
+          alignment: Alignment.centerLeft,
+          width: 140,
+        ),
+        centerTitle: false,
+      ),
       backgroundColor: bgColor,
       body: SafeArea(
           child: Column(
@@ -290,211 +307,233 @@ class _KembaliPageState extends State<KembaliPage> {
           Icons.thumb_down,
         ];
 
-        return Container(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20),
-              topRight: Radius.circular(20),
+        return SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            height: 500,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
+              ),
             ),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Container(
-                    margin: EdgeInsets.fromLTRB(0.0, 10.0, 10.0, 10),
-                    decoration: BoxDecoration(
-                        color: Colors.blueGrey[50],
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        border: Border(
-                            bottom: BorderSide(color: mainColor, width: 1),
-                            left: BorderSide(color: mainColor, width: 1),
-                            right: BorderSide(color: mainColor, width: 1),
-                            top: BorderSide(color: mainColor, width: 1))),
-                    padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 5),
-                    width: 80,
-                    height: 80,
-                    child: Image(
-                      image:
-                          NetworkImage("${link}/img/${peminjaman.image_tools}"),
-                    ),
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        peminjaman.nama_tools.toUpperCase(),
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1.0,
-                            fontSize: 14,
-                            height: 0.5,
-                            color: mainColor),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.fromLTRB(0.0, 10.0, 10.0, 10),
+                      decoration: BoxDecoration(
+                          color: Colors.blueGrey[50],
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          border: Border(
+                              bottom: BorderSide(color: mainColor, width: 1),
+                              left: BorderSide(color: mainColor, width: 1),
+                              right: BorderSide(color: mainColor, width: 1),
+                              top: BorderSide(color: mainColor, width: 1))),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 5.0, vertical: 5),
+                      width: 80,
+                      height: 80,
+                      child: Image(
+                        image: NetworkImage(
+                            "${link}/img/${peminjaman.image_tools}"),
                       ),
-                      Column(
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(bottom: defaultPadding / 2),
+                          child: Text(
+                            "${peminjaman.merk} ${peminjaman.type}",
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: 1.0,
+                                color: mainColor),
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.fitWidth,
+                          child: Text(
+                            peminjaman.nama_tools.toUpperCase(),
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: 1.0,
+                                fontSize: 15,
+                                height: 0.5,
+                                color: mainColor),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: defaultPadding / 2),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "${peminjaman.jml_pinjam} ${peminjaman.satuan}",
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                    fontSize: 13,
+                                    letterSpacing: 1.0,
+                                    color: Colors.grey),
+                              ),
+                              Text(
+                                "${peminjaman.lokasi_tools}",
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                    fontSize: 13,
+                                    letterSpacing: 1.0,
+                                    color: Colors.grey),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                Divider(
+                  color: Colors.black54.withOpacity(0.15),
+                  height: 0,
+                  thickness: 0.5,
+                  indent: 0,
+                  endIndent: 0,
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
-                            "${peminjaman.jml_pinjam} ${peminjaman.satuan}",
-                            textAlign: TextAlign.start,
+                            "Pinjam",
                             style: TextStyle(
-                                fontSize: 12,
+                                fontSize: 13,
                                 letterSpacing: 1.0,
                                 color: Colors.grey),
                           ),
                           Text(
-                            "${peminjaman.lokasi_tools}",
-                            textAlign: TextAlign.start,
+                            "${tgl_first}",
                             style: TextStyle(
-                                fontSize: 12,
+                                fontSize: 14,
+                                letterSpacing: 1.0,
+                                color: mainColor),
+                          )
+                        ])
+                  ],
+                ),
+                Divider(
+                  color: Colors.black54.withOpacity(0.15),
+                  height: 0,
+                  thickness: 0.5,
+                  indent: 0,
+                  endIndent: 0,
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Kembali",
+                            style: TextStyle(
+                                fontSize: 13,
                                 letterSpacing: 1.0,
                                 color: Colors.grey),
                           ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              Divider(
-                color: Colors.black54.withOpacity(0.15),
-                height: 0,
-                thickness: 0.5,
-                indent: 0,
-                endIndent: 0,
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                          Text(
+                            "${tgl_now}",
+                            style: TextStyle(
+                                fontSize: 14,
+                                letterSpacing: 1.0,
+                                color: mainColor),
+                          )
+                        ])
+                  ],
+                ),
+                Divider(
+                  color: Colors.black54.withOpacity(0.15),
+                  height: 0,
+                  thickness: 0.5,
+                  indent: 0,
+                  endIndent: 0,
+                ),
+                Center(
+                  child: Container(
+                    margin: EdgeInsets.only(top: 20, bottom: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(
-                          "Pinjam",
-                          style: TextStyle(
-                              fontSize: 12,
-                              letterSpacing: 1.0,
-                              color: Colors.grey),
+                        Container(
+                          margin: EdgeInsets.only(bottom: 5),
+                          child: Text(
+                            "Kondisi Alat",
+                            style: TextStyle(
+                                fontSize: 13,
+                                letterSpacing: 1.0,
+                                color: mainColor),
+                          ),
                         ),
-                        Text(
-                          "${tgl_first}",
-                          style: TextStyle(
+                        FlutterToggleTab(
+                          width: 50,
+                          height: 40,
+                          initialIndex: 0,
+                          borderRadius: 0,
+                          selectedBackgroundColors: [mainColor],
+                          unSelectedBackgroundColors: [Colors.blueGrey[50]],
+                          selectedTextStyle: TextStyle(
+                              color: Colors.white,
                               fontSize: 13,
-                              letterSpacing: 1.0,
-                              color: mainColor),
-                        )
-                      ])
-                ],
-              ),
-              Divider(
-                color: Colors.black54.withOpacity(0.15),
-                height: 0,
-                thickness: 0.5,
-                indent: 0,
-                endIndent: 0,
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Kembali",
-                          style: TextStyle(
-                              fontSize: 12,
-                              letterSpacing: 1.0,
-                              color: Colors.grey),
+                              fontWeight: FontWeight.w600),
+                          unSelectedTextStyle: TextStyle(
+                              color: mainColor,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w400),
+                          labels: _listGenderText,
+                          icons: _listIconTabToggle,
+                          selectedLabelIndex: (index) {
+                            setState(() {
+                              _tabTextIconIndexSelected = index;
+                            });
+                          },
                         ),
-                        Text(
-                          "${tgl_now}",
-                          style: TextStyle(
-                              fontSize: 13,
-                              letterSpacing: 1.0,
-                              color: mainColor),
-                        )
-                      ])
-                ],
-              ),
-              Divider(
-                color: Colors.black54.withOpacity(0.15),
-                height: 0,
-                thickness: 0.5,
-                indent: 0,
-                endIndent: 0,
-              ),
-              Center(
-                child: Container(
-                  margin: EdgeInsets.only(top: 20, bottom: 10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(bottom: 5),
-                        child: Text(
-                          "Kondisi Alat",
-                          style: TextStyle(
-                              fontSize: 13,
-                              letterSpacing: 1.0,
-                              color: mainColor),
-                        ),
-                      ),
-                      FlutterToggleTab(
-                        width: 50,
-                        height: 40,
-                        borderRadius: 0,
-                        initialLabelIndex: 0,
-                        selectedBackgroundColor: mainColor,
-                        unSelectedBackgroundColor: Colors.blueGrey[50],
-                        selectedTextStyle: TextStyle(
-                            color: Colors.white,
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600),
-                        unSelectedTextStyle: TextStyle(
-                            color: mainColor,
-                            fontSize: 13,
-                            fontWeight: FontWeight.w400),
-                        labels: _listGenderText,
-                        icons: _listIconTabToggle,
-                        selectedLabelIndex: (index) {
-                          setState(() {
-                            _tabTextIconIndexSelected = index;
-                          });
-                        },
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width - 30,
-                height: 45,
-                child: RaisedButton(
-                  elevation: 5.0,
-                  color: mainColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  onPressed: () {
-                    log(peminjaman.id_pinjam);
-                    _kembaliControl(peminjaman.id_pinjam, index, jumlah);
-                  },
-                  child: Text(
-                    "Ajukan Kembali",
-                    style: TextStyle(
-                        color: mainColor2,
-                        letterSpacing: 1.5,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16),
+                Container(
+                  width: MediaQuery.of(context).size.width - 30,
+                  height: 45,
+                  child: RaisedButton(
+                    elevation: 5.0,
+                    color: mainColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    onPressed: () {
+                      log(peminjaman.id_pinjam);
+                      _kembaliControl(peminjaman.id_pinjam, index, jumlah);
+                    },
+                    child: Text(
+                      "Ajukan Kembali",
+                      style: TextStyle(
+                          color: mainColor2,
+                          letterSpacing: 1.5,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16),
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },

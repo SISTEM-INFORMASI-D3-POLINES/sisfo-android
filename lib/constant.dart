@@ -5,11 +5,11 @@ const mainColor2 = Color(0xfff8c300);
 const mainColorAccent = Color(0xbe00418e);
 const gray = Color(0x99FFFFFF);
 const blackIcon = Color(0x61000000);
-const bgColor = Color(0xfff1f6f9);
+const bgColor = Color(0xffe6edf4);
 const textColor = Color(0xff676767);
 const shadowColor = Color(0xff8a959e);
 
-const link = 'https://2a8389563f46.ngrok.io/pintools_app_php';
+const link = 'https://102cba993124.ngrok.io/pintools_app_php';
 const String fontNamaDefault = 'MavenPro';
 const h1 = 20;
 
@@ -20,3 +20,5 @@ var defaultShadow = BoxShadow(
     spreadRadius: 0,
     blurRadius: 30,
     offset: Offset(0, 3));
+const mail1 = 'mailto:hayatiuyun@gmail.com';
+const mail2 = 'mailto:muhammadfajar16@hotmail.com';

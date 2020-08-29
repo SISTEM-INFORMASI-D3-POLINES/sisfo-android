@@ -1,17 +1,20 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:my_app/constant.dart';
 import 'package:http/http.dart' as http;
+import 'package:my_app/scan.dart';
 
+import 'Detail.dart';
 import 'model.dart';
 
-class CariPage extends StatefulWidget {
+class PinjamPage extends StatefulWidget {
   @override
-  _CariPageState createState() => _CariPageState();
+  _PinjamPageState createState() => _PinjamPageState();
 }
 
-class _CariPageState extends State<CariPage>
+class _PinjamPageState extends State<PinjamPage>
     with SingleTickerProviderStateMixin {
   AnimationController _controller;
   final cariController = TextEditingController();
@@ -21,7 +24,7 @@ class _CariPageState extends State<CariPage>
   bool isSelected = false;
   List lokasi = ['Lab Timur-01', 'Lab Timur-02'];
   int selectedIndex = 0;
-  int indexPage = 0;
+  int index_page = 0;
   Tools tools;
   int stok = 0;
   bool isButtonDisabled = false;
@@ -30,9 +33,9 @@ class _CariPageState extends State<CariPage>
   int lengthData = 0;
   List<Tools> toolsObj = List<Tools>();
 
-  // var response = await http.get("${link}/cari.php?index=${indexPage}");
+  // var response = await http.get("${link}/cari.php?index=${index_page}");
   Future<List<Tools>> getTools() async {
-    var url = '${link}/cari.php?index=${indexPage}';
+    var url = '${link}/cari_pinjam.php?index=${index_page}';
     var response = await http.get(url);
 
     var notes = List<Tools>();
@@ -45,6 +48,11 @@ class _CariPageState extends State<CariPage>
       }
     }
     return notes;
+  }
+
+  String getnama_tools;
+  Future scan() async {
+    Navigator.pushNamed(context, '/ScanPage');
   }
 
   @override
@@ -81,13 +89,19 @@ class _CariPageState extends State<CariPage>
       child: Scaffold(
         backgroundColor: bgColor,
         appBar: AppBar(
-          backgroundColor: bgColor,
-          automaticallyImplyLeading: false,
+          backgroundColor: Color(0xffe6edf4),
+          iconTheme: IconThemeData(
+            color: mainColor,
+          ),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () => Navigator.pop(context, false),
+          ),
           elevation: 0,
           title: Image.asset(
             "images/svg/logo_header.png",
             alignment: Alignment.centerLeft,
-            width: 160,
+            width: 140,
           ),
           centerTitle: false,
         ),
@@ -115,11 +129,11 @@ class _CariPageState extends State<CariPage>
                           final widgetItem = (index == toolsArray.length)
                               ? Center(
                                   child: Container(
-                                    margin: EdgeInsets.only(bottom: 90),
+                                    margin: EdgeInsets.only(bottom: 30),
                                     child: new RaisedButton(
                                       onPressed: () {
                                         setState(() {
-                                          indexPage = indexPage + 1;
+                                          index_page = index_page + 1;
                                         });
                                         loadMore();
                                       },
@@ -151,12 +165,14 @@ class _CariPageState extends State<CariPage>
           width: MediaQuery.of(context).size.height / 2,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image(
                   image: AssetImage("images/svg/placeIMG.png"),
                   width: MediaQuery.of(context).size.height / 5),
               Text(
-                "Alat tidak ditemukan. Coba kata kunci lain",
+                "Tidak ada alat yang tersedia. Konfirmasi ke Laboratorium untuk memastikan ketersediaan alat.",
+                textAlign: TextAlign.center,
                 style: TextStyle(color: mainColor, fontSize: 15),
               )
             ],
@@ -355,7 +371,7 @@ class _CariPageState extends State<CariPage>
             enabledBorder: InputBorder.none,
             alignLabelWithHint: true,
             focusedBorder: InputBorder.none,
-            hintText: 'Cari Alat',
+            hintText: 'Pinjam Alat?',
             hintStyle: TextStyle(
               fontSize: 14,
               color: mainColor,
@@ -428,7 +444,7 @@ class _CariPageState extends State<CariPage>
                                   child: Text(
                                     tools.lokasi_tools,
                                     style: TextStyle(
-                                        color: mainColor, fontSize: 14),
+                                        color: mainColor, fontSize: 15),
                                   ),
                                 ),
                               ],
@@ -466,11 +482,48 @@ class _CariPageState extends State<CariPage>
                               child: Text(
                                 "Deskripsi",
                                 style: TextStyle(
-                                    fontSize: 14,
+                                    fontSize: 15,
                                     fontWeight: FontWeight.w600,
                                     color: mainColor),
                               )),
-                          Text(tools.spesifikasi)
+                          Text(tools.spesifikasi),
+                          Container(
+                            margin: EdgeInsets.symmetric(
+                                horizontal:
+                                    MediaQuery.of(context).size.width / 4.5,
+                                vertical: 20),
+                            child: RaisedButton(
+                                color: mainColor,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 30, vertical: 10),
+                                disabledColor: Colors.grey[400],
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(100)),
+                                onPressed:
+                                    tools.stok_akhir == '0' ? null : scan,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Icon(
+                                      FontAwesome5.qrcode,
+                                      size: 18,
+                                      color: tools.stok_akhir != '0'
+                                          ? Colors.white
+                                          : Colors.black54,
+                                    ),
+                                    Text(
+                                      "Pindai Alat",
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          color: tools.stok_akhir != '0'
+                                              ? Colors.white
+                                              : Colors.black54),
+                                    )
+                                  ],
+                                )),
+                          )
                         ]),
                   ),
                   Container(
