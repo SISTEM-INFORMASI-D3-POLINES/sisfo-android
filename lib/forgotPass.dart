@@ -18,17 +18,17 @@ class _ForgotPassState extends State<ForgotPass> {
   final pass = TextEditingController();
   var isSecure = true;
   Widget _buildLogo() {
-    final String imageAsset = 'images/svg/logo_head_circle.svg';
+    final String imageAsset = 'images/svg/logo_header.png';
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 30),
-          child: SvgPicture.asset(
-            imageAsset,
-            height: MediaQuery.of(context).size.height / 6,
-          ),
-        )
+        Container(
+            padding: const EdgeInsets.symmetric(vertical: 30),
+            margin: const EdgeInsets.only(top: 30),
+            child: Image(
+              image: AssetImage(imageAsset),
+              width: MediaQuery.of(context).size.width / 2,
+            ))
       ],
     );
   }
@@ -164,27 +164,15 @@ class _ForgotPassState extends State<ForgotPass> {
     return SafeArea(
         child: Scaffold(
       resizeToAvoidBottomPadding: false,
+      backgroundColor: Color(0xffe6edf4),
       body: Stack(
         children: <Widget>[
-          Container(
-            height: MediaQuery.of(context).size.height * 0.68,
-            width: MediaQuery.of(context).size.width,
-            child: Container(
-              decoration: BoxDecoration(
-                color: mainColorAccent,
-                borderRadius: BorderRadius.only(
-                  bottomLeft: const Radius.circular(85),
-                  bottomRight: const Radius.circular(85),
-                ),
-              ),
-            ),
-          ),
           Container(
             height: MediaQuery.of(context).size.height * 0.65,
             width: MediaQuery.of(context).size.width,
             child: Container(
               decoration: BoxDecoration(
-                color: mainColor,
+                color: bgColor,
                 borderRadius: BorderRadius.only(
                   bottomLeft: const Radius.circular(90),
                   bottomRight: const Radius.circular(90),
@@ -192,12 +180,17 @@ class _ForgotPassState extends State<ForgotPass> {
               ),
             ),
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              _buildLogo(),
-              _buildContainer(),
-            ],
+          SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  _buildLogo(),
+                  _buildContainer(),
+                ],
+              ),
+            ),
           ),
           Stack(
             children: <Widget>[
