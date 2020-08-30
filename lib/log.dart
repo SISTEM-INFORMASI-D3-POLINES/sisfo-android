@@ -72,15 +72,29 @@ class _LogPeminjamanState extends State<LogPeminjaman> {
   Widget build(BuildContext context) {
     ScrollController _controller = new ScrollController();
 
-    var riwayat = Row(
+    var riwayat = Column(
       mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
-          padding: EdgeInsets.only(left: 7),
           child: Text(
             "Riwayat",
+            textAlign: TextAlign.left,
             style: TextStyle(
-                fontSize: 20, color: Colors.black54, letterSpacing: 1.0),
+                fontFamily: 'Open Sans',
+                fontSize: 20,
+                color: Colors.black87,
+                fontWeight: FontWeight.w600),
+          ),
+        ),
+        Container(
+          child: Text(
+            "Riwayat peminjaman yang telah dilakukan. ",
+            textAlign: TextAlign.left,
+            style: TextStyle(
+                fontSize: 14,
+                color: Colors.black54,
+                fontWeight: FontWeight.normal),
           ),
         ),
       ],
@@ -95,7 +109,7 @@ class _LogPeminjamanState extends State<LogPeminjaman> {
                 style: TextStyle(
                     fontFamily: 'Open Sans',
                     fontWeight: FontWeight.bold,
-                    letterSpacing: 1.0,
+                    letterSpacing: 0.5,
                     fontSize: 13,
                     color: Colors.red),
                 children: <TextSpan>[
@@ -125,7 +139,7 @@ class _LogPeminjamanState extends State<LogPeminjaman> {
                         style: TextStyle(
                             fontFamily: 'Open Sans',
                             color: mainColor,
-                            letterSpacing: 1.0,
+                            letterSpacing: 0.5,
                             fontWeight: FontWeight.w600,
                             fontSize: 13),
                       )),
@@ -155,17 +169,16 @@ class _LogPeminjamanState extends State<LogPeminjaman> {
               child: Column(
                 children: [
                   riwayat,
-                  messageBar,
                 ],
               ),
             ),
-            Divider(
-              color: mainColor2,
-              height: 0,
-              thickness: 2.5,
-              indent: 10,
-              endIndent: 10,
-            ),
+            // Divider(
+            //   color: mainColor,
+            //   height: 0,
+            //   thickness: 2.5,
+            //   indent: 0,
+            //   endIndent: 0,
+            // ),
             Expanded(
               child: ListView.builder(
                 itemCount: length_data,
@@ -184,26 +197,28 @@ class _LogPeminjamanState extends State<LogPeminjaman> {
                   var tgl_first = "${tgl.day}-${tgl.month}-${tgl.year}";
                   var status = '';
                   var difference = now.difference(tgl).inHours;
-                  if (difference > 24) {
-                    color = Colors.red;
-                    status = "Terlambat";
-                  } else if (difference > 10 && difference < 24) {
-                    color = mainColor2;
-                    status = "Segera";
-                  } else {
-                    color = mainColor;
-                    status = "Aktif";
-                  }
 
                   if (peminjaman.status == "kembali" &&
-                      peminjaman.approval_kembali == "setuju") {
+                      peminjaman.approval_kembali == "disetujui") {
                     color = Colors.black54;
                     status = "Dikembalikan";
                   } else if (peminjaman.status == "kembali" &&
                       peminjaman.approval_kembali == "diajukan") {
                     color = Colors.black54;
                     status = "Menunggu";
+                  } else {
+                    if (difference > 12) {
+                      color = Colors.red;
+                      status = "Terlambat";
+                    } else if (difference > 5 && difference < 12) {
+                      color = mainColor2;
+                      status = "Segera";
+                    } else {
+                      color = mainColor;
+                      status = "Aktif";
+                    }
                   }
+
                   var kondisi = '';
                   if (peminjaman.kondisi_pinjam == "baik") {
                     kondisi = "Kondisi Baik";
@@ -260,7 +275,7 @@ class _LogPeminjamanState extends State<LogPeminjaman> {
                                           peminjaman.nama_tools,
                                           style: TextStyle(
                                               fontWeight: FontWeight.w600,
-                                              letterSpacing: 1.0,
+                                              letterSpacing: 0.5,
                                               color: color,
                                               fontSize: 16),
                                         ),
@@ -268,14 +283,14 @@ class _LogPeminjamanState extends State<LogPeminjaman> {
                                           '''${tgl_first}   (${status})
                                       ''',
                                           style: TextStyle(
-                                              letterSpacing: 1.0,
+                                              letterSpacing: 0.5,
                                               color: color,
                                               fontSize: 14),
                                         ),
                                         Text(
                                           '${first}   s/d   ${last}',
                                           style: TextStyle(
-                                              letterSpacing: 1.0,
+                                              letterSpacing: 0.5,
                                               color: Colors.black54,
                                               fontSize: 14),
                                         )
@@ -320,25 +335,25 @@ class _LogPeminjamanState extends State<LogPeminjaman> {
     var tgl_first = "${tgl.year}-${tgl.month}-${tgl.day}";
     var status = '';
     var difference = now.difference(tgl).inHours;
-    if (difference > 24) {
-      color = Colors.red;
-      status = "Terlambat";
-    } else if (difference > 7 && difference < 24) {
-      color = mainColor2;
-      status = "Segera";
-    } else {
-      color = mainColor;
-      status = "Aktif";
-    }
-
     if (peminjaman.status == "kembali" &&
-        peminjaman.approval_kembali == "setuju") {
+        peminjaman.approval_kembali == "disetujui") {
       color = Colors.black54;
       status = "Dikembalikan";
     } else if (peminjaman.status == "kembali" &&
         peminjaman.approval_kembali == "diajukan") {
       color = Colors.black54;
       status = "Menunggu";
+    } else {
+      if (difference > 12) {
+        color = Colors.red;
+        status = "Terlambat";
+      } else if (difference > 5 && difference < 12) {
+        color = mainColor2;
+        status = "Segera";
+      } else {
+        color = mainColor;
+        status = "Aktif";
+      }
     }
     var kondisi = '';
     if (peminjaman.kondisi_pinjam == "baik") {
@@ -371,7 +386,7 @@ class _LogPeminjamanState extends State<LogPeminjaman> {
                       peminjaman.nama_tools,
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          letterSpacing: 1.0,
+                          letterSpacing: 0.5,
                           fontSize: 16,
                           height: 0.5,
                           color: mainColor),
@@ -380,7 +395,7 @@ class _LogPeminjamanState extends State<LogPeminjaman> {
                       peminjaman.lokasi_tools,
                       textAlign: TextAlign.start,
                       style: TextStyle(
-                          fontSize: 14, letterSpacing: 1.0, color: Colors.grey),
+                          fontSize: 14, letterSpacing: 0.5, color: Colors.grey),
                     )
                   ],
                 ),
@@ -395,7 +410,7 @@ class _LogPeminjamanState extends State<LogPeminjaman> {
                       "Peminjaman",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          letterSpacing: 1.0,
+                          letterSpacing: 0.5,
                           fontSize: 18,
                           color: mainColor),
                     ),
@@ -450,7 +465,7 @@ class _LogPeminjamanState extends State<LogPeminjaman> {
                                         color: Colors.white,
                                         fontSize: 14,
                                         fontWeight: FontWeight.w400,
-                                        letterSpacing: 1.0,
+                                        letterSpacing: 0.5,
                                         height: 2),
                                   )),
                               Text(
@@ -471,7 +486,7 @@ class _LogPeminjamanState extends State<LogPeminjaman> {
                                 "${tgl_first} ${last}",
                                 style: TextStyle(
                                     fontSize: 14,
-                                    color: Colors.blueGrey[600],
+                                    color: mainColor,
                                     fontWeight: FontWeight.bold,
                                     height: 2),
                               ),

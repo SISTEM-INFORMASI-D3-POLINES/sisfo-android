@@ -141,7 +141,6 @@ class _LoginPageState extends State<LoginPage> {
         setState(() {
           msg = "Akun tidak ditemukan";
         });
-        print("error" + error);
       });
       // var datauser = json.decode(response.body);
 

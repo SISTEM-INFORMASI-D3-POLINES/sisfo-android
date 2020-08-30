@@ -87,7 +87,7 @@ class _UbahPasswordState extends State<UbahPassword> {
             Container(
               padding: EdgeInsets.only(top: 25.0, left: 25.0, right: 25.0),
               child: Text(
-                'Masukkan password untuk verifikasi identitas bahwa Anda benar benar pemilik akun ini.',
+                'Masukkan password untuk verifikasi identitas bahwa Anda benar benar pemilik akun ini. Mengubah password, berarti mengubah password akun Anda pada situs siptom.net',
                 style: TextStyle(fontSize: 14),
               ),
             ),

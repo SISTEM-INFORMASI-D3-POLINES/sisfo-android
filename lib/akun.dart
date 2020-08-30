@@ -136,7 +136,10 @@ class _AkunState extends State<Akun> {
               minWidth: MediaQuery.of(context).size.width,
               height: 60,
               child: FlatButton(
-                onPressed: () {},
+                onPressed: () {
+                  print("jkj");
+                  Navigator.pushNamed(context, '/PesanPage');
+                },
                 child: Row(
                   children: [
                     Padding(

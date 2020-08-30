@@ -10,6 +10,7 @@ import 'package:my_app/kebijakanprivasi.dart';
 import 'package:my_app/kembali.dart';
 import 'package:my_app/log.dart';
 import 'package:my_app/login_page.dart';
+import 'package:my_app/pesan.dart';
 import 'package:my_app/pinjam.dart';
 import 'package:my_app/scan.dart';
 import 'package:my_app/services/ubahPass_confirm.dart';
@@ -39,6 +40,7 @@ void main() async {
       '/UbahPass': (context) => UbahPassword(),
       '/ScanPage': (context) => ScanViewDemo(),
       '/UbahPassConfirm': (context) => UbahPassConfirm(),
+      '/PesanPage': (context) => PesanNotification(),
     },
     theme: ThemeData(
       canvasColor: Colors.transparent,

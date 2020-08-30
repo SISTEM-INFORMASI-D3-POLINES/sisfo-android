@@ -180,6 +180,25 @@ class User {
       };
 }
 
+class Msg {
+  final String title;
+  final String body;
+  final String time;
+
+  Msg(this.title, this.body, this.time);
+
+  Msg.fromJson(Map<String, dynamic> json)
+      : title = json['title'],
+        body = json['body'],
+        time = json['time'];
+
+  Map<String, dynamic> toJson() => {
+        'title': title,
+        'body': body,
+        'time': time,
+      };
+}
+
 class Question {
   String tanya;
   String jawab;
