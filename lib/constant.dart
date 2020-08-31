@@ -9,7 +9,7 @@ const bgColor = Color(0xffe6edf4);
 const textColor = Color(0xff676767);
 const shadowColor = Color(0xff8a959e);
 
-const link = 'https://dabf6381b50f.ngrok.io/pintools_app_php';
+const link = 'https://c2bb4cdcd6af.ngrok.io/pintools_app_php';
 const String fontNamaDefault = 'MavenPro';
 const h1 = 20;
 

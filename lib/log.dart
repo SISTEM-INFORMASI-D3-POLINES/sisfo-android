@@ -22,6 +22,7 @@ class _LogPeminjamanState extends State<LogPeminjaman> {
   String colorTheme = '';
 
   int length_data = 0;
+  int jumlah_length = 0;
   var data = '';
   var data_array = [];
   Peminjaman peminjaman;
@@ -39,6 +40,7 @@ class _LogPeminjamanState extends State<LogPeminjaman> {
 
       setState(() {
         length_data = json.length;
+        jumlah_length = json.length;
       });
       log("message${json.length.toString()}");
     }).catchError((onError) {
@@ -78,7 +80,7 @@ class _LogPeminjamanState extends State<LogPeminjaman> {
       children: <Widget>[
         Container(
           child: Text(
-            "Riwayat",
+            "Riwayat Pinjam",
             textAlign: TextAlign.left,
             style: TextStyle(
                 fontFamily: 'Open Sans',
@@ -105,7 +107,7 @@ class _LogPeminjamanState extends State<LogPeminjaman> {
         children: <Widget>[
           RichText(
             text: TextSpan(
-                text: length_data.toString(),
+                text: jumlah_length.toString(),
                 style: TextStyle(
                     fontFamily: 'Open Sans',
                     fontWeight: FontWeight.bold,
@@ -118,33 +120,6 @@ class _LogPeminjamanState extends State<LogPeminjaman> {
                       style: TextStyle(fontWeight: FontWeight.normal))
                 ]),
           ),
-          Padding(
-            padding: EdgeInsets.only(left: 10),
-            child: ButtonBar(
-                alignment: MainAxisAlignment.end,
-                buttonHeight: 5,
-                children: [
-                  FlatButton(
-                      onPressed: () {
-                        Navigator.of(context)
-                            .pushReplacementNamed('/KembaliPage');
-                      },
-                      padding: new EdgeInsets.only(
-                          top: 6.7, bottom: 6.7, left: 10, right: 10),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
-                      color: mainColor2,
-                      child: Text(
-                        "Kembalikan",
-                        style: TextStyle(
-                            fontFamily: 'Open Sans',
-                            color: mainColor,
-                            letterSpacing: 0.5,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 13),
-                      )),
-                ]),
-          )
         ],
       ),
     );
@@ -167,9 +142,7 @@ class _LogPeminjamanState extends State<LogPeminjaman> {
               color: bgColor,
               padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
               child: Column(
-                children: [
-                  riwayat,
-                ],
+                children: [riwayat],
               ),
             ),
             // Divider(
@@ -201,6 +174,7 @@ class _LogPeminjamanState extends State<LogPeminjaman> {
                   if (peminjaman.status == "kembali" &&
                       peminjaman.approval_kembali == "disetujui") {
                     color = Colors.black54;
+
                     status = "Dikembalikan";
                   } else if (peminjaman.status == "kembali" &&
                       peminjaman.approval_kembali == "diajukan") {

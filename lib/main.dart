@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -15,12 +16,43 @@ import 'package:my_app/pinjam.dart';
 import 'package:my_app/scan.dart';
 import 'package:my_app/services/ubahPass_confirm.dart';
 import 'package:my_app/tentangkami.dart';
+import 'package:http/http.dart' as http;
 import 'package:my_app/ubah_password.dart';
+import 'package:workmanager/workmanager.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'HomePage.dart';
 import 'auth_service.dart';
 import 'forgotPass.dart';
 
-void main() async {
+const simplePeriodicTask = "simplePeriodicTask";
+final storage = FlutterSecureStorage();
+void showNotification(channel, title, v, flp) async {
+  var android = AndroidNotificationDetails(
+    'channel id',
+    'channel NAME',
+    'CHANNEL DESCRIPTION',
+    priority: Priority.High,
+    importance: Importance.Max,
+    styleInformation: BigTextStyleInformation(''),
+  );
+  var iOS = IOSNotificationDetails();
+  var platform = NotificationDetails(android, iOS);
+  await flp.show(channel, '$title', '$v', platform, payload: 'VIS \n $v');
+}
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Workmanager.initialize(callbackDispatcher,
+      isInDebugMode:
+          false); //to true if still in testing lev turn it to false whenever you are launching the app
+  await Workmanager.registerPeriodicTask("5", simplePeriodicTask,
+      existingWorkPolicy: ExistingWorkPolicy.replace,
+      frequency: Duration(minutes: 5), //when should it check the link
+      initialDelay:
+          Duration(seconds: 5), //duration before showing the notification
+      constraints: Constraints(
+        networkType: NetworkType.connected,
+      ));
   // Run app!
   runApp(new MaterialApp(
     title: 'Pintools',
@@ -50,6 +82,140 @@ void main() async {
   ));
 }
 
+void callbackDispatcher() {
+  Workmanager.executeTask((task, inputData) async {
+    FlutterLocalNotificationsPlugin flp = FlutterLocalNotificationsPlugin();
+    var android = AndroidInitializationSettings('@mipmap/ic_launcher');
+    var iOS = IOSInitializationSettings();
+    var initSetttings = InitializationSettings(android, iOS);
+    flp.initialize(initSetttings);
+    String noUser = '';
+    var readLogin = await storage.read(key: "login");
+    if (readLogin != null) {
+      var _noUserJson = jsonDecode(readLogin);
+      noUser = _noUserJson['no_user'];
+
+      // Pinjam Setuju
+      await http
+          .get(link + '/msg/msgPinjamSetuju.php?noUser=' + noUser)
+          .then((response) {
+        print("here================");
+        var convert = jsonDecode(response.body);
+        print(convert['msg'].toString());
+        if (response.statusCode == 200) {
+          int i = 0;
+          var msg = convert['msg'];
+          while (i < msg.length) {
+            var title = msg[i]['title'];
+            var body = msg[i]['body'];
+            int x = int.parse('00$i');
+            showNotification(x, title, body, flp);
+            i++;
+          }
+        } else {
+          print("no messgae");
+        }
+      }).catchError((onError) {
+        print("no message");
+      });
+      // pinjam reject
+      await http
+          .get(link + '/msg/msgPinjamReject.php?noUser=' + noUser)
+          .then((response) {
+        print("here================");
+        var convert = jsonDecode(response.body);
+        print(convert['msg'].toString());
+        if (response.statusCode == 200) {
+          int i = 0;
+          var msg = convert['msg'];
+          while (i < msg.length) {
+            var title = msg[i]['title'];
+            var body = msg[i]['body'];
+            int x = int.parse('01$i');
+            showNotification(x, title, body, flp);
+            i++;
+          }
+        } else {
+          print("no messgae");
+        }
+      }).catchError((onError) {
+        print("no message");
+      });
+      // kembali setuju
+      await http
+          .get(link + '/msg/msgKembaliSetuju.php?noUser=' + noUser)
+          .then((response) {
+        print("here================");
+        var convert = jsonDecode(response.body);
+        print(convert['msg'].toString());
+        if (response.statusCode == 200) {
+          int i = 0;
+          var msg = convert['msg'];
+          while (i < msg.length) {
+            var title = msg[i]['title'];
+            var body = msg[i]['body'];
+            int x = int.parse('02$i');
+            showNotification(x, title, body, flp);
+            i++;
+          }
+        } else {
+          print("no messgae");
+        }
+      }).catchError((onError) {
+        print("no message");
+      });
+      // kembali reject
+      await http
+          .get(link + '/msg/msgKembaliReject.php?noUser=' + noUser)
+          .then((response) {
+        print("here================");
+        var convert = jsonDecode(response.body);
+        print(convert['msg'].toString());
+        if (response.statusCode == 200) {
+          int i = 0;
+          var msg = convert['msg'];
+          while (i < msg.length) {
+            var title = msg[i]['title'];
+            var body = msg[i]['body'];
+            int x = int.parse('03$i');
+            showNotification(x, title, body, flp);
+            i++;
+          }
+        } else {
+          print("no messgae");
+        }
+      }).catchError((onError) {
+        print("no message");
+      });
+      // reminder
+      await http
+          .get(link + '/msg/msgReminder.php?noUser=' + noUser)
+          .then((response) {
+        print("here================");
+        var convert = jsonDecode(response.body);
+        print(convert['msg'].toString());
+        if (response.statusCode == 200) {
+          int i = 0;
+          var msg = convert['msg'];
+          while (i < msg.length) {
+            var title = msg[i]['title'];
+            var body = msg[i]['body'];
+            int x = int.parse('04$i');
+            showNotification(x, title, body, flp);
+            i++;
+          }
+        } else {
+          print("no messgae");
+        }
+      }).catchError((onError) {
+        print("no message");
+      });
+    }
+
+    return Future.value(true);
+  });
+}
+
 class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -57,7 +223,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
-  FlutterSecureStorage storage;
+  final storage = FlutterSecureStorage();
   String no_user = '';
   Widget page = LoginPage();
   AnimationController _controller;
@@ -100,7 +266,7 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   void navigationPage() {
-    if (noUser == '' && nama == '' && user == '') {
+    if (noUser == null && nama == null && user == null) {
       Navigator.of(context).pushReplacementNamed('/LoginPage');
     } else {
       Navigator.of(context).pushReplacementNamed('/MainPage');
