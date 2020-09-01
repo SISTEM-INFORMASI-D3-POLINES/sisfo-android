@@ -35,7 +35,8 @@ void showNotification(channel, title, v, flp) async {
     importance: Importance.Max,
     styleInformation: BigTextStyleInformation(''),
   );
-  var iOS = IOSNotificationDetails();
+  IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails();
+  var iOS = iosNotificationDetails;
   var platform = NotificationDetails(android, iOS);
   await flp.show(channel, '$title', '$v', platform, payload: 'VIS \n $v');
 }
@@ -47,7 +48,7 @@ Future<void> main() async {
           false); //to true if still in testing lev turn it to false whenever you are launching the app
   await Workmanager.registerPeriodicTask("5", simplePeriodicTask,
       existingWorkPolicy: ExistingWorkPolicy.replace,
-      frequency: Duration(minutes: 5), //when should it check the link
+      frequency: Duration(minutes: 15), //when should it check the link
       initialDelay:
           Duration(seconds: 5), //duration before showing the notification
       constraints: Constraints(
