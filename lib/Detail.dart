@@ -92,7 +92,7 @@ class _DetailToolsState extends State<DetailTools> {
     var nim = _valueUser;
 
     setState(() {
-      _noUser = _jsonValueLogin['_noUser'];
+      _noUser = _jsonValueLogin['no_user'];
       login = _jsonValueLogin.toString();
     });
   }
@@ -134,8 +134,11 @@ class _DetailToolsState extends State<DetailTools> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(18.0),
                                     child: Image(
-                                      image: NetworkImage(
-                                          "${link}/img/${tools.image_tools}"),
+                                      image: tools.image_tools != ''
+                                          ? NetworkImage(
+                                              "${link}/img/${tools.image_tools}")
+                                          : AssetImage(
+                                              "images/svg/placeIMG.png"),
                                       //ambil link dr db
 
                                       fit: BoxFit.fitHeight,
