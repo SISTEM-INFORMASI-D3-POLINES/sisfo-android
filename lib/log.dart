@@ -166,7 +166,11 @@ class _LogPeminjamanState extends State<LogPeminjaman> {
                   var now = new DateTime.now();
 
                   var first = "${tgl.hour}:${tgl.minute}:${tgl.second}";
-                  var last = "${tgl.hour + 8}:${tgl.minute}:${tgl.second}";
+                  var tgl_last = tgl.add(new Duration(hours: 5));
+                  var last1 = DateTime.parse(tgl_last.toIso8601String());
+                  var last =
+                      "${last1.year}-${last1.month}-${last1.day} ${last1.hour}:${last1.minute}:${last1.second}";
+                  var tgal = "${last1.year}-${last1.month}-${last1.day}";
                   var tgl_first = "${tgl.day}-${tgl.month}-${tgl.year}";
                   var status = '';
                   var difference = now.difference(tgl).inHours;
@@ -254,7 +258,7 @@ class _LogPeminjamanState extends State<LogPeminjaman> {
                                               fontSize: 16),
                                         ),
                                         Text(
-                                          '''${tgl_first}   (${status})
+                                          '''${tgal}   (${status})
                                       ''',
                                           style: TextStyle(
                                               letterSpacing: 0.5,
@@ -305,7 +309,10 @@ class _LogPeminjamanState extends State<LogPeminjaman> {
     var now = new DateTime.now();
 
     var first = "${tgl.hour}:${tgl.minute}:${tgl.second}";
-    var last = "${tgl.hour + 8}:${tgl.minute}:${tgl.second}";
+    var tgl_last = tgl.add(new Duration(hours: 8));
+    var last1 = DateTime.parse(tgl_last.toIso8601String());
+    var last =
+        "${last1.year}-${last1.month}-${last1.day} ${last1.hour}:${last1.minute}:${last1.second}";
     var tgl_first = "${tgl.year}-${tgl.month}-${tgl.day}";
     var status = '';
     var difference = now.difference(tgl).inHours;
@@ -457,7 +464,8 @@ class _LogPeminjamanState extends State<LogPeminjaman> {
                                     height: 2),
                               ),
                               Text(
-                                "${tgl_first} ${last}",
+                                "${last}",
+                                // "${tgl_first} ${last}",
                                 style: TextStyle(
                                     fontSize: 14,
                                     color: mainColor,

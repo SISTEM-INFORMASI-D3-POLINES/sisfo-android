@@ -137,45 +137,6 @@ class _AkunState extends State<Akun> {
               height: 60,
               child: FlatButton(
                 onPressed: () {
-                  print("jkj");
-                  Navigator.pushNamed(context, '/PesanPage');
-                },
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 15.0),
-                      child: Icon(
-                        FontAwesome5.envelope,
-                        color: mainColor,
-                        size: 17,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20.0),
-                      child: Text(
-                        ' Pesan',
-                        style: TextStyle(
-                            color: mainColor,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Divider(
-              color: Colors.black54.withOpacity(0.15),
-              height: 0,
-              thickness: 0.5,
-              indent: 0,
-              endIndent: 0,
-            ),
-            ButtonTheme(
-              minWidth: MediaQuery.of(context).size.width,
-              height: 60,
-              child: FlatButton(
-                onPressed: () {
                   Navigator.pushNamed(context, '/UbahPass');
                 },
                 child: Row(
