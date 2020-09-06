@@ -199,9 +199,7 @@ class _KembaliPageState extends State<KembaliPage> {
                             child: Container(
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 10.0, vertical: 10.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                child: Stack(
                                   children: [
                                     Column(
                                       children: [
@@ -216,57 +214,64 @@ class _KembaliPageState extends State<KembaliPage> {
                                               horizontal: 5.0, vertical: 5.0),
                                           width: 60.0,
                                           child: Image(
-                                            image: NetworkImage(
-                                                "${link}/img/${peminjaman.image_tools}"),
+                                            image: peminjaman.image_tools != ''
+                                                ? NetworkImage(
+                                                    "${link}/img/${peminjaman.image_tools}")
+                                                : AssetImage(
+                                                    "images/svg/placeIMG.png"),
                                             height: 60,
                                           ),
                                         )
                                       ],
                                     ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Container(
-                                          padding: EdgeInsets.only(bottom: 15),
-                                          child: Text(
-                                            peminjaman.nama_tools,
-                                            style: TextStyle(
-                                                color: mainColor,
-                                                letterSpacing: 1.0,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 16),
-                                          ),
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "${peminjaman.jml_pinjam} ${peminjaman.satuan}",
+                                    Container(
+                                      padding: EdgeInsets.only(left: 75),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Container(
+                                            padding:
+                                                EdgeInsets.only(bottom: 15),
+                                            child: Text(
+                                              peminjaman.nama_tools,
                                               style: TextStyle(
-                                                  color: Colors.grey,
+                                                  color: mainColor,
                                                   letterSpacing: 1.0,
-                                                  fontSize: 13),
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 16),
                                             ),
-                                            Container(
-                                              padding:
-                                                  EdgeInsets.only(left: 15.0),
-                                              child: Text(
-                                                '${peminjaman.lokasi_tools}',
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "${peminjaman.jml_pinjam} ${peminjaman.satuan}",
                                                 style: TextStyle(
                                                     color: Colors.grey,
                                                     letterSpacing: 1.0,
                                                     fontSize: 13),
                                               ),
-                                            )
-                                          ],
-                                        )
-                                      ],
+                                              Container(
+                                                padding:
+                                                    EdgeInsets.only(left: 15.0),
+                                                child: Text(
+                                                  '${peminjaman.lokasi_tools}',
+                                                  style: TextStyle(
+                                                      color: Colors.grey,
+                                                      letterSpacing: 1.0,
+                                                      fontSize: 13),
+                                                ),
+                                              )
+                                            ],
+                                          )
+                                        ],
+                                      ),
                                     ),
                                     Column(
                                       children: [],
@@ -339,8 +344,10 @@ class _KembaliPageState extends State<KembaliPage> {
                       width: 80,
                       height: 80,
                       child: Image(
-                        image: NetworkImage(
-                            "${link}/img/${peminjaman.image_tools}"),
+                        image: peminjaman.image_tools != ''
+                            ? NetworkImage(
+                                "${link}/img/${peminjaman.image_tools}")
+                            : AssetImage("images/svg/placeIMG.png"),
                       ),
                     ),
                     Column(

@@ -222,64 +222,63 @@ class _LogPeminjamanState extends State<LogPeminjaman> {
                         child: Container(
                           padding: EdgeInsets.symmetric(
                               horizontal: 10.0, vertical: 10.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Container(
-                                    width: 30.0,
-                                    height: 30.0,
-                                    padding: EdgeInsets.all(4.0),
-                                    child: CircleAvatar(
-                                      backgroundColor: color,
-                                      radius: 20.0,
-                                    ),
+                          child: Stack(children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Container(
+                                  padding: EdgeInsets.only(left: 35),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        peminjaman.nama_tools,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            letterSpacing: 0.5,
+                                            color: color,
+                                            fontSize: 16),
+                                      ),
+                                      SizedBox(
+                                        height: 16,
+                                      ),
+                                      Text(
+                                        '${tgal}   s/d   ${status}',
+                                        style: TextStyle(
+                                            letterSpacing: 0.5,
+                                            color: color,
+                                            fontSize: 14),
+                                      ),
+                                      SizedBox(
+                                        height: 16,
+                                      ),
+                                      Text(
+                                        '${first}   s/d   ${last}',
+                                        style: TextStyle(
+                                            letterSpacing: 0.5,
+                                            color: Colors.black54,
+                                            fontSize: 14),
+                                      )
+                                    ],
                                   ),
-                                  Container(
-                                    padding: EdgeInsets.only(
-                                        top: 5.0, bottom: 5.0, left: 15.0),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          peminjaman.nama_tools,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w600,
-                                              letterSpacing: 0.5,
-                                              color: color,
-                                              fontSize: 16),
-                                        ),
-                                        Text(
-                                          '''${tgal}   (${status})
-                                      ''',
-                                          style: TextStyle(
-                                              letterSpacing: 0.5,
-                                              color: color,
-                                              fontSize: 14),
-                                        ),
-                                        Text(
-                                          '${first}   s/d   ${last}',
-                                          style: TextStyle(
-                                              letterSpacing: 0.5,
-                                              color: Colors.black54,
-                                              fontSize: 14),
-                                        )
-                                      ],
-                                    ),
-                                  )
-                                ],
+                                ),
+                              ],
+                            ),
+                            Positioned(
+                              bottom: 30,
+                              child: Container(
+                                width: 30.0,
+                                height: 30.0,
+                                padding: EdgeInsets.all(4.0),
+                                child: CircleAvatar(
+                                  backgroundColor: color,
+                                  radius: 20.0,
+                                ),
                               ),
-                              Container(),
-                            ],
-                          ),
+                            ),
+                          ]),
                         ),
                       ),
                     ),
