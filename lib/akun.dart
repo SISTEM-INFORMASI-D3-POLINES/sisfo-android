@@ -30,10 +30,12 @@ class _AkunState extends State<Akun> {
     var akun = await storage.read(key: "user");
     var userJson = jsonDecode(akun);
     var _noUserJson = jsonDecode(_valueLogin);
+    var d = userJson['foto'].replaceRange(0, 2, 'https://siptom.net');
+    print(d);
     setState(() {
       noUser = _noUserJson['no_user'];
       nama = namax;
-      foto = userJson['foto'];
+      foto = d;
     });
   }
 
@@ -90,8 +92,10 @@ class _AkunState extends State<Akun> {
                       children: [
                         Container(
                           width: MediaQuery.of(context).size.width / 5,
+                          height: MediaQuery.of(context).size.width / 5,
                           margin: EdgeInsets.all(10),
                           child: CircleAvatar(
+                            backgroundImage: NetworkImage(foto),
                             backgroundColor: mainColor,
                             radius: 40.0,
                           ),
