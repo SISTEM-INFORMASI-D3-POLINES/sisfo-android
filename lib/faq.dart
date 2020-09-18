@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'constant.dart';
-import 'dart:developer';
-import 'package:fluttericon/font_awesome5_icons.dart';
-//import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'model.dart';
 import 'package:my_app/services/faqcard.dart';
 

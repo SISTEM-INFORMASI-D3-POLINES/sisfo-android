@@ -14,8 +14,9 @@ class _UbahPasswordState extends State<UbahPassword> {
   var text = '';
   var msg = '';
   FlutterSecureStorage storage;
-  String value_login = '';
+  String valueLogin = '';
   String noUser = '';
+  bool _showPassword = false;
 
   void initState() {
     super.initState();
@@ -25,20 +26,15 @@ class _UbahPasswordState extends State<UbahPassword> {
   }
 
   void read() async {
-    var stopwatch = new Stopwatch()..start();
-
-    value_login = await storage.read(key: "login");
-    var namax = await storage.read(key: "nama");
-    var akun = await storage.read(key: "user");
-    var userJson = jsonDecode(akun);
-    var noUser_json = jsonDecode(value_login);
+    valueLogin = await storage.read(key: "login");
+    var noUserJson = jsonDecode(valueLogin);
     setState(() {
-      noUser = noUser_json['no_user'];
+      noUser = noUserJson['no_user'];
     });
   }
 
   void validate() async {
-    await http.post("${link}/valid_pass.php",
+    await http.post(link + "/valid_pass.php",
         body: {"noUser": noUser, "pass": text}).then((response) {
       var respJson = jsonDecode(response.body);
       var success = respJson['success'];
@@ -94,20 +90,34 @@ class _UbahPasswordState extends State<UbahPassword> {
             Container(
               padding: EdgeInsets.symmetric(horizontal: 25),
               child: TextFormField(
-                obscureText: true,
+                obscureText: !this._showPassword,
                 onChanged: (value) {
                   setState(() {
                     text = value;
                   });
                 },
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
+                  prefixIcon: Icon(
+                    Icons.lock,
+                    color: mainColor,
+                  ),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      Icons.remove_red_eye,
+                      color: this._showPassword ? mainColor : Colors.grey,
+                    ),
+                    onPressed: () {
+                      setState(() => this._showPassword = !this._showPassword);
+                    },
+                  ),
                   labelText: 'Password',
                 ),
                 style: TextStyle(fontSize: 14),
                 validator: (String value) {
                   if (value.trim().isEmpty) {
-                    return 'Masukkan password untuk lanjut';
+                    value = 'Masukkan password untuk lanjut';
                   }
+                  return value;
                 },
               ),
             ),

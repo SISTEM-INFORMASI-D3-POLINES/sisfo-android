@@ -1,5 +1,3 @@
-import 'package:flutter/foundation.dart';
-
 class Login {
   String id_user;
   String no_user;

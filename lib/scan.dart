@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_qr_bar_scanner/qr_bar_scanner_camera.dart';
 import 'package:my_app/Detail.dart';
+import 'package:my_app/bottomNav.dart';
 import 'package:my_app/constant.dart';
+import 'package:connectivity/connectivity.dart';
 
 class ScanViewDemo extends StatefulWidget {
   ScanViewDemo({Key key, this.title}) : super(key: key);
@@ -24,16 +26,63 @@ class _ScanViewDemoState extends State<ScanViewDemo> {
         context, MaterialPageRoute(builder: (context) => DetailTools(code)));
   }
 
+  _connectivity() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.mobile ||
+        connectivityResult == ConnectivityResult.wifi) {
+      _scanCode();
+    } else {
+      _showAlertConnectionDialog();
+    }
+  }
+
   _scanCode() {
     setState(() {
       _camState = true;
     });
   }
 
+  Future<void> _showAlertConnectionDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            'Internet Tidak Terhubung',
+            style: TextStyle(color: mainColor, fontWeight: FontWeight.w600),
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(
+                    'Smartphone tidak terhubung dengan Internet. hubungkan dengan internet untuk pinjam tools.'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text(
+                'Kembali',
+                style: TextStyle(color: mainColor, fontWeight: FontWeight.w600),
+              ),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => NavigationBottomBar()));
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   void initState() {
     super.initState();
-    _scanCode();
+    _connectivity();
   }
 
   @override

@@ -32,7 +32,7 @@ class _CariPageState extends State<CariPage>
 
   // var response = await http.get("${link}/cari.php?index=${indexPage}");
   Future<List<Tools>> getTools() async {
-    var url = '${link}/cari.php?index=${indexPage}';
+    var url = link + '/cari.php?index=' + indexPage.toString();
     var response = await http.get(url);
 
     var notes = List<Tools>();
@@ -168,7 +168,6 @@ class _CariPageState extends State<CariPage>
 
   Container toolsBar(itemIndex) {
     tools = toolsArray[itemIndex];
-    print(tools.nama_tools);
     return Container(
       height: 160,
       margin: EdgeInsets.symmetric(
@@ -220,7 +219,7 @@ class _CariPageState extends State<CariPage>
                     borderRadius: BorderRadius.circular(12.0),
                     child: Image(
                       image: tools.image_tools != ""
-                          ? NetworkImage("${link}/img/${tools.image_tools}")
+                          ? NetworkImage(link + "/img/" + tools.image_tools)
                           : AssetImage("images/svg/placeIMG.png"),
                       fit: BoxFit.cover,
                     ),
@@ -398,7 +397,7 @@ class _CariPageState extends State<CariPage>
                             topRight: Radius.circular(40)),
                         child: Image(
                           image: tools.image_tools != ''
-                              ? NetworkImage("${link}/img/${tools.image_tools}")
+                              ? NetworkImage(link + "/img/" + tools.image_tools)
                               : AssetImage("images/svg/placeIMG.png"),
                           height: 300,
                           fit: BoxFit.fill,

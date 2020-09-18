@@ -1,13 +1,6 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:my_app/Detail.dart';
-import 'package:my_app/model.dart';
-import 'cari.dart';
 import 'constant.dart';
-import 'dart:convert';
-import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -19,11 +12,10 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   FlutterSecureStorage storage;
-  String value_login = '';
+  String _valueLogin = '';
   String noUser = '';
   var nama = "";
 
-  List<Login> _items = [];
   void initState() {
     super.initState();
     storage = FlutterSecureStorage();
@@ -31,36 +23,16 @@ class _HomePageState extends State<HomePage> {
   }
 
   void read() async {
-    var stopwatch = new Stopwatch()..start();
-
-    value_login = await storage.read(key: "login");
+    _valueLogin = await storage.read(key: "login");
     var namax = await storage.read(key: "nama");
     setState(() {
-      noUser = value_login;
+      noUser = _valueLogin;
       nama = namax;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    String nim = '';
-    String foto = '';
-    print(nama);
-    String nama_tools = '';
-    String getnama_tools;
-
-    Widget header() {
-      final String header = 'images/svg/logo_header.png';
-      return Row(
-        children: <Widget>[
-          Image(
-            image: AssetImage(header),
-            width: MediaQuery.of(context).size.width / 2.15,
-          )
-        ],
-      );
-    }
-
     var rectHeadNote = Container(
       width: MediaQuery.of(context).size.width - 30,
       decoration: BoxDecoration(
@@ -126,59 +98,6 @@ Cari dan pinjam alat lewat aplikasi''',
       ],
     );
 
-    var lineDivider = Divider(
-      color: Colors.black54,
-      height: 0,
-      thickness: 0.5,
-      indent: 10,
-      endIndent: 10,
-    );
-
-    var messageBar = Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-      child: Row(
-        children: <Widget>[
-          RichText(
-              text: TextSpan(
-                  text: "4 Alat",
-                  style: TextStyle(
-                      fontFamily: 'Open Sans',
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1.0,
-                      fontSize: 13,
-                      color: Colors.red),
-                  children: <TextSpan>[
-                TextSpan(
-                    text: ' belum dikembalikan',
-                    style: TextStyle(fontWeight: FontWeight.normal))
-              ])),
-          Padding(
-            padding: EdgeInsets.only(left: 10),
-            child: ButtonBar(
-              alignment: MainAxisAlignment.end,
-              buttonHeight: 5,
-              children: <Widget>[
-                FlatButton(
-                    onPressed: () {},
-                    padding: new EdgeInsets.only(
-                        top: 6.7, bottom: 6.7, left: 10, right: 10),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    color: mainColor2,
-                    child: Text(
-                      "Kembalikan",
-                      style: TextStyle(
-                          color: mainColor,
-                          fontFamily: 'Open Sans',
-                          letterSpacing: 1.0,
-                          fontWeight: FontWeight.w600),
-                    )),
-              ],
-            ),
-          )
-        ],
-      ),
-    );
     var buttonPinjamKembali = ButtonBar(
         alignment: MainAxisAlignment.spaceBetween,
         buttonHeight: 10,
@@ -187,7 +106,6 @@ Cari dan pinjam alat lewat aplikasi''',
         children: <Widget>[
           RaisedButton(
             onPressed: () {
-              log("jasl");
               SchedulerBinding.instance.addPostFrameCallback((_) {
                 Navigator.of(context).pushNamed('/KembaliPage');
               });

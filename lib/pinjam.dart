@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:my_app/constant.dart';
 import 'package:http/http.dart' as http;
-import 'package:my_app/scan.dart';
 
-import 'Detail.dart';
 import 'model.dart';
 
 class PinjamPage extends StatefulWidget {
@@ -24,7 +22,7 @@ class _PinjamPageState extends State<PinjamPage>
   bool isSelected = false;
   List lokasi = ['Lab Timur-01', 'Lab Timur-02'];
   int selectedIndex = 0;
-  int index_page = 0;
+  int indexPage = 0;
   Tools tools;
   int stok = 0;
   bool isButtonDisabled = false;
@@ -33,9 +31,9 @@ class _PinjamPageState extends State<PinjamPage>
   int lengthData = 0;
   List<Tools> toolsObj = List<Tools>();
 
-  // var response = await http.get("${link}/cari.php?index=${index_page}");
+  // var response = await http.get("${link}/cari.php?index=${indexPage}");
   Future<List<Tools>> getTools() async {
-    var url = '${link}/cari_pinjam.php?index=${index_page}';
+    var url = link + '/cari_pinjam.php?index=' + indexPage.toString();
     var response = await http.get(url);
 
     var notes = List<Tools>();
@@ -50,7 +48,6 @@ class _PinjamPageState extends State<PinjamPage>
     return notes;
   }
 
-  String getnama_tools;
   Future scan() async {
     Navigator.pushNamed(context, '/ScanPage');
   }
@@ -133,7 +130,7 @@ class _PinjamPageState extends State<PinjamPage>
                                     child: new RaisedButton(
                                       onPressed: () {
                                         setState(() {
-                                          index_page = index_page + 1;
+                                          indexPage = indexPage + 1;
                                         });
                                         loadMore();
                                       },
@@ -184,7 +181,6 @@ class _PinjamPageState extends State<PinjamPage>
 
   Container toolsBar(itemIndex) {
     tools = toolsArray[itemIndex];
-    print(tools.nama_tools);
     return Container(
       height: 160,
       margin: EdgeInsets.symmetric(
@@ -236,7 +232,7 @@ class _PinjamPageState extends State<PinjamPage>
                     borderRadius: BorderRadius.circular(12.0),
                     child: Image(
                       image: tools.image_tools != ""
-                          ? NetworkImage("${link}/img/${tools.image_tools}")
+                          ? NetworkImage(link + "/img/" + tools.image_tools)
                           : AssetImage("images/svg/placeIMG.png"),
                       fit: BoxFit.cover,
                     ),
@@ -414,7 +410,7 @@ class _PinjamPageState extends State<PinjamPage>
                             topRight: Radius.circular(40)),
                         child: Image(
                           image: tools.image_tools != ''
-                              ? NetworkImage("${link}/img/${tools.image_tools}")
+                              ? NetworkImage(link + "/img/${tools.image_tools}")
                               : AssetImage("images/svg/placeIMG.png"),
                           height: 300,
                           fit: BoxFit.fill,

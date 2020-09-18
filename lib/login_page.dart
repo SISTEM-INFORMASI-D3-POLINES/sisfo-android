@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/constant.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async' show Future;
 import 'dart:convert';
-import 'HomePage.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class LoginPage extends StatefulWidget {
@@ -17,43 +15,44 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   FlutterSecureStorage storage;
-  var _value_login = '';
-  var _value_nama = '';
+  var _valueLogin = '';
+  var _valueNama = '';
   var _noUser = '';
   var _nama = '';
+
+  bool _showPassword = false;
+
   void initState() {
     super.initState();
     storage = FlutterSecureStorage();
     read();
   }
 
-  void _encrypt(key, nouser_enc) async {
+  void _encrypt(key, noUserEncrypt) async {
     //write to the secure storage
-    await storage.write(key: key, value: nouser_enc);
+    await storage.write(key: key, value: noUserEncrypt);
   }
 
   void read() async {
-    _value_login = await storage.read(key: "login");
-    _value_nama = await storage.read(key: "nama");
-    var _value_user = await storage.read(key: "user");
+    _valueLogin = await storage.read(key: "login");
+    _valueNama = await storage.read(key: "nama");
+    var _valueUser = await storage.read(key: "user");
 
-    _noUser = _value_login;
-    _nama = _value_nama;
+    _noUser = _valueLogin;
+    _nama = _valueNama;
 
     setState(() {
-      _noUser = _value_login;
-      _nama = _value_nama;
+      _noUser = _valueLogin;
+      _nama = _valueNama;
     });
 
-    if (_noUser != null && _nama != null && _value_user != null) {
+    if (_noUser != null && _nama != null && _valueUser != null) {
       Navigator.of(context).pushReplacementNamed('/MainPage');
     }
   }
 
   List NO_user = [];
   var NO_user1 = '';
-  String nama_tools;
-  String getnama_tools;
 
   final noUser = TextEditingController();
   String msg = '';
@@ -102,11 +101,11 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     Future<List> getLogin() async {
-      String no_User = noUser.text;
+      String _noUser = noUser.text;
       String passW = pass.text;
 
-      await http.post("${link}/login.php", body: {
-        "noUser": no_User,
+      await http.post(link + "/login.php", body: {
+        "noUser": _noUser,
         "pass": passW,
       }).then((response) {
         var datauser = json.decode(response.body);
@@ -135,7 +134,7 @@ class _LoginPageState extends State<LoginPage> {
           });
         }
         setState(() {
-          NO_user1 = no_User;
+          NO_user1 = _noUser;
         });
       }).catchError((error) {
         setState(() {
@@ -169,12 +168,22 @@ class _LoginPageState extends State<LoginPage> {
         padding: EdgeInsets.only(bottom: 8, left: 8, right: 8),
         child: TextFormField(
           keyboardType: TextInputType.text,
-          obscureText: true,
+          obscureText: !this._showPassword,
           controller: pass,
           decoration: InputDecoration(
               prefixIcon: Icon(
                 Icons.lock,
                 color: mainColor,
+              ),
+              suffixIcon: IconButton(
+                icon: Icon(
+                  Icons.visibility,
+                  size: 23,
+                  color: this._showPassword ? mainColor : Colors.grey,
+                ),
+                onPressed: () {
+                  setState(() => this._showPassword = !this._showPassword);
+                },
               ),
               labelText: "Password"),
         ),

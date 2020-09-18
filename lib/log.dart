@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:my_app/constant.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:intl/intl.dart';
 import 'package:my_app/model.dart';
 
 class LogPeminjaman extends StatefulWidget {
@@ -15,34 +15,32 @@ class LogPeminjaman extends StatefulWidget {
 
 class _LogPeminjamanState extends State<LogPeminjaman> {
   FlutterSecureStorage storage;
-  String value_login = '';
-  String no_user = '';
+  String _valueLogin = '';
+  String _noUser = '';
   String login = '';
 
   String colorTheme = '';
 
-  int length_data = 0;
-  int jumlah_length = 0;
+  int lengthData = 0;
+  int jumlahLength = 0;
   var data = '';
-  var data_array = [];
+  var dataArray = [];
   Peminjaman peminjaman;
   Future<Peminjaman> pinjam() async {
-    log(no_user);
     await http
-        .get("${link}/log_pinjam.php?no_user=${no_user}")
+        .get(link + "/log_pinjam.php?no_user=" + _noUser)
         .then((response) {
       var json = jsonDecode(response.body);
-      length_data = json.length;
-      while (length_data > 0) {
-        data_array.add(json);
-        length_data--;
+      lengthData = json.length;
+      while (lengthData > 0) {
+        dataArray.add(json);
+        lengthData--;
       }
 
       setState(() {
-        length_data = json.length;
-        jumlah_length = json.length;
+        lengthData = json.length;
+        jumlahLength = json.length;
       });
-      log("message${json.length.toString()}");
     }).catchError((onError) {
       log(onError.toString());
     });
@@ -54,26 +52,23 @@ class _LogPeminjamanState extends State<LogPeminjaman> {
     storage = FlutterSecureStorage();
 
     read();
-    print(length_data);
   }
 
   void read() async {
     //read from the secure storage
-    value_login = await storage.read(key: "login");
+    _valueLogin = await storage.read(key: "login");
 
-    var json_value_login = jsonDecode(value_login);
-    var nim = json_value_login["no_user"].toString();
+    var jsonValueLoginFromKeystore = jsonDecode(_valueLogin);
+    var nim = jsonValueLoginFromKeystore["no_user"].toString();
     setState(() {
-      no_user = nim;
-      login = json_value_login.toString();
+      _noUser = nim;
+      login = jsonValueLoginFromKeystore.toString();
     });
     pinjam();
   }
 
   @override
   Widget build(BuildContext context) {
-    ScrollController _controller = new ScrollController();
-
     var riwayat = Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -100,28 +95,6 @@ class _LogPeminjamanState extends State<LogPeminjaman> {
           ),
         ),
       ],
-    );
-    var messageBar = Padding(
-      padding: const EdgeInsets.only(left: 10, top: 5, bottom: 5, right: 0),
-      child: Row(
-        children: <Widget>[
-          RichText(
-            text: TextSpan(
-                text: jumlah_length.toString(),
-                style: TextStyle(
-                    fontFamily: 'Open Sans',
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 0.5,
-                    fontSize: 13,
-                    color: Colors.red),
-                children: <TextSpan>[
-                  TextSpan(
-                      text: ' alat belum dikembalikan',
-                      style: TextStyle(fontWeight: FontWeight.normal))
-                ]),
-          ),
-        ],
-      ),
     );
     return Scaffold(
         appBar: AppBar(
@@ -154,27 +127,41 @@ class _LogPeminjamanState extends State<LogPeminjaman> {
             // ),
             Expanded(
               child: ListView.builder(
-                itemCount: length_data,
+                itemCount: lengthData,
                 shrinkWrap: true,
                 itemBuilder: (BuildContext context, int index) {
-                  // print(data_array[0][index].toString());
                   Color color;
+
                   peminjaman =
-                      Peminjaman.fromJson(jsonDecode(data_array[0][index]));
-                  print(peminjaman.tgl_pinjam);
+                      Peminjaman.fromJson(jsonDecode(dataArray[0][index]));
                   var tgl = DateTime.parse(peminjaman.tgl_pinjam);
                   var now = new DateTime.now();
 
                   var first = "${tgl.hour}:${tgl.minute}:${tgl.second}";
-                  var tgl_last = tgl.add(new Duration(hours: 5));
-                  var last1 = DateTime.parse(tgl_last.toIso8601String());
-                  var last =
-                      "${last1.year}-${last1.month}-${last1.day} ${last1.hour}:${last1.minute}:${last1.second}";
-                  var tgal = "${last1.year}-${last1.month}-${last1.day}";
-                  var tgl_first = "${tgl.day}-${tgl.month}-${tgl.year}";
-                  var status = '';
-                  var difference = now.difference(tgl).inHours;
+                  final startTime =
+                      DateTime(tgl.year, tgl.month, tgl.day, 07, 00);
+                  final startTime2 =
+                      DateTime(tgl.year, tgl.month, tgl.day, 09, 00);
 
+                  final endTime =
+                      DateTime(tgl.year, tgl.month, tgl.day, 13, 30);
+                  final endTime2 =
+                      DateTime(tgl.year, tgl.month, tgl.day, 15, 30);
+                  DateTime tg1;
+
+                  if (tgl.isAfter(startTime) && tgl.isBefore(endTime)) {
+                    tg1 = endTime;
+                  } else if (tgl.isAfter(startTime2) &&
+                      tgl.isBefore(endTime2)) {
+                    tg1 = endTime2;
+                  } else {
+                    tg1 = endTime;
+                  }
+                  var tg = DateFormat("yyyy-MM-dd HH:mm:ss").format(tg1);
+
+                  var tgal = "${tgl.year}-${tgl.month}-${tgl.day}";
+
+                  var status = '';
                   if (peminjaman.status == "kembali" &&
                       peminjaman.approval_kembali == "disetujui") {
                     color = Colors.black54;
@@ -185,10 +172,11 @@ class _LogPeminjamanState extends State<LogPeminjaman> {
                     color = Colors.black54;
                     status = "Menunggu";
                   } else {
-                    if (difference > 12) {
+                    if (now.isAfter(tg1)) {
                       color = Colors.red;
                       status = "Terlambat";
-                    } else if (difference > 5 && difference < 12) {
+                    } else if (now.hour > (tg1.hour - 2) &&
+                        now.hour < (tg1.hour)) {
                       color = mainColor2;
                       status = "Segera";
                     } else {
@@ -199,13 +187,14 @@ class _LogPeminjamanState extends State<LogPeminjaman> {
 
                   var kondisi = '';
                   if (peminjaman.kondisi_pinjam == "baik") {
-                    kondisi = "Kondisi Baik";
+                    setState(() {
+                      kondisi = "Kondisi Baik";
+                    });
                   }
-                  log(status);
                   var container = Container(
                     color: bgColor,
                     width: MediaQuery.of(context).size.width,
-                    margin: index == length_data - 1
+                    margin: index == lengthData - 1
                         ? EdgeInsets.only(bottom: 90)
                         : EdgeInsets.only(bottom: 0),
                     padding:
@@ -245,7 +234,7 @@ class _LogPeminjamanState extends State<LogPeminjaman> {
                                         height: 16,
                                       ),
                                       Text(
-                                        '${tgal}   s/d   ${status}',
+                                        tgal + '   ' + status,
                                         style: TextStyle(
                                             letterSpacing: 0.5,
                                             color: color,
@@ -255,7 +244,7 @@ class _LogPeminjamanState extends State<LogPeminjaman> {
                                         height: 16,
                                       ),
                                       Text(
-                                        '${first}   s/d   ${last}',
+                                        first + '   s/d   ' + tg,
                                         style: TextStyle(
                                             letterSpacing: 0.5,
                                             color: Colors.black54,
@@ -302,32 +291,41 @@ class _LogPeminjamanState extends State<LogPeminjaman> {
   modal(BuildContext context, int index) {
     Color color;
 
-    peminjaman = Peminjaman.fromJson(jsonDecode(data_array[0][index]));
-    print(peminjaman.tgl_pinjam);
+    peminjaman = Peminjaman.fromJson(jsonDecode(dataArray[0][index]));
     var tgl = DateTime.parse(peminjaman.tgl_pinjam);
     var now = new DateTime.now();
 
-    var first = "${tgl.hour}:${tgl.minute}:${tgl.second}";
-    var tgl_last = tgl.add(new Duration(hours: 8));
-    var last1 = DateTime.parse(tgl_last.toIso8601String());
-    var last =
-        "${last1.year}-${last1.month}-${last1.day} ${last1.hour}:${last1.minute}:${last1.second}";
-    var tgl_first = "${tgl.year}-${tgl.month}-${tgl.day}";
+    final startTime = DateTime(tgl.year, tgl.month, tgl.day, 07, 00);
+    final startTime2 = DateTime(tgl.year, tgl.month, tgl.day, 09, 00);
+
+    final endTime = DateTime(tgl.year, tgl.month, tgl.day, 13, 30);
+    final endTime2 = DateTime(tgl.year, tgl.month, tgl.day, 15, 30);
+    DateTime tg1;
+
+    if (tgl.isAfter(startTime) && tgl.isBefore(endTime)) {
+      tg1 = endTime;
+    } else if (tgl.isAfter(startTime2) && tgl.isBefore(endTime2)) {
+      tg1 = endTime2;
+    } else {
+      tg1 = endTime;
+    }
+    var tg = DateFormat("yyyy-MM-dd HH:mm:ss").format(tg1);
+
     var status = '';
-    var difference = now.difference(tgl).inHours;
     if (peminjaman.status == "kembali" &&
         peminjaman.approval_kembali == "disetujui") {
       color = Colors.black54;
+
       status = "Dikembalikan";
     } else if (peminjaman.status == "kembali" &&
         peminjaman.approval_kembali == "diajukan") {
       color = Colors.black54;
       status = "Menunggu";
     } else {
-      if (difference > 12) {
+      if (now.isAfter(tg1)) {
         color = Colors.red;
         status = "Terlambat";
-      } else if (difference > 5 && difference < 12) {
+      } else if (now.hour > (tg1.hour - 2) && now.hour < (tg1.hour)) {
         color = mainColor2;
         status = "Segera";
       } else {
@@ -335,6 +333,7 @@ class _LogPeminjamanState extends State<LogPeminjaman> {
         status = "Aktif";
       }
     }
+
     var kondisi = '';
     if (peminjaman.kondisi_pinjam == "baik") {
       kondisi = "Kondisi Baik";
@@ -439,7 +438,7 @@ class _LogPeminjamanState extends State<LogPeminjaman> {
                               Opacity(
                                   opacity: 0.5,
                                   child: Text(
-                                    " ${status} ",
+                                    " " + status + " ",
                                     style: TextStyle(
                                         backgroundColor: color,
                                         color: Colors.white,
@@ -463,7 +462,7 @@ class _LogPeminjamanState extends State<LogPeminjaman> {
                                     height: 2),
                               ),
                               Text(
-                                "${last}",
+                                tg,
                                 // "${tgl_first} ${last}",
                                 style: TextStyle(
                                     fontSize: 14,
@@ -472,7 +471,7 @@ class _LogPeminjamanState extends State<LogPeminjaman> {
                                     height: 2),
                               ),
                               Text(
-                                "${kondisi}",
+                                kondisi,
                                 style: TextStyle(
                                     fontSize: 14,
                                     color: Colors.grey,

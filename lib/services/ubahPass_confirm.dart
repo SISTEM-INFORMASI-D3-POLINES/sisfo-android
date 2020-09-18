@@ -16,8 +16,10 @@ class _UbahPassConfirmState extends State<UbahPassConfirm> {
   var passText2 = '';
   var msg = '';
   FlutterSecureStorage storage;
-  String value_login = '';
+  String valueLogin = '';
   String noUser = '';
+  bool _showPassword = false;
+  bool _showPassword1 = false;
 
   void initState() {
     super.initState();
@@ -27,24 +29,18 @@ class _UbahPassConfirmState extends State<UbahPassConfirm> {
   }
 
   void read() async {
-    var stopwatch = new Stopwatch()..start();
-
-    value_login = await storage.read(key: "login");
-    var namax = await storage.read(key: "nama");
-    var akun = await storage.read(key: "user");
-    var userJson = jsonDecode(akun);
-    var noUser_json = jsonDecode(value_login);
+    valueLogin = await storage.read(key: "login");
+    var noUserJson = jsonDecode(valueLogin);
     setState(() {
-      noUser = noUser_json['no_user'];
+      noUser = noUserJson['no_user'];
     });
   }
 
   void change() async {
     if (passText1 != '' || passText2 != '') {
       if (passText2 == passText1) {
-        await http.post("${link}/ubah_pass.php",
+        await http.post(link + "/ubah_pass.php",
             body: {'noUser': noUser, 'pass': passText1}).then((response) {
-          var respJson = jsonDecode(response.body);
           if (response.statusCode == 200) {
             Navigator.push(
               context,
@@ -106,42 +102,65 @@ class _UbahPassConfirmState extends State<UbahPassConfirm> {
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 25),
                 child: TextFormField(
-                  obscureText: true,
+                  obscureText: !this._showPassword,
                   onChanged: (value) {
                     setState(() {
                       passText1 = value;
                     });
                   },
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        Icons.remove_red_eye,
+                        color: this._showPassword ? mainColor : Colors.grey,
+                      ),
+                      onPressed: () {
+                        setState(
+                            () => this._showPassword = !this._showPassword);
+                      },
+                    ),
                     labelText: 'Password baru',
                   ),
                   style: TextStyle(fontSize: 14),
                   validator: (String value) {
                     if (value.trim().isEmpty) {
-                      return 'Password tidak boleh kosong';
+                      value = 'Password tidak boleh kosong';
                     }
+                    return value;
                   },
                 ),
               ),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 25),
                 child: TextFormField(
-                  obscureText: true,
+                  obscureText: !this._showPassword1,
                   onChanged: (value) {
                     setState(() {
                       passText2 = value;
                     });
                   },
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        Icons.remove_red_eye,
+                        color: this._showPassword1 ? mainColor : Colors.grey,
+                      ),
+                      onPressed: () {
+                        setState(
+                            () => this._showPassword1 = !this._showPassword1);
+                      },
+                    ),
                     labelText: 'Konfirmasi password',
                   ),
                   style: TextStyle(fontSize: 14),
                   validator: (String value) {
                     if (value.trim().isEmpty) {
                       if (value != passText1) {
-                        return 'Password tidak sesuai. Silahkan periksa kembali';
+                        value =
+                            'Password tidak sesuai. Silahkan periksa kembali';
                       }
                     }
+                    return value;
                   },
                 ),
               ),

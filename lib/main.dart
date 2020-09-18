@@ -6,13 +6,11 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:my_app/bottomNav.dart';
 import 'package:my_app/cari.dart';
 import 'package:my_app/constant.dart';
-import 'package:my_app/example.dart';
 import 'package:my_app/faq.dart';
 import 'package:my_app/kebijakanprivasi.dart';
 import 'package:my_app/kembali.dart';
 import 'package:my_app/log.dart';
 import 'package:my_app/login_page.dart';
-import 'package:my_app/pesan.dart';
 import 'package:my_app/pinjam.dart';
 import 'package:my_app/scan.dart';
 import 'package:my_app/services/ubahPass_confirm.dart';
@@ -21,7 +19,6 @@ import 'package:http/http.dart' as http;
 import 'package:my_app/ubah_password.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'HomePage.dart';
-import 'auth_service.dart';
 import 'package:android_alarm_manager/android_alarm_manager.dart';
 import 'forgotPass.dart';
 
@@ -65,8 +62,7 @@ Future<void> main() async {
       '/FAQPage': (context) => FreqAQ(),
       '/UbahPass': (context) => UbahPassword(),
       '/ScanPage': (context) => ScanViewDemo(),
-      '/UbahPassConfirm': (context) => UbahPassConfirm(),
-      '/PesanPage': (context) => PesanNotification(),
+      '/UbahPassConfirm': (context) => UbahPassConfirm()
     },
     theme: ThemeData(
       canvasColor: Colors.transparent,
@@ -243,12 +239,12 @@ class _SplashScreenState extends State<SplashScreen>
   void read() async {
     value_login = await storage.read(key: "login");
     value_nama = await storage.read(key: "nama");
-    var _value_user = await storage.read(key: "user");
+    var _valueUser = await storage.read(key: "user");
 
     setState(() {
       noUser = value_login;
       nama = value_nama;
-      user = _value_user;
+      user = _valueUser;
     });
   }
 

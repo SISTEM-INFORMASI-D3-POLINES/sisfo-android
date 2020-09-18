@@ -37,6 +37,7 @@ dependencies:
   url_launcher: any
   mailto: any
   flutter_local_notifications: ^1.4.1
+  connectivity: ^0.4.9+2
   android_alarm_manager: ^0.4.5+11
 
 
@@ -69,12 +70,10 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - images/svg/
-    - images/dummy/
     - images/svg/logo_head.svg
     - images/svg/logo_circle.svg
     - images/svg/logo_head_circle.svg
     - images/svg/logo_circle.png
-    # - images/a_dot_ham.jpeg
     
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -16,42 +16,34 @@ class KembaliPage extends StatefulWidget {
 
 class _KembaliPageState extends State<KembaliPage> {
   FlutterSecureStorage storage;
-  String value_login = '';
-  String no_user = '';
+  String _valueLogin = '';
+  String _noUser = '';
   String login = '';
-  var id_pinjam = '';
+  var idPinjam = '';
   var _kondisi = '';
-  var _tabTextIndexSelected = 0;
   var _tabTextIconIndexSelected = 0;
-  var _tabIconIndexSelected = 0;
-
-  // void logout() async {
-  //   await storage.deleteAll().then((value) {}).then((value) => read());
-  // }
   var jumlah = '';
-  int length_data = 0;
+  int lengthData = 0;
   var data = '';
-  var data_array = [];
+  var dataArray = [];
   var json = [];
   Peminjaman peminjaman;
   Future<Peminjaman> kembali() async {
-    log(no_user);
+    log(_noUser);
     await http
-        .get("${link}/log_kembali.php?no_user=${no_user}")
+        .get(link + "/log_kembali.php?no_user=" + _noUser)
         .then((response) {
       json = jsonDecode(response.body);
-      length_data = json.length;
-      while (length_data > 0) {
-        data_array.add(json);
-        length_data--;
+      lengthData = json.length;
+      while (lengthData > 0) {
+        dataArray.add(json);
+        lengthData--;
       }
 
       setState(() {
-        length_data = json.length;
+        lengthData = json.length;
         json = jsonDecode(response.body);
       });
-      // log("message${json.length.toString()}");
-      log("sih" + data_array[0].toString());
     }).catchError((onError) {
       log(onError.toString());
     });
@@ -60,26 +52,65 @@ class _KembaliPageState extends State<KembaliPage> {
 
   Future<Peminjaman> _kembaliControl(index, i, jumlah) async {
     var text = _tabTextIconIndexSelected;
-    id_pinjam = index;
+    idPinjam = index;
     if (text == 1) {
       _kondisi = 'rusak';
     } else {
       _kondisi = 'baik';
     }
-    await http.post("${link}/kembali.php", body: {
-      "noUser": no_user,
-      'idPinjam': id_pinjam,
+    await http.post(link + "/kembali.php", body: {
+      "noUser": _noUser,
+      'idPinjam': idPinjam,
       'kondisi': _kondisi,
       'jumlah': jumlah
     }).then((value) {
-      Navigator.of(context).pushReplacementNamed('/KembaliPage');
-      log(i);
+      _showDialogSuccessKembali(idPinjam);
       setState(() {
-        data_array[0].remove(i);
-        data_array[0].removeItem(i);
+        dataArray[0].remove(i);
+        dataArray[0].removeItem(i);
       });
     }).catchError((onError) {});
     return peminjaman;
+  }
+
+  void _showDialogSuccessKembali(idPinjam) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title:
+              new Icon(Icons.check_circle_outline, color: mainColor, size: 44),
+          content: RichText(
+            text: TextSpan(
+              text: '',
+              style: TextStyle(
+                  fontFamily: 'Open Sans', fontSize: 15, color: mainColor),
+              children: <TextSpan>[
+                TextSpan(
+                    text: idPinjam,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: mainColor)),
+                TextSpan(
+                    text:
+                        ' telah diajukan. Tunggu approval dari staff beberapa saat lagi.',
+                    style: TextStyle(color: mainColor)),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text(
+                "Kembali",
+                style: TextStyle(color: mainColor, fontWeight: FontWeight.w600),
+              ),
+              onPressed: () {
+                Navigator.of(context).pushReplacementNamed('/KembaliPage');
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void initState() {
@@ -87,18 +118,17 @@ class _KembaliPageState extends State<KembaliPage> {
     storage = FlutterSecureStorage();
 
     read();
-    print(length_data);
   }
 
   void read() async {
     //read from the secure storage
-    value_login = await storage.read(key: "login");
+    _valueLogin = await storage.read(key: "login");
 
-    var json_value_login = jsonDecode(value_login);
-    var nim = json_value_login["no_user"].toString();
+    var jsonValueLogin = jsonDecode(_valueLogin);
+    var nim = jsonValueLogin["no_user"].toString();
     setState(() {
-      no_user = nim;
-      login = json_value_login.toString();
+      _noUser = nim;
+      login = jsonValueLogin.toString();
     });
     kembali();
   }
@@ -147,7 +177,7 @@ class _KembaliPageState extends State<KembaliPage> {
                     child: Row(children: <Widget>[
                       RichText(
                         text: TextSpan(
-                            text: length_data.toString(),
+                            text: lengthData.toString(),
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 letterSpacing: 1.0,
@@ -169,19 +199,11 @@ class _KembaliPageState extends State<KembaliPage> {
           ]),
           Expanded(
               child: ListView.builder(
-                  itemCount: length_data,
+                  itemCount: lengthData,
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
                     peminjaman =
-                        Peminjaman.fromJson(jsonDecode(data_array[0][index]));
-                    var tgl = DateTime.parse(peminjaman.tgl_pinjam);
-                    var now = new DateTime.now();
-
-                    var first = "${tgl.hour}:${tgl.minute}:${tgl.second}";
-                    var last = "${tgl.hour + 8}:${tgl.minute}:${tgl.second}";
-                    var tgl_first = "${tgl.day}-${tgl.month}-${tgl.year}";
-                    var status = '';
-                    var difference = now.difference(tgl).inHours;
+                        Peminjaman.fromJson(jsonDecode(dataArray[0][index]));
                     return Container(
                       padding:
                           EdgeInsets.symmetric(horizontal: 10.0, vertical: 3),
@@ -215,8 +237,9 @@ class _KembaliPageState extends State<KembaliPage> {
                                           width: 60.0,
                                           child: Image(
                                             image: peminjaman.image_tools != ''
-                                                ? NetworkImage(
-                                                    "${link}/img/${peminjaman.image_tools}")
+                                                ? NetworkImage(link +
+                                                    "/img/" +
+                                                    peminjaman.image_tools)
                                                 : AssetImage(
                                                     "images/svg/placeIMG.png"),
                                             height: 60,
@@ -289,24 +312,18 @@ class _KembaliPageState extends State<KembaliPage> {
   }
 
   modal(BuildContext context, int index) {
-    peminjaman = Peminjaman.fromJson(jsonDecode(data_array[0][index]));
-    print(peminjaman.tgl_pinjam);
+    peminjaman = Peminjaman.fromJson(jsonDecode(dataArray[0][index]));
     var tgl = DateTime.parse(peminjaman.tgl_pinjam);
     var now = new DateTime.now();
 
-    var first = "${tgl.hour}:${tgl.minute}:${tgl.second}";
-    var last = "${tgl.hour + 8}:${tgl.minute}:${tgl.second}";
-    var tgl_now = "${now.day}-${now.month}-${now.year}";
-    var tgl_first = "${tgl.day}-${tgl.month}-${tgl.year}";
-    var status = '';
+    var tglNow = "${now.day}-${now.month}-${now.year}";
+    var tglFirst = "${tgl.day}-${tgl.month}-${tgl.year}";
 
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       builder: (BuildContext context) {
-        var _thumbUp = Icons;
         var _listGenderText = ["Baik", "Rusak"];
-        var _listGenderEmpty = ["", ""];
         var _listIconTabToggle = [
           Icons.thumb_up,
           Icons.thumb_down,
@@ -327,82 +344,57 @@ class _KembaliPageState extends State<KembaliPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      margin: EdgeInsets.fromLTRB(0.0, 10.0, 10.0, 10),
-                      decoration: BoxDecoration(
-                          color: Colors.blueGrey[50],
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          border: Border(
-                              bottom: BorderSide(color: mainColor, width: 1),
-                              left: BorderSide(color: mainColor, width: 1),
-                              right: BorderSide(color: mainColor, width: 1),
-                              top: BorderSide(color: mainColor, width: 1))),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 5.0, vertical: 5),
-                      width: 80,
-                      height: 80,
-                      child: Image(
-                        image: peminjaman.image_tools != ''
-                            ? NetworkImage(
-                                "${link}/img/${peminjaman.image_tools}")
-                            : AssetImage("images/svg/placeIMG.png"),
+                      margin: EdgeInsets.only(bottom: defaultPadding / 2),
+                      child: Text(
+                        "${peminjaman.merk} ${peminjaman.type}",
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 1.0,
+                            color: mainColor),
                       ),
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(bottom: defaultPadding / 2),
-                          child: Text(
-                            "${peminjaman.merk} ${peminjaman.type}",
+                    FittedBox(
+                      fit: BoxFit.fitWidth,
+                      child: Text(
+                        peminjaman.nama_tools.toUpperCase(),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 1.0,
+                            fontSize: 15,
+                            height: 0.5,
+                            color: mainColor),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: defaultPadding / 2),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "${peminjaman.jml_pinjam} ${peminjaman.satuan}",
                             textAlign: TextAlign.start,
                             style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
+                                fontSize: 13,
                                 letterSpacing: 1.0,
-                                color: mainColor),
+                                color: Colors.grey),
                           ),
-                        ),
-                        FittedBox(
-                          fit: BoxFit.fitWidth,
-                          child: Text(
-                            peminjaman.nama_tools.toUpperCase(),
+                          Text(
+                            "${peminjaman.lokasi_tools}",
+                            textAlign: TextAlign.start,
                             style: TextStyle(
-                                fontWeight: FontWeight.w600,
+                                fontSize: 13,
                                 letterSpacing: 1.0,
-                                fontSize: 15,
-                                height: 0.5,
-                                color: mainColor),
+                                color: Colors.grey),
                           ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: defaultPadding / 2),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "${peminjaman.jml_pinjam} ${peminjaman.satuan}",
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                    fontSize: 13,
-                                    letterSpacing: 1.0,
-                                    color: Colors.grey),
-                              ),
-                              Text(
-                                "${peminjaman.lokasi_tools}",
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                    fontSize: 13,
-                                    letterSpacing: 1.0,
-                                    color: Colors.grey),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -427,7 +419,7 @@ class _KembaliPageState extends State<KembaliPage> {
                                 color: Colors.grey),
                           ),
                           Text(
-                            "${tgl_first}",
+                            tglFirst,
                             style: TextStyle(
                                 fontSize: 14,
                                 letterSpacing: 1.0,
@@ -457,7 +449,7 @@ class _KembaliPageState extends State<KembaliPage> {
                                 color: Colors.grey),
                           ),
                           Text(
-                            "${tgl_now}",
+                            tglNow,
                             style: TextStyle(
                                 fontSize: 14,
                                 letterSpacing: 1.0,
@@ -526,7 +518,6 @@ class _KembaliPageState extends State<KembaliPage> {
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     onPressed: () {
-                      log(peminjaman.id_pinjam);
                       _kembaliControl(peminjaman.id_pinjam, index, jumlah);
                     },
                     child: Text(

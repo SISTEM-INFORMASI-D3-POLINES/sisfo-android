@@ -9,10 +9,11 @@ const bgColor = Color(0xffe6edf4);
 const textColor = Color(0xff676767);
 const shadowColor = Color(0xff8a959e);
 
-const link = 'http://3b5d675611b7.ngrok.io/pintools_app_php';
-// const link = 'http://3b5d675611b7.ngrok.io/sisfo-web/config/pintools_app_php';
+// const link = 'http://36087551f73b.ngrok.io/pintools_app_php';
+// const link = 'http://3fd0fe8e0df2.ngrok.io/sisfo-web/config/pintools_app_php';
+const link = 'http://siptom.net/config/pintools_app_php';
 const imgLink =
-    'http://3b5d675611b7.ngrok.io/sisfo-web/config/pintools_app_php/assets/img/tools';
+    'http://3fd0fe8e0df2.ngrok.io/sisfo-web/config/pintools_app_php/assets/img/tools';
 const String fontNamaDefault = 'MavenPro';
 const h1 = 20;
 

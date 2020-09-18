@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/constant.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'login_page.dart';
 
 class ForgotPass extends StatefulWidget {

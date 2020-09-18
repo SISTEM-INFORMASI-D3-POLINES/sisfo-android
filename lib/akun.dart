@@ -31,7 +31,6 @@ class _AkunState extends State<Akun> {
     var userJson = jsonDecode(akun);
     var _noUserJson = jsonDecode(_valueLogin);
     var d = userJson['foto'].replaceRange(0, 2, 'https://siptom.net');
-    print(d);
     setState(() {
       noUser = _noUserJson['no_user'];
       nama = namax;
