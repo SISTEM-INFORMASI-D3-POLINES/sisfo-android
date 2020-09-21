@@ -104,7 +104,7 @@ class _KembaliPageState extends State<KembaliPage> {
                 style: TextStyle(color: mainColor, fontWeight: FontWeight.w600),
               ),
               onPressed: () {
-                Navigator.of(context).pushReplacementNamed('/KembaliPage');
+                Navigator.pushNamed(context, '/ScanPage');
               },
             ),
           ],
@@ -238,7 +238,7 @@ class _KembaliPageState extends State<KembaliPage> {
                                           child: Image(
                                             image: peminjaman.image_tools != ''
                                                 ? NetworkImage(link +
-                                                    "/img/" +
+                                                    "/assets/img/tools/" +
                                                     peminjaman.image_tools)
                                                 : AssetImage(
                                                     "images/svg/placeIMG.png"),

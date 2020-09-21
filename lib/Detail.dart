@@ -208,7 +208,7 @@ class _DetailToolsState extends State<DetailTools> {
                                       child: Image(
                                         image: tools.image_tools != ''
                                             ? NetworkImage(link +
-                                                "/img/" +
+                                                "/assets/img/tools/" +
                                                 tools.image_tools)
                                             : AssetImage(
                                                 "images/svg/placeIMG.png"),

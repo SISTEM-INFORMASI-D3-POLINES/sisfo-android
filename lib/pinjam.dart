@@ -232,7 +232,8 @@ class _PinjamPageState extends State<PinjamPage>
                     borderRadius: BorderRadius.circular(12.0),
                     child: Image(
                       image: tools.image_tools != ""
-                          ? NetworkImage(link + "/img/" + tools.image_tools)
+                          ? NetworkImage(
+                              link + "/assets/img/tools/" + tools.image_tools)
                           : AssetImage("images/svg/placeIMG.png"),
                       fit: BoxFit.cover,
                     ),
@@ -410,7 +411,8 @@ class _PinjamPageState extends State<PinjamPage>
                             topRight: Radius.circular(40)),
                         child: Image(
                           image: tools.image_tools != ''
-                              ? NetworkImage(link + "/img/${tools.image_tools}")
+                              ? NetworkImage(link +
+                                  "/assets/img/tools/${tools.image_tools}")
                               : AssetImage("images/svg/placeIMG.png"),
                           height: 300,
                           fit: BoxFit.fill,
