@@ -137,6 +137,36 @@ class _DetailToolsState extends State<DetailTools> {
     );
   }
 
+  void kodeToolsFalse() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Icon(Icons.remove_circle_outline,
+              color: Colors.red, size: 44),
+          content: Text(
+            "Kode tools tidak ditemukan",
+            style: TextStyle(fontSize: 15),
+          ),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text(
+                "Kembali",
+                style: TextStyle(
+                    color: mainColor,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 13),
+              ),
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, '/MainPage');
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void initState() {
     _isButtonDisabled = false;
 
@@ -169,7 +199,7 @@ class _DetailToolsState extends State<DetailTools> {
     });
   }
 
-  Future kembali() {
+  void kembali() {
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => NavigationBottomBar()));
   }
@@ -189,6 +219,7 @@ class _DetailToolsState extends State<DetailTools> {
                       child: Padding(
                         padding: const EdgeInsets.all(20.0),
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Column(
@@ -207,7 +238,7 @@ class _DetailToolsState extends State<DetailTools> {
                                       padding: const EdgeInsets.all(18.0),
                                       child: Image(
                                         image: tools.image_tools != ''
-                                            ? NetworkImage(link +
+                                            ? NetworkImage(linkImage +
                                                 "/assets/img/tools/" +
                                                 tools.image_tools)
                                             : AssetImage(
@@ -251,10 +282,11 @@ class _DetailToolsState extends State<DetailTools> {
                             Container(
                               padding: EdgeInsets.only(top: defaultPadding),
                               child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
                                     "${tools.merk} ${tools.type} - ${tools.nama_tools}",
-                                    textAlign: TextAlign.start,
+                                    textAlign: TextAlign.left,
                                     //widget.kodeTools.toUpperCase(),
                                     style: TextStyle(
                                         fontSize: 18,
@@ -305,6 +337,27 @@ class _DetailToolsState extends State<DetailTools> {
                                     style: TextStyle(
                                         fontSize: 14, color: Colors.black87),
                                   )
+                                ],
+                              ),
+                            ),
+                            Divider(
+                              color: Colors.black54,
+                              height: 0,
+                              thickness: 0.5,
+                              indent: 0,
+                              endIndent: 0,
+                            ),
+                            Container(
+                              padding: EdgeInsets.symmetric(vertical: 20),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Spesifikasi :",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.w600),
+                                  ),
+                                  Text(tools.spesifikasi)
                                 ],
                               ),
                             ),

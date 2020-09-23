@@ -185,12 +185,6 @@ class _LogPeminjamanState extends State<LogPeminjaman> {
                     }
                   }
 
-                  var kondisi = '';
-                  if (peminjaman.kondisi_pinjam == "baik") {
-                    setState(() {
-                      kondisi = "Kondisi Baik";
-                    });
-                  }
                   var container = Container(
                     color: bgColor,
                     width: MediaQuery.of(context).size.width,
@@ -334,11 +328,6 @@ class _LogPeminjamanState extends State<LogPeminjaman> {
       }
     }
 
-    var kondisi = '';
-    if (peminjaman.kondisi_pinjam == "baik") {
-      kondisi = "Kondisi Baik";
-    }
-
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -471,7 +460,7 @@ class _LogPeminjamanState extends State<LogPeminjaman> {
                                     height: 2),
                               ),
                               Text(
-                                kondisi,
+                                peminjaman.kondisi_pinjam,
                                 style: TextStyle(
                                     fontSize: 14,
                                     color: Colors.grey,

@@ -19,7 +19,7 @@ class _CariPageState extends State<CariPage>
   var textSearch;
   String textChange;
   bool isSelected = false;
-  List lokasi = ['Lab Timur-01', 'Lab Timur-02'];
+  List lokasi = [];
   int selectedIndex = 0;
   int indexPage = 0;
   Tools tools;
@@ -47,10 +47,26 @@ class _CariPageState extends State<CariPage>
     return notes;
   }
 
+  Future<List> getLokasi() async {
+    var url = link + '/lokasi.php';
+    var response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      var lokasiJson = jsonDecode(response.body);
+
+      for (var lokasiJson in lokasiJson) {
+        lokasi.add(lokasiJson);
+      }
+      print(lokasi);
+    }
+    return lokasi;
+  }
+
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(vsync: this);
+    getLokasi();
     getTools().then((value) {
       setState(() {
         toolsObj.addAll(value);
@@ -219,8 +235,9 @@ class _CariPageState extends State<CariPage>
                     borderRadius: BorderRadius.circular(12.0),
                     child: Image(
                       image: tools.image_tools != ""
-                          ? NetworkImage(
-                              link + "/assets/img/tools/" + tools.image_tools)
+                          ? NetworkImage(linkImage +
+                              "/assets/img/tools/" +
+                              tools.image_tools)
                           : AssetImage("images/svg/placeIMG.png"),
                       fit: BoxFit.cover,
                     ),
@@ -398,7 +415,7 @@ class _CariPageState extends State<CariPage>
                             topRight: Radius.circular(40)),
                         child: Image(
                           image: tools.image_tools != ''
-                              ? NetworkImage(link +
+                              ? NetworkImage(linkImage +
                                   "/assets/img/tools/" +
                                   tools.image_tools)
                               : AssetImage("images/svg/placeIMG.png"),

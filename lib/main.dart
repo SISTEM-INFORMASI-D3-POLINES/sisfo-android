@@ -214,11 +214,10 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
   final storage = FlutterSecureStorage();
-  String no_user = '';
   Widget page = LoginPage();
   AnimationController _controller;
-  String value_login = '';
-  String value_nama = '';
+  String _valueLogin = '';
+  String _valueNama = '';
   String noUser = '';
   String user = '';
   var nama = "";
@@ -237,13 +236,13 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   void read() async {
-    value_login = await storage.read(key: "login");
-    value_nama = await storage.read(key: "nama");
+    _valueLogin = await storage.read(key: "login");
+    _valueNama = await storage.read(key: "nama");
     var _valueUser = await storage.read(key: "user");
 
     setState(() {
-      noUser = value_login;
-      nama = value_nama;
+      noUser = _valueLogin;
+      nama = _valueNama;
       user = _valueUser;
     });
   }
