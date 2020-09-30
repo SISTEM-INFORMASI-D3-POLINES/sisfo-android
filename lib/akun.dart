@@ -40,15 +40,13 @@ class _AkunState extends State<Akun> {
   }
 
   void logout() async {
-    await http.get(link + "/logout.php?noUser=$noUser").then((value) {
-      storage.deleteAll();
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => SplashScreen(),
-        ),
-      );
-    });
+    storage.deleteAll();
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SplashScreen(),
+      ),
+    );
   }
 
   @override
