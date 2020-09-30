@@ -50,7 +50,8 @@ class _KembaliPageState extends State<KembaliPage> {
     return peminjaman;
   }
 
-  Future<Peminjaman> _kembaliControl(index, i, jumlah) async {
+  Future<Peminjaman> _kembaliControl(index, i, jumlahKembali) async {
+    print(index.toString() + i.toString() + jumlahKembali.toString());
     var text = _tabTextIconIndexSelected;
     idPinjam = index;
     if (text == 1) {
@@ -62,7 +63,7 @@ class _KembaliPageState extends State<KembaliPage> {
       "noUser": _noUser,
       'idPinjam': idPinjam,
       'kondisi': _kondisi,
-      'jumlah': jumlah
+      'jumlah': jumlahKembali.toString()
     }).then((value) {
       _showDialogSuccessKembali(idPinjam);
       setState(() {
@@ -518,7 +519,8 @@ class _KembaliPageState extends State<KembaliPage> {
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     onPressed: () {
-                      _kembaliControl(peminjaman.id_pinjam, index, jumlah);
+                      _kembaliControl(
+                          peminjaman.id_pinjam, index, peminjaman.jml_pinjam);
                     },
                     child: Text(
                       "Ajukan Kembali",

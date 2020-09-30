@@ -9,6 +9,7 @@ const bgColor = Color(0xffe6edf4);
 const textColor = Color(0xff676767);
 const shadowColor = Color(0xff8a959e);
 const link = 'http://siptom.net/config/pintools_app_php';
+// const link = 'http://ecfb22d01ad8.ngrok.io/pintools_app_php';
 const linkImage = 'http://siptom.net';
 const h1 = 20;
 const defaultPadding = 20.0;

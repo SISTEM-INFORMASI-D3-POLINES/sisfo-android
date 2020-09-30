@@ -4,6 +4,7 @@ import 'package:my_app/constant.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async' show Future;
 import 'dart:convert';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class LoginPage extends StatefulWidget {
@@ -14,6 +15,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  FirebaseMessaging fcm = FirebaseMessaging();
+
   FlutterSecureStorage storage;
   var _valueLogin = '';
   var _valueNama = '';
@@ -25,7 +28,6 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     super.initState();
     storage = FlutterSecureStorage();
-    read();
   }
 
   void _encrypt(key, noUserEncrypt) async {
@@ -33,22 +35,9 @@ class _LoginPageState extends State<LoginPage> {
     await storage.write(key: key, value: noUserEncrypt);
   }
 
-  void read() async {
-    _valueLogin = await storage.read(key: "login");
-    _valueNama = await storage.read(key: "nama");
-    var _valueUser = await storage.read(key: "user");
-
-    _noUser = _valueLogin;
-    _nama = _valueNama;
-
-    setState(() {
-      _noUser = _valueLogin;
-      _nama = _valueNama;
-    });
-
-    if (_noUser != null && _nama != null && _valueUser != null) {
-      Navigator.of(context).pushReplacementNamed('/MainPage');
-    }
+  void saveToken(_nouser, token) async {
+    await http.post(link + "/saveToken.php",
+        body: {"noUser": _nouser, "token": token});
   }
 
   List NO_user = [];
@@ -122,6 +111,7 @@ class _LoginPageState extends State<LoginPage> {
 
         if (json.decode(success) == 1) {
           // await FlutterSession().set('datauser', datauser);
+          fcm.getToken().then((value) => saveToken(_noUser, value));
           _encrypt("login", datalogin.toString());
           _encrypt("nama", nama);
           _encrypt("user", login);

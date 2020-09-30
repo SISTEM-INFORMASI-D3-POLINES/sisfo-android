@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:my_app/main.dart';
+import 'package:http/http.dart' as http;
 import 'constant.dart';
 import 'dart:convert';
 
@@ -38,15 +39,16 @@ class _AkunState extends State<Akun> {
     });
   }
 
-  void logout() {
-    storage.deleteAll();
-
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => SplashScreen(),
-      ),
-    );
+  void logout() async {
+    await http.get(link + "/logout.php?noUser=$noUser").then((value) {
+      storage.deleteAll();
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => SplashScreen(),
+        ),
+      );
+    });
   }
 
   @override

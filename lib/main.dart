@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -71,10 +72,12 @@ Future<void> main() async {
     ),
   ));
   await AndroidAlarmManager.periodic(
-      const Duration(seconds: 1), helloAlarmID, callbackDispatcher);
+      const Duration(milliseconds: 1), helloAlarmID, callbackDispatcher,
+      wakeup: true, exact: true, rescheduleOnReboot: true);
 }
 
 void callbackDispatcher() async {
+  log("tgl :" + DateTime.now().toIso8601String());
   FlutterLocalNotificationsPlugin flp = FlutterLocalNotificationsPlugin();
   var android = AndroidInitializationSettings('@mipmap/ic_launcher');
   var iOS = IOSInitializationSettings();

@@ -143,18 +143,18 @@ class _PinjamPageState extends State<PinjamPage>
                               ? Center(
                                   child: Container(
                                     margin: EdgeInsets.only(bottom: 30),
-                                    child: new RaisedButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          indexPage = indexPage + 1;
-                                        });
-                                        loadMore();
-                                      },
-                                      color: mainColor.withOpacity(0.1),
-                                      elevation: 0,
-                                      textColor: mainColor,
-                                      child: Text("Muat Lebih"),
-                                    ),
+                                    // child: new RaisedButton(
+                                    //   onPressed: () {
+                                    //     setState(() {
+                                    //       indexPage = indexPage + 1;
+                                    //     });
+                                    //     loadMore();
+                                    //   },
+                                    //   color: mainColor.withOpacity(0.1),
+                                    //   elevation: 0,
+                                    //   textColor: mainColor,
+                                    //   child: Text("Muat Lebih"),
+                                    // ),
                                   ),
                                 )
                               : toolsBar(index);
