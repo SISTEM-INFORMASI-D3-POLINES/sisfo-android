@@ -279,7 +279,7 @@ class _CariPageState extends State<CariPage>
               child:
                   Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
                 Text(
-                  "${tools.stok_akhir}/${tools.stok_akhir} ${tools.satuan}",
+                  "${tools.stok_akhir}/${tools.stok_awal} ${tools.satuan}",
                   style: TextStyle(
                       color: tools.stok_akhir != '0'
                           ? mainColor
