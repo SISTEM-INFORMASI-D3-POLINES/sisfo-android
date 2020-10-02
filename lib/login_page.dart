@@ -35,10 +35,10 @@ class _LoginPageState extends State<LoginPage> {
     await storage.write(key: key, value: noUserEncrypt);
   }
 
-  void saveToken(_nouser, token) async {
-    await http.post(link + "/saveToken.php",
-        body: {"noUser": _nouser, "token": token});
-  }
+  // void saveToken(_nouser, token) async {
+  //   await http.post(link + "/saveToken.php",
+  //       body: {"noUser": _nouser, "token": token});
+  // }
 
   List NO_user = [];
   var NO_user1 = '';
@@ -111,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
 
         if (json.decode(success) == 1) {
           // await FlutterSession().set('datauser', datauser);
-          fcm.getToken().then((value) => saveToken(_noUser, value));
+          // fcm.getToken().then((value) => saveToken(_noUser, value));
           _encrypt("login", datalogin.toString());
           _encrypt("nama", nama);
           _encrypt("user", login);

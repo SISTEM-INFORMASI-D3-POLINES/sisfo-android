@@ -19,32 +19,12 @@ import 'package:my_app/tentangkami.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_app/ubah_password.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'HomePage.dart';
 import 'package:android_alarm_manager/android_alarm_manager.dart';
 import 'forgotPass.dart';
 
-const simplePeriodicTask = "simplePeriodicTask";
-final storage = FlutterSecureStorage();
-void showNotification(channel, title, v, flp) async {
-  var android = AndroidNotificationDetails(
-    'channel id',
-    'channel NAME',
-    'CHANNEL DESCRIPTION',
-    priority: Priority.High,
-    importance: Importance.Max,
-    styleInformation: BigTextStyleInformation(''),
-  );
-  IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails();
-  var iOS = iosNotificationDetails;
-  var platform = NotificationDetails(android, iOS);
-  await flp.show(channel, '$title', '$v', platform, payload: 'VIS \n $v');
-}
-
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  final int helloAlarmID = 0;
-  await AndroidAlarmManager.initialize();
-
+void main() async {
   // Run app!
   runApp(new MaterialApp(
     title: 'Pintools',
@@ -71,142 +51,6 @@ Future<void> main() async {
       visualDensity: VisualDensity.adaptivePlatformDensity,
     ),
   ));
-  await AndroidAlarmManager.periodic(
-      const Duration(milliseconds: 1), helloAlarmID, callbackDispatcher,
-      wakeup: true, exact: true, rescheduleOnReboot: true);
-}
-
-void callbackDispatcher() async {
-  log("tgl :" + DateTime.now().toIso8601String());
-  FlutterLocalNotificationsPlugin flp = FlutterLocalNotificationsPlugin();
-  var android = AndroidInitializationSettings('@mipmap/ic_launcher');
-  var iOS = IOSInitializationSettings();
-  var initSetttings = InitializationSettings(android, iOS);
-  flp.initialize(initSetttings);
-  String noUser = '';
-  var readLogin = await storage.read(key: "login");
-  if (readLogin != null) {
-    var _noUserJson = jsonDecode(readLogin);
-    noUser = _noUserJson['no_user'];
-
-    // Pinjam Setuju
-    await http
-        .get(link + '/msg/msgPinjamSetuju.php?noUser=' + noUser)
-        .then((response) {
-      print("here================");
-      var convert = jsonDecode(response.body);
-      print(convert['msg'].toString());
-      if (response.statusCode == 200) {
-        int i = 0;
-        var msg = convert['msg'];
-        while (i < msg.length) {
-          var title = msg[i]['title'];
-          var body = msg[i]['body'];
-          int x = int.parse('00$i');
-          showNotification(x, title, body, flp);
-          i++;
-        }
-      } else {
-        print("no messgae");
-      }
-    }).catchError((onError) {
-      print("no message");
-    });
-    // pinjam reject
-    await http
-        .get(link + '/msg/msgPinjamReject.php?noUser=' + noUser)
-        .then((response) {
-      print("here================");
-      var convert = jsonDecode(response.body);
-      print(convert['msg'].toString());
-      if (response.statusCode == 200) {
-        int i = 0;
-        var msg = convert['msg'];
-        while (i < msg.length) {
-          var title = msg[i]['title'];
-          var body = msg[i]['body'];
-          int x = int.parse('01$i');
-          showNotification(x, title, body, flp);
-          i++;
-        }
-      } else {
-        print("no messgae");
-      }
-    }).catchError((onError) {
-      print("no message");
-    });
-    // kembali setuju
-    await http
-        .get(link + '/msg/msgKembaliSetuju.php?noUser=' + noUser)
-        .then((response) {
-      print("here================");
-      var convert = jsonDecode(response.body);
-      print(convert['msg'].toString());
-      if (response.statusCode == 200) {
-        int i = 0;
-        var msg = convert['msg'];
-        while (i < msg.length) {
-          var title = msg[i]['title'];
-          var body = msg[i]['body'];
-          int x = int.parse('02$i');
-          showNotification(x, title, body, flp);
-          i++;
-        }
-      } else {
-        print("no messgae");
-      }
-    }).catchError((onError) {
-      print("no message");
-    });
-    // kembali reject
-    await http
-        .get(link + '/msg/msgKembaliReject.php?noUser=' + noUser)
-        .then((response) {
-      print("here================");
-      var convert = jsonDecode(response.body);
-      print(convert['msg'].toString());
-      if (response.statusCode == 200) {
-        int i = 0;
-        var msg = convert['msg'];
-        while (i < msg.length) {
-          var title = msg[i]['title'];
-          var body = msg[i]['body'];
-          int x = int.parse('03$i');
-          showNotification(x, title, body, flp);
-          i++;
-        }
-      } else {
-        print("no messgae");
-      }
-    }).catchError((onError) {
-      print("no message");
-    });
-    // reminder
-    await http
-        .get(link + '/msg/msgReminder.php?noUser=' + noUser)
-        .then((response) {
-      print("here================");
-      var convert = jsonDecode(response.body);
-      print(convert['msg'].toString());
-      if (response.statusCode == 200) {
-        int i = 0;
-        var msg = convert['msg'];
-        while (i < msg.length) {
-          var title = msg[i]['title'];
-          var body = msg[i]['body'];
-          int x = int.parse('04$i');
-          showNotification(x, title, body, flp);
-          i++;
-        }
-      } else {
-        print("no messgae");
-      }
-    }).catchError((onError) {
-      print("no message");
-    });
-  }
-
-  return Future.value(true);
 }
 
 class SplashScreen extends StatefulWidget {
@@ -216,6 +60,9 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
+  FirebaseMessaging fm = FirebaseMessaging();
+  // constructor
+
   final storage = FlutterSecureStorage();
   Widget page = LoginPage();
   AnimationController _controller;
@@ -223,7 +70,21 @@ class _SplashScreenState extends State<SplashScreen>
   String _valueNama = '';
   String noUser = '';
   String user = '';
+  var no = '';
   var nama = "";
+
+  _SplashScreenState() {
+    var no_user = '';
+    storage.read(key: "login").then((value) {
+      var jsonLogin = jsonDecode(value);
+      log(jsonLogin['no_user'].toString());
+      fm.getToken().then((value) {
+        http.post(link + "/saveToken.php",
+            body: {"noUser": jsonLogin['no_user'], "token": value});
+      });
+    });
+    fm.configure();
+  }
   @override
   void initState() {
     super.initState();
@@ -242,8 +103,10 @@ class _SplashScreenState extends State<SplashScreen>
     _valueLogin = await storage.read(key: "login");
     _valueNama = await storage.read(key: "nama");
     var _valueUser = await storage.read(key: "user");
+    var json_login = jsonDecode(_valueLogin);
 
     setState(() {
+      no = json_login['no_user'];
       noUser = _valueLogin;
       nama = _valueNama;
       user = _valueUser;
