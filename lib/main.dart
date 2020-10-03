@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -21,7 +22,6 @@ import 'package:my_app/ubah_password.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'HomePage.dart';
-import 'package:android_alarm_manager/android_alarm_manager.dart';
 import 'forgotPass.dart';
 
 void main() async {
@@ -53,6 +53,52 @@ void main() async {
   ));
 }
 
+Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) async {
+  FlutterLocalNotificationsPlugin flp = FlutterLocalNotificationsPlugin();
+  var android = AndroidInitializationSettings('@mipmap/ic_launcher');
+  var iOS = IOSInitializationSettings();
+  var initSetttings = InitializationSettings(android, iOS);
+  flp.initialize(initSetttings);
+
+  math.Random random = new math.Random();
+  int randomNumber = random.nextInt(90);
+
+  var date = DateTime.now();
+  var dateString = date.second.toString() + date.millisecond.toString();
+  int id = int.parse(dateString + randomNumber.toString());
+
+  void showNotification(channel, title, v, flp) async {
+    var android = AndroidNotificationDetails(
+      'channel id',
+      'channel NAME',
+      'CHANNEL DESCRIPTION',
+      priority: Priority.High,
+      importance: Importance.Max,
+      styleInformation: BigTextStyleInformation(''),
+    );
+    IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails();
+    var iOS = iosNotificationDetails;
+    var platform = NotificationDetails(android, iOS);
+    await flp.show(channel, '$title', '$v', platform, payload: 'VIS \n $v');
+  }
+
+  if (message.containsKey('data')) {
+    // Handle data message
+    final dynamic data = message['data'];
+    showNotification(
+        id, message['data']['title'], message['data']['title'], flp);
+  }
+
+  if (message.containsKey('notification')) {
+    // Handle notification message
+    final dynamic notification = message['notification'];
+    showNotification(id, message['notification']['title'],
+        message['notification']['title'], flp);
+  }
+
+  // Or do other work.
+}
+
 class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -72,22 +118,112 @@ class _SplashScreenState extends State<SplashScreen>
   String user = '';
   var no = '';
   var nama = "";
+  void showNotification(channel, title, v, flp) async {
+    var android = AndroidNotificationDetails(
+      'channel id',
+      'channel NAME',
+      'CHANNEL DESCRIPTION',
+      priority: Priority.High,
+      importance: Importance.Max,
+      styleInformation: BigTextStyleInformation(''),
+    );
+    IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails();
+    var iOS = iosNotificationDetails;
+    var platform = NotificationDetails(android, iOS);
+    await flp.show(channel, '$title', '$v', platform, payload: 'VIS \n $v');
+  }
 
   _SplashScreenState() {
-    var no_user = '';
+    FlutterLocalNotificationsPlugin flp = FlutterLocalNotificationsPlugin();
+    var android = AndroidInitializationSettings('@mipmap/ic_launcher');
+    var iOS = IOSInitializationSettings();
+    var initSetttings = InitializationSettings(android, iOS);
+    flp.initialize(initSetttings);
+
+    fm.configure(
+        onMessage: (Map<String, dynamic> msg) async {
+          // showNotification(msg['message_id'], "title", "body", flp);
+          math.Random random = new math.Random();
+          int randomNumber = random.nextInt(90);
+
+          var date = DateTime.now();
+          var dateString = date.second.toString() + date.millisecond.toString();
+          int id = int.parse(dateString + randomNumber.toString());
+
+          showNotification(id, msg['data']['title'], msg['data']['title'], flp);
+
+          showDialog(
+            context: context,
+            barrierDismissible: false, // user must tap button!
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text(
+                  msg['data']['title'],
+                  style:
+                      TextStyle(color: mainColor, fontWeight: FontWeight.w600),
+                ),
+                content: SingleChildScrollView(
+                  child: ListBody(
+                    children: <Widget>[
+                      Text(msg['data']['body']),
+                    ],
+                  ),
+                ),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text(
+                      'Ok',
+                      style: TextStyle(
+                          color: mainColor, fontWeight: FontWeight.w600),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+
+          print(msg);
+        },
+        onLaunch: (Map<String, dynamic> msg) async {
+          math.Random random = new math.Random();
+          int randomNumber = random.nextInt(90);
+
+          var date = DateTime.now();
+          var dateString = date.second.toString() + date.millisecond.toString();
+          int id = int.parse(dateString + randomNumber.toString());
+
+          showNotification(id, msg['data']['title'], msg['data']['title'], flp);
+          print(msg);
+        },
+        onResume: (Map<String, dynamic> msg) async {
+          math.Random random = new math.Random();
+          int randomNumber = random.nextInt(99);
+
+          var date = DateTime.now();
+          var dateString = date.second.toString() + date.millisecond.toString();
+          int id = int.parse(dateString + randomNumber.toString());
+
+          showNotification(id, msg['data']['title'], msg['data']['title'], flp);
+          // showNotification(msg['message_id'], "title", "body", flp);
+          print(msg);
+        },
+        onBackgroundMessage: myBackgroundMessageHandler);
     storage.read(key: "login").then((value) {
       var jsonLogin = jsonDecode(value);
-      log(jsonLogin['no_user'].toString());
       fm.getToken().then((value) {
         http.post(link + "/saveToken.php",
             body: {"noUser": jsonLogin['no_user'], "token": value});
       });
     });
-    fm.configure();
   }
+
   @override
   void initState() {
     super.initState();
+    fm.requestNotificationPermissions();
     _controller = AnimationController(vsync: this);
     read();
     startSplashScreen();
