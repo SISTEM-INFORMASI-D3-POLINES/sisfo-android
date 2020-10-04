@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "964894623170",
+    "firebase_url": "https://pintools-f2773.firebaseio.com",
+    "project_id": "pintools-f2773",
+    "storage_bucket": "pintools-f2773.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:964894623170:android:cac1399d1dd6f20b0c025b",
+        "android_client_info": {
+          "package_name": "com.example.pintools_new"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "964894623170-9vr1jm56g09f8oppgqtome5076lk0u8n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPwOkhfj68-vZkIXfBmAF2SrG3lTiLWKI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "964894623170-9vr1jm56g09f8oppgqtome5076lk0u8n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:964894623170:android:a697a050c02cde560c025b",
+        "android_client_info": {
+          "package_name": "com.example.tampilanakun"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "964894623170-9vr1jm56g09f8oppgqtome5076lk0u8n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPwOkhfj68-vZkIXfBmAF2SrG3lTiLWKI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "964894623170-9vr1jm56g09f8oppgqtome5076lk0u8n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

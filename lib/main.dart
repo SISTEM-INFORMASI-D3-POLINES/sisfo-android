@@ -1,150 +1,287 @@
-import 'package:flutter/material.dart';
-import 'package:tampilanakun/constant.dart';
-import 'package:tampilanakun/pages/tentangkami.dart';
-import 'package:tampilanakun/pages/kebijakanprivasi.dart';
-import 'package:tampilanakun/pages/faq.dart';
+import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
-import 'package:fluttericon/font_awesome5_icons.dart';
-//import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'dart:math' as math;
 
-void main() => runApp(MaterialApp(
-  initialRoute: '/Akun',
-  routes: {
-    '/Akun': (context) => Akun(),
-    '/TentangKamiPage': (context) => TentangKami(),
-    '/KebijakanPrivasiPage': (context) => KebijakanPrivasi(),
-    '/FAQPage': (context) => FreqAQ(),
-  },
+import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'bottomNav.dart';
+import 'cari.dart';
+import 'constant.dart';
+import 'faq.dart';
+import 'kebijakanprivasi.dart';
+import 'kembali.dart';
+import 'log.dart';
+import 'login_page.dart';
+import 'pinjam.dart';
+import 'scan.dart';
+import 'services/ubahPass_confirm.dart';
+import 'tentangkami.dart';
+import 'package:http/http.dart' as http;
+import 'ubah_password.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'HomePage.dart';
+import 'forgotPass.dart';
 
-));
-
-class Akun extends StatefulWidget {
-  @override
-  _AkunState createState() => _AkunState();
+void main() async {
+  // Run app!
+  runApp(new MaterialApp(
+    title: 'Pintools',
+    home: SplashScreen(),
+    routes: <String, WidgetBuilder>{
+      '/MainPage': (BuildContext context) => new NavigationBottomBar(),
+      '/HomePage': (BuildContext context) => new HomePage(),
+      '/LoginPage': (BuildContext context) => new LoginPage(),
+      '/ForgotPassPage': (BuildContext context) => new ForgotPass(),
+      '/LogPage': (BuildContext context) => new LogPeminjaman(),
+      '/CariPage': (BuildContext context) => new CariPage(),
+      '/PinjamPage': (BuildContext context) => new PinjamPage(),
+      '/KembaliPage': (BuildContext context) => new KembaliPage(),
+      '/TentangKamiPage': (context) => TentangKami(),
+      '/KebijakanPrivasiPage': (context) => KebijakanPrivasi(),
+      '/FAQPage': (context) => FreqAQ(),
+      '/UbahPass': (context) => UbahPassword(),
+      '/ScanPage': (context) => ScanViewDemo(),
+      '/UbahPassConfirm': (context) => UbahPassConfirm()
+    },
+    theme: ThemeData(
+      canvasColor: Colors.transparent,
+      fontFamily: 'Open Sans',
+      visualDensity: VisualDensity.adaptivePlatformDensity,
+    ),
+  ));
 }
 
-class _AkunState extends State<Akun> {
+Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) async {
+  FlutterLocalNotificationsPlugin flp = FlutterLocalNotificationsPlugin();
+  var android = AndroidInitializationSettings('@mipmap/ic_launcher');
+  var iOS = IOSInitializationSettings();
+  var initSetttings = InitializationSettings(android, iOS);
+  flp.initialize(initSetttings);
+
+  math.Random random = new math.Random();
+  int randomNumber = random.nextInt(90);
+
+  var date = DateTime.now();
+  var dateString = date.second.toString() + date.millisecond.toString();
+  int id = int.parse(dateString + randomNumber.toString());
+
+  void showNotification(channel, title, v, flp) async {
+    var android = AndroidNotificationDetails(
+      'channel id',
+      'channel NAME',
+      'CHANNEL DESCRIPTION',
+      priority: Priority.High,
+      importance: Importance.Max,
+      styleInformation: BigTextStyleInformation(''),
+    );
+    IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails();
+    var iOS = iosNotificationDetails;
+    var platform = NotificationDetails(android, iOS);
+    await flp.show(channel, '$title', '$v', platform, payload: 'VIS \n $v');
+  }
+
+  if (message.containsKey('data')) {
+    // Handle data message
+    final dynamic data = message['data'];
+    showNotification(
+        id, message['data']['title'], message['data']['title'], flp);
+  }
+
+  if (message.containsKey('notification')) {
+    // Handle notification message
+    final dynamic notification = message['notification'];
+    showNotification(id, message['notification']['title'],
+        message['notification']['title'], flp);
+  }
+
+  // Or do other work.
+}
+
+class SplashScreen extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          SizedBox(height: 30.0,),
-          SafeArea(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  CircleAvatar(
-                    backgroundColor: mainColor,
-                    radius: 40.0,
+  _SplashScreenState createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
+  FirebaseMessaging fm = FirebaseMessaging();
+  // constructor
+
+  final storage = FlutterSecureStorage();
+  Widget page = LoginPage();
+  AnimationController _controller;
+  String _valueLogin = '';
+  String _valueNama = '';
+  String noUser = '';
+  String user = '';
+  var no = '';
+  var nama = "";
+  void showNotification(channel, title, v, flp) async {
+    var android = AndroidNotificationDetails(
+      'channel id',
+      'channel NAME',
+      'CHANNEL DESCRIPTION',
+      priority: Priority.High,
+      importance: Importance.Max,
+      styleInformation: BigTextStyleInformation(''),
+    );
+    IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails();
+    var iOS = iosNotificationDetails;
+    var platform = NotificationDetails(android, iOS);
+    await flp.show(channel, '$title', '$v', platform, payload: 'VIS \n $v');
+  }
+
+  _SplashScreenState() {
+    FlutterLocalNotificationsPlugin flp = FlutterLocalNotificationsPlugin();
+    var android = AndroidInitializationSettings('@mipmap/ic_launcher');
+    var iOS = IOSInitializationSettings();
+    var initSetttings = InitializationSettings(android, iOS);
+    flp.initialize(initSetttings);
+
+    fm.configure(
+        onMessage: (Map<String, dynamic> msg) async {
+          // showNotification(msg['message_id'], "title", "body", flp);
+          math.Random random = new math.Random();
+          int randomNumber = random.nextInt(90);
+
+          var date = DateTime.now();
+          var dateString = date.second.toString() + date.millisecond.toString();
+          int id = int.parse(dateString + randomNumber.toString());
+
+          showNotification(id, msg['data']['title'], msg['data']['title'], flp);
+
+          showDialog(
+            context: context,
+            barrierDismissible: false, // user must tap button!
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text(
+                  msg['data']['title'],
+                  style:
+                      TextStyle(color: mainColor, fontWeight: FontWeight.w600),
+                ),
+                content: SingleChildScrollView(
+                  child: ListBody(
+                    children: <Widget>[
+                      Text(msg['data']['body']),
+                    ],
                   ),
-                  SizedBox(width: 10.0,),
-                  Text(
-                    'Testing Menu Akun',
-                  style: TextStyle(
-                  fontSize: 18.0,
-                  letterSpacing: 2.0,
-                  ),
+                ),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text(
+                      'Ok',
+                      style: TextStyle(
+                          color: mainColor, fontWeight: FontWeight.w600),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                   ),
                 ],
-              ),
-          ),
-          SizedBox(height: 30.0,),
-          OutlineButton.icon(
-            onPressed: (){},
-            icon : Icon(Icons.mail),
-            label : Text('Pesan'),
-              shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0))
-          ),
-          OutlineButton.icon(
-              onPressed: (){},
-              icon : Icon(Icons.vpn_key),
-              label : Text('Ubah Password'),
-              shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0))
-          ),
-          OutlineButton.icon(
-              onPressed: (){
-                Navigator.pushNamed(context, '/KebijakanPrivasiPage');
-              },
-              icon : Icon(Icons.lock),
-              label : Text('Kebijakan Privasi'),
-              shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0))
-          ),
-          OutlineButton.icon(
-              onPressed: (){
-                Navigator.pushNamed(context, '/TentangKamiPage');
-              },
-              icon : Icon(Icons.people),
-              label : Text('Tentang Kami'),
-              shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0))
-          ),
-          OutlineButton.icon(
-              onPressed: (){
-                Navigator.pushNamed(context, '/FAQPage');
-              },
-              icon : Icon(Icons.help),
-              label : Text('FAQ'),
-              shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0))
-          ),
-          OutlineButton.icon(
-              onPressed: (){},
-              icon : Icon(Icons.subdirectory_arrow_right),
-              label : Text('Keluar'),
-              shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0))
-          ),
-        ],
-      ),
+              );
+            },
+          );
 
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-//          scan();
+          print(msg);
         },
-        child: Icon(FontAwesome5.qrcode),
-        backgroundColor: mainColor,
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomAppBar(
-          notchMargin: 15,
-          color: Colors.white,
-          shape: CircularNotchedRectangle(),
-          child: Container(
-            height: 50,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Icon(Icons.home,
-                      size: 26.0,
-                      color: blackIcon,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 40.0),
-                      child: Icon(
-                        Icons.search,
-                        size: 26.0,
-                        color: blackIcon,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 45.0),
-                      child: Icon(
-                        Icons.history,
-                        size: 26.0,
-                        color: blackIcon,
-                      ),
-                    ),
-                    Icon(
-                      Icons.person,
-                      size: 26.0,
-                      color: blackIcon,
-                    )
-                  ]),
-            ),
-          )),
-    );;
+        onLaunch: (Map<String, dynamic> msg) async {
+          math.Random random = new math.Random();
+          int randomNumber = random.nextInt(90);
+
+          var date = DateTime.now();
+          var dateString = date.second.toString() + date.millisecond.toString();
+          int id = int.parse(dateString + randomNumber.toString());
+
+          showNotification(id, msg['data']['title'], msg['data']['title'], flp);
+          print(msg);
+        },
+        onResume: (Map<String, dynamic> msg) async {
+          math.Random random = new math.Random();
+          int randomNumber = random.nextInt(99);
+
+          var date = DateTime.now();
+          var dateString = date.second.toString() + date.millisecond.toString();
+          int id = int.parse(dateString + randomNumber.toString());
+
+          showNotification(id, msg['data']['title'], msg['data']['title'], flp);
+          // showNotification(msg['message_id'], "title", "body", flp);
+          print(msg);
+        },
+        onBackgroundMessage: myBackgroundMessageHandler);
+    storage.read(key: "login").then((value) {
+      if (value != null) {
+        var jsonLogin = jsonDecode(value);
+        fm.getToken().then((value) {
+          http.post(link + "/saveToken.php",
+              body: {"noUser": jsonLogin['no_user'], "token": value});
+        }).catchError((onError) {
+          print(onError);
+        });
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fm.requestNotificationPermissions();
+    _controller = AnimationController(vsync: this);
+    read();
+    startSplashScreen();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
+  void read() async {
+    _valueLogin = await storage.read(key: "login");
+    _valueNama = await storage.read(key: "nama");
+    var _valueUser = await storage.read(key: "user");
+    if (_valueLogin != null || _valueNama != null || _valueUser != null) {
+      var json_login = jsonDecode(_valueLogin);
+
+      setState(() {
+        no = json_login['no_user'];
+        noUser = _valueLogin;
+        nama = _valueNama;
+        user = _valueUser;
+      });
+    } else {
+      Navigator.of(context).pushReplacementNamed('/LoginPage');
+    }
+  }
+
+  startSplashScreen() async {
+    print(noUser);
+    read();
+    var _duration = new Duration(seconds: 5);
+    return new Timer(_duration, navigationPage);
+  }
+
+  void navigationPage() {
+    if (noUser != "" && nama != "" && user != "") {
+      log("nostorage");
+      Navigator.of(context).pushReplacementNamed('/MainPage');
+    } else {
+      log("any");
+      Navigator.of(context).pushReplacementNamed('/LoginPage');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    print(noUser);
+    return Scaffold(
+      backgroundColor: bgColor,
+      body: Center(
+          child: Image.asset("images/svg/logo_circle.png",
+              width: 200.0, height: 200.0)),
+    );
   }
 }
