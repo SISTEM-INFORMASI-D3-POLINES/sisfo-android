@@ -86,14 +86,14 @@ Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) async {
     // Handle data message
     final dynamic data = message['data'];
     showNotification(
-        id, message['data']['title'], message['data']['title'], flp);
+        id, message['data']['title'], message['data']['body'], flp);
   }
 
   if (message.containsKey('notification')) {
     // Handle notification message
     final dynamic notification = message['notification'];
     showNotification(id, message['notification']['title'],
-        message['notification']['title'], flp);
+        message['notification']['body'], flp);
   }
 
   // Or do other work.
@@ -150,7 +150,7 @@ class _SplashScreenState extends State<SplashScreen>
           var dateString = date.second.toString() + date.millisecond.toString();
           int id = int.parse(dateString + randomNumber.toString());
 
-          showNotification(id, msg['data']['title'], msg['data']['title'], flp);
+          showNotification(id, msg['data']['title'], msg['data']['body'], flp);
 
           showDialog(
             context: context,
@@ -195,7 +195,7 @@ class _SplashScreenState extends State<SplashScreen>
           var dateString = date.second.toString() + date.millisecond.toString();
           int id = int.parse(dateString + randomNumber.toString());
 
-          showNotification(id, msg['data']['title'], msg['data']['title'], flp);
+          // showNotification(id, msg['data']['title'], msg['data']['body'], flp);
           print(msg);
         },
         onResume: (Map<String, dynamic> msg) async {
@@ -206,7 +206,7 @@ class _SplashScreenState extends State<SplashScreen>
           var dateString = date.second.toString() + date.millisecond.toString();
           int id = int.parse(dateString + randomNumber.toString());
 
-          showNotification(id, msg['data']['title'], msg['data']['title'], flp);
+          // showNotification(id, msg['data']['title'], msg['data']['body'], flp);
           // showNotification(msg['message_id'], "title", "body", flp);
           print(msg);
         },
