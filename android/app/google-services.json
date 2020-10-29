@@ -1,0 +1,32 @@
+{
+    "project_info": {
+        "project_number": "402562780854",
+        "firebase_url": "https://pintools-a001b.firebaseio.com",
+        "project_id": "pintools-a001b",
+        "storage_bucket": "pintools-a001b.appspot.com"
+    },
+    "client": [{
+        "client_info": {
+            "mobilesdk_app_id": "1:402562780854:android:cd867c4aa9b57fb6272017",
+            "android_client_info": {
+                "package_name": "com.example.pintools_new"
+            }
+        },
+        "oauth_client": [{
+            "client_id": "402562780854-djhk36miqaubmqgrisj6n1vhd4cv1naj.apps.googleusercontent.com",
+            "client_type": 3
+        }],
+        "api_key": [{
+            "current_key": "AIzaSyB5sPgSx5oNHKb31IuaRx9_NWIJdQI_ayc"
+        }],
+        "services": {
+            "appinvite_service": {
+                "other_platform_oauth_client": [{
+                    "client_id": "402562780854-djhk36miqaubmqgrisj6n1vhd4cv1naj.apps.googleusercontent.com",
+                    "client_type": 3
+                }]
+            }
+        }
+    }],
+    "configuration_version": "1"
+}
