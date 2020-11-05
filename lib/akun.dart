@@ -32,7 +32,7 @@ class _AkunState extends State<Akun> {
     var akun = await storage.read(key: "user");
     var userJson = jsonDecode(akun);
     var _noUserJson = jsonDecode(_valueLogin);
-    d = userJson['foto'].replaceRange(0, 2, 'https://siptom.xyz');
+    d = userJson['foto'].replaceRange(0, 2, 'https://siptom.net');
     setState(() {
       noUser = _noUserJson['no_user'];
       nama = namax;

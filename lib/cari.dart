@@ -279,7 +279,7 @@ class _CariPageState extends State<CariPage>
               child:
                   Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
                 Text(
-                  tools.stok_akhir != null
+                  tools.stok_akhir != '0'
                       ? "${tools.stok_akhir}/${tools.stok_awal} ${tools.satuan}"
                       : "Dipinjam",
                   style: TextStyle(
@@ -470,8 +470,9 @@ class _CariPageState extends State<CariPage>
                             alignment: Alignment.topLeft,
                             margin:
                                 EdgeInsets.only(top: 0, bottom: defaultPadding),
-                            child: Text(
-                                "${tools.stok_akhir}/${tools.stok_awal} ${tools.satuan} • ${tools.desk_tools} • ${tools.thn_masuk} • ${tools.bahan}"),
+                            child: Text(tools.stok_akhir != '0'
+                                ? "${tools.stok_akhir}/${tools.stok_awal} ${tools.satuan} • ${tools.desk_tools} • ${tools.thn_masuk} • ${tools.bahan}"
+                                : "Dipinjam"),
                           ),
                           Divider(
                             color: Colors.black54.withOpacity(0.15),

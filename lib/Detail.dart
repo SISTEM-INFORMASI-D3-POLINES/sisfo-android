@@ -319,7 +319,7 @@ class _DetailToolsState extends State<DetailTools> {
                                   Padding(
                                     padding: const EdgeInsets.only(right: 5.0),
                                     child: Text(
-                                      tools.stok_akhir != null
+                                      tools.stok_akhir != '0'
                                           ? "${tools.stok_akhir} / ${tools.stok_awal}"
                                           : "Dipinjam",
                                       style: TextStyle(
